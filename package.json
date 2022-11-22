@@ -1,7 +1,10 @@
 {
   "name": "edicoach",
   "scripts": {
-    "build": "webpack --mode development --watch --entry ./src/client/index.js --output ./static/bundle.js",
+    "guestwatch": "webpack --mode development --watch --entry ./src/guest/index.js --output ./static/guestBundle.js",
+    "clientwatch": "webpack --mode development --watch --entry ./src/client/index.js --output ./static/clientBundle.js",
+    "coachwatch": "webpack --mode development --watch --entry ./src/coach/index.js --output ./static/coachBundle.js",
+    "adminwatch": "webpack --mode development --watch --entry ./src/admin/index.js --output ./static/adminBundle.js",
     "start": "node src/server/app.js"
   },
   "dependencies": {

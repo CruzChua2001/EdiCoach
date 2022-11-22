@@ -10,7 +10,19 @@ const app = express();
 app.use("/static", express.static(STATIC_ASSETS_PATH));
 
 app.get("/", (request, response) => {
-	response.sendFile(path.join(__dirname + '/view/index.html'));
+	response.sendFile(path.join(__dirname + '/view/guest/index.html'));
+});
+
+app.get("/client", (request, response) => {
+	response.sendFile(path.join(__dirname + '/view/client/index.html'));
+});
+
+app.get("/coach", (request, response) => {
+	response.sendFile(path.join(__dirname + '/view/coach/index.html'));
+});
+
+app.get("/admin", (request, response) => {
+	response.sendFile(path.join(__dirname + '/view/admin/index.html'));
 });
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}.\n\nLoad it in your browser at http://localhost:${PORT}`))
