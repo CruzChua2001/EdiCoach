@@ -1,7 +1,7 @@
 {
   "name": "edicoach",
   "scripts": {
-    "build": "webpack --mode development --entry ./src/client/index.js --output ./static/bundle.js",
+    "build": "webpack --mode development --watch --entry ./src/client/index.js --output ./static/bundle.js",
     "start": "node src/server/app.js"
   },
   "dependencies": {
