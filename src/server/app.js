@@ -9,19 +9,19 @@ const app = express();
 // Serve front end assets which have been built by webpack
 app.use("/static", express.static(STATIC_ASSETS_PATH));
 
-app.get("/", (request, response) => {
+app.get("/*", (request, response) => {
 	response.sendFile(path.join(__dirname + '/view/guest/index.html'));
 });
 
-app.get("/client", (request, response) => {
+app.get("/client/*", (request, response) => {
 	response.sendFile(path.join(__dirname + '/view/client/index.html'));
 });
 
-app.get("/coach", (request, response) => {
+app.get("/coach/*", (request, response) => {
 	response.sendFile(path.join(__dirname + '/view/coach/index.html'));
 });
 
-app.get("/admin", (request, response) => {
+app.get("/admin/*", (request, response) => {
 	response.sendFile(path.join(__dirname + '/view/admin/index.html'));
 });
 
