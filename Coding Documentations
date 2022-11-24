@@ -1,0 +1,32 @@
+Basic libraries for usage:
+
+
+#1 - react-bootstrap-icons
+e.g. import { _icon name_ } from 'react-bootstrap-icons'
+e.g. import { X } from 'react-bootstrap-icons'
+Usage in react:
+<X /> or <X size={25} /> or more in documentation
+
+Documentation Link: https://react-icons.github.io/react-icons/icons?name=bs
+
+
+
+
+#2 - styled-components
+e.g. import styled from 'styled-components'
+Usage in JS:
+const Title = styled.h2`
+    Font-size: 25px;
+`
+
+Documentation Link: https://styled-components.com
+
+
+
+
+#3 - react-bootstrap
+e.g. import { Button } from 'react-bootstrap'
+Usage in React:
+<Button variant='primary' />
+
+Documentation Links: https://react-bootstrap.github.io/components/alerts/
