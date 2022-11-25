@@ -9,6 +9,10 @@ module.exports = {
 						transforms: ['jsx']
 					}
 				}
+			},
+			{
+				test: /\.css$/,
+				loaders: ["style-loader", "css-loader"]
 			}
 		]
 	}
