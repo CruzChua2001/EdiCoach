@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 
-const PORT = 3000;
+const PORT = 3001;
 const STATIC_ASSETS_PATH = path.resolve(`${__dirname}/../../static`);
 
 const app = express();
@@ -9,7 +9,11 @@ const app = express();
 // Serve front end assets which have been built by webpack
 app.use("/static", express.static(STATIC_ASSETS_PATH));
 
-app.get("/*", (request, response) => {
+app.get("/", (request, response) => {
+	response.redirect("/guest/");
+});
+
+app.get("/guest/*", (request, response) => {
 	response.sendFile(path.join(__dirname + '/view/guest/index.html'));
 });
 
