@@ -10,7 +10,7 @@ const app = express();
 app.use("/static", express.static(STATIC_ASSETS_PATH));
 
 app.get("/", (request, response) => {
-	response.redirect("/guest/")
+	response.redirect("/guest/home")
 });
 
 app.get("/guest/*", (request, response) => {
