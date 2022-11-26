@@ -24,17 +24,12 @@ import Contact from "./Contact";
 import Login from "./Login";
 import Signup from "./Signup";
 import OneonOnecoaching from "./OneonOnecoaching";
-import Navbar from "./Navbar";
+import NavBar from "./Navbar";
 
 export default function App() {
 	return (
 		<Router>
-			<TopNav>
-				<LeftNav></LeftNav>
-					<RightNav>
-						<Navbar />
-					</RightNav>	
-			</TopNav>
+			<NavBar />
 		
 			<Routes>
 				<Route path="/guest/home" element={<Home />} />

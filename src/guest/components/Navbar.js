@@ -1,24 +1,25 @@
 import React from "react";
-import { Dropdown, Button } from "react-bootstrap";
+import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
-const Navbar = () => {
-    return (<>
-        <Dropdown>
-            <Dropdown.Toggle variant = "">
-                Coaching
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            </Dropdown.Menu>
-        </Dropdown>
-        <a href="/guest/contact">Contact Us</a>
-        <Button>
-            Get Started
-        </Button>
-    </>)
+function NavBar() {
+    return (
+      <>
+          <Navbar className="m-3">
+            <Container fluid>
+                  <Nav className="justify-content-end flex-grow-1 pe-3">
+                    <NavDropdown title="Coaching">
+                      <NavDropdown.Item href="/guest/career-coaching">Career Coaching</NavDropdown.Item>
+                      <NavDropdown.Item href="/guest/1-on-1-coaching">1-1 Coaching</NavDropdown.Item>
+                    </NavDropdown>
+                    <Nav.Link href="/guest/contact">Contact Us</Nav.Link>
+                    <a href = "/guest/sign-up">
+                        <Button> Get Started </Button>
+                    </a>
+                  </Nav>
+            </Container>
+          </Navbar>
+      </>
+    );
 }
 
-export default Navbar
+export default NavBar
