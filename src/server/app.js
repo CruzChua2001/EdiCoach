@@ -13,6 +13,10 @@ app.get("/", (request, response) => {
 	response.redirect("/guest/home")
 });
 
+app.get("/guest/", (request, response) => {
+	response.redirect("/guest/home")
+});
+
 app.get("/guest/*", (request, response) => {
 	response.sendFile(path.join(__dirname + '/view/guest/index.html'));
 });
