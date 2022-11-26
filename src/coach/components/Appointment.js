@@ -1,7 +1,7 @@
 import React from "react";
 
 const Appointment = () => {
-    return (<>Test</>)
+    return (<>test</>)
 }
 
 export default Appointment

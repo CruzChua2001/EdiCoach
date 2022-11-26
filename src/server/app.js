@@ -21,6 +21,10 @@ app.get("/client/*", (request, response) => {
 	response.sendFile(path.join(__dirname + '/view/client/index.html'));
 });
 
+app.get("/coach/", (request, response) => {
+	response.redirect("/coach/appointment")
+})
+
 app.get("/coach/*", (request, response) => {
 	response.sendFile(path.join(__dirname + '/view/coach/index.html'));
 });
