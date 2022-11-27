@@ -8,25 +8,30 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
+import { X, ArrowClockwise } from 'react-bootstrap-icons'
+import Dropdown from 'react-bootstrap/Dropdown';
+
 import { DataGrid } from '@mui/x-data-grid';
+
+import $ from 'jquery';
 
 const UserActions = () => {
 
     const [users, setUsers] = useState([]);
+    const [rows, setRows] = useState([]);
+    const [selectedUser, setSelectedUser] = useState("");
 
     let columns = [
         {
           field: 'fullName',
           headerName: 'Full name',
-          width: 160,
+          width: 186,
           valueGetter: (params) =>
             `${params.row.firstname || ''} ${params.row.lastname || ''}`,
         },
-        { field: 'email', headerName: 'Email', width: 130 },
-        { field: 'dob', headerName: 'DOB', width: 130 },
+        { field: 'email', headerName: 'Email', width: 186 },
+        { field: 'dob', headerName: 'DOB', width: 188 },
       ];
-    
-    let row;
 
     const retrieveUsers = () => {
         fetch("https://iipemcorb8.execute-api.us-east-1.amazonaws.com/dev/scan", {
@@ -63,6 +68,7 @@ const UserActions = () => {
             msg.json()
             .then(users => {
                 console.log(users)
+                retrieveUsers();
             });
             
             
@@ -70,7 +76,8 @@ const UserActions = () => {
     }
 
     const deleteUser = () => {
-        let email = document.getElementById("deleteEmail").value;
+        let email = selectedUser;
+        console.log(email);
         fetch("https://iipemcorb8.execute-api.us-east-1.amazonaws.com/dev/delete?" + new URLSearchParams({
             email: email
         }), {
@@ -80,6 +87,8 @@ const UserActions = () => {
             msg.json()
             .then(users => {
                 console.log(users)
+                retrieveUsers();
+                closeAdd();
             });
             
             
@@ -88,25 +97,64 @@ const UserActions = () => {
 
     useEffect(() => {
         var text = "";
-        row = [];
+        let row = [];
         for (let index = 0; index < users.length; index++) {
             const element = users[index];
-            row.push({ email: element.Email.S, lastname: element.LastName.S, firstname: element.FirstName.S, dob: element.DOB.S })
+            row.push({ id: element.UUID.S, email: element.Email.S, lastname: element.LastName.S, firstname: element.FirstName.S, dob: element.DOB.S })
         }
         console.log(row);
+        setRows(row);
     }, [users])
+
+    useEffect(() => {
+        retrieveUsers();
+
+        $(".dropdown-toggle").on("click", function() {
+            setTimeout(() => {
+                if ($(".Mui-selected").length == 1) {
+                    let selectedEmail = $(".Mui-selected").find(".MuiDataGrid-cellContent").get(1).innerHTML
+                    setSelectedUser(selectedEmail);
+                    $(".dropdown-menu a").removeClass("disabled");
+                    $(".dropdown-menu a").attr("aria-disabled", "false");
+                } else {
+                    $(".dropdown-menu a").addClass("disabled");
+                    $(".dropdown-menu a").first().removeClass("disabled");
+                    $(".dropdown-menu a").attr("aria-disabled", "true");
+                    $(".dropdown-menu a").first().attr("aria-disabled", "false");
+                }
+            }, 100)
+            
+        })
+    }, [])
+
+
+    const openAdd = () => {
+        console.log("Opening...")
+        document.getElementsByClassName("popup-content").item(0).style.display = "block";
+    }
+
+    
+
+    const closeAdd = () => {
+        console.log("Closing...")
+        document.getElementsByClassName("popup-content").item(0).style.display = "none";
+    } 
     
 
     return (
     <>
-    <div>User Actions</div>
-    <Container>
+    <div className="popup-background"></div>
+    <Container className="popup-container">
         <Row>
             <Col></Col>
-            <Col xs="8">
+            <Col xs="8"  className="popup-content">
+            <div className="popup-title">
+                <div>Enter New User Information</div>
+                <X color="white" size={32} style={{cursor: "pointer"}} onClick={closeAdd}/>
+            </div>
             <Form>
                 
-                
+                <div className="popup-subtitle">LOGIN INFORMATION</div>
                 <Row>
                     <Col>
                         <Form.Group className="mb-3">
@@ -135,6 +183,7 @@ const UserActions = () => {
                     </Form.Text>
                 </Form.Group>
 
+                <div className="popup-subtitle">USER INFORMATION</div>
                 <Form.Group className="mb-3" >
                     <Form.Label>Phone Number</Form.Label>
                     <Row>
@@ -161,6 +210,11 @@ const UserActions = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
+                    <Form.Label>Date of Birth</Form.Label>
+                    <Form.Control type="text" placeholder="Enter date of birth" id="dob" />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
                     <Form.Label>User Type</Form.Label>
                     <Form.Control type="text" placeholder="Enter user type" id="usertype" />
                     {/* <Form.Select>
@@ -179,36 +233,41 @@ const UserActions = () => {
             <Col></Col>
         </Row>
     </Container>
-    <Container>
+    <Container className="admin-table">
         <Row>
             <Col></Col>
-            <Col xs="8">
+            <Col xs="8" style={{height:"362px"}}>
+                <div className="admin-table-title">
+                    <div>
+                        ALL USERS TABLES
+                    </div>
+                    <div>
+                    <ArrowClockwise />
+                    <Dropdown>
+                        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                            Actions
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={openAdd}>Add User</Dropdown.Item>
+                            <Dropdown.Item onClick={deleteUser}>Delele User</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">View Details</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    </div>
+                </div>
             <DataGrid
                 rows={rows}
                 columns={columns}
                 pageSize={5}
                 rowsPerPageOptions={[5]}
                 checkboxSelection
+                
             />
             </Col>
             <Col></Col>
         </Row>
     </Container>
-    <div>
-        <div>Remove</div>
-        <div>
-            <form>
-                <input type="text" id="deleteEmail" />
-                <Button onClick={deleteUser} variant={'primary'}>Get</Button>
-            </form>
-        </div>
-    </div>
-    <div>
-        <div>List</div>
-        <Button onClick={retrieveUsers} variant={'primary'}>Get</Button>
-        <div id="test">
-        </div>
-    </div>
     </>
     )
 }
