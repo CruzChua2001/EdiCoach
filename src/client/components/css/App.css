@@ -1,33 +1,33 @@
 @import url('https://fonts.googleapis.com/css?family=Inter');
 
-body{
+body {
     font-family: 'Inter';
 }
 
-.mdHeader{
+.mdHeader {
     color: #3E468A;
     font-weight: bolder;
 }
 
-.mdTable{
+.mdTable {
     font-family: 'Inter';
     color: #3E468A;
 }
 
-.mdButton{
+.mdButton {
     background-color: #1A284D;
     width: 100%;
     color: #ffffff;
 }
 
-.mdButton:hover{
+.mdButton:hover {
     background-color: #2C4482;
 }
 
-.mdButton:active{
+.mdButton:active {
     background-color: #1A284D !important;
 }
 
-.mdButton.mdButton:visited{
-    background-color: #1A284D !important;
+.mdButton.mdButton:visited {
+    background-color: #2C4482 !important;
 }

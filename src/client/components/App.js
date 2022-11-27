@@ -5,8 +5,7 @@ import "react-calendar/dist/Calendar.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Calendar } from "react-calendar";
 import MeetingDetails from "./MeetingDetails";
-
-import { Scheduler } from "@aldabil/react-scheduler";
+import MeetingScheduler from "./MeetingScheduler";
 
 export default function App() {
   return (
@@ -28,20 +27,7 @@ export default function App() {
             <MeetingDetails />
           </Col>
           <Col lg={9}>
-            <Scheduler
-              className={{ root: "mdTable" }}
-              editable
-              view="week"
-              events={[
-                {
-                  event_id: 1,
-                  title: "Event 1",
-                  color: "#000000",
-                  start: new Date("2022/11/27 09:30"),
-                  end: new Date("2022/11/27 10:30"),
-                },
-              ]}
-            />
+            <MeetingScheduler />
           </Col>
         </Row>
       </Container>
