@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Inter');
+@import url('https://fonts.googleapis.com/css?family=Kulim+Park');
 
 body {
     font-family: 'Inter';
@@ -45,4 +46,29 @@ body {
 .clientTab h4 {
     margin-top: 10px;
     font-weight: bold;
+}
+
+.navTitle {
+    color: #3E468A !important;
+    font-size: 3em;
+    font-family: 'Kulim Park';
+}
+
+.navLink {
+    font-family: 'Inter';
+    font-weight: bold;
+    font-size: 1.25em;
+    line-height: 55.758px;
+}
+
+.navImg {
+    height: 2em;
+    width: 2em;
+    border-radius: 50%;
+}
+
+.navIcon {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
 }
