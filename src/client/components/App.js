@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ClientNavBar from "./ClientNavBar";
 import Home from "./Home/Home";
 import CoachView from "./CoachView/CoachView";
+import CoachPricing from "./CoachPricing/CoachPricing";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Routes>
           <Route path="/client/" element={<Home />} />
           <Route path="/client/coachSelect" element={<CoachView />} />
+          <Route path="/client/pricing" element={<CoachPricing />} />
         </Routes>
       </Router>
     </div>
