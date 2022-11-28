@@ -14,17 +14,21 @@
     "@mui/icons-material": "^5.10.15",
     "@mui/material": "^5.10.15",
     "@mui/x-date-pickers": "^5.0.9",
+    "@mui/x-data-grid": "^5.17.13",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.6.1",
     "css-loader": "^5.0.0",
     "date-fns": "^2.29.3",
     "express": "^4.17.1",
     "moment": "^2.29.4",
     "node-sass": "^8.0.0",
+    "jquery": "^3.6.1",
     "react-bootstrap": "^1.6.4",
     "react-bootstrap-icons": "^1.10.2",
     "react-calendar": "^4.0.0",
     "react-router-dom": "^6.4.3",
-    "style-loader": "^2.0.0"
+    "style-loader": "^2.0.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@sucrase/webpack-loader": "^2.0.0",
