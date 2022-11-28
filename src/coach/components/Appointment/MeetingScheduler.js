@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/MeetingScheduler.css";
+import "../css/MeetingScheduler.css";
 import { Table, Button, ThemeProvider } from "react-bootstrap";
 
 import { Scheduler } from "@aldabil/react-scheduler";
