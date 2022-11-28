@@ -38,3 +38,25 @@ export const AllClient = ({ children }) => {
         </AllClientContext.Provider>
     )
 }
+
+const ActionPlanContext = createContext();
+
+export const useActionPlan = () => {
+    return useContext(ActionPlanContext)
+}
+
+export const ActionPlanProvider = ({ children }) => {
+    const [selected, setSelected] = useState({UUID: "testing", Name: "Cruz Chua"})
+    const [allClient, setAllClient] = useState([])
+    const [actionPlan, setActionPlan] = useState({})
+
+    // useEffect(() => {
+    //     setSelected({UUID: "testing", Name: "Cruz Chua"})
+    // }, [selected])
+
+    return (
+        <ActionPlanContext.Provider value={{ selected: selected, setSelected: setSelected, allClient: allClient, setAllClient: setAllClient, actionPlan: actionPlan, setActionPlan: setActionPlan }}>
+            { children }
+        </ActionPlanContext.Provider>
+    )
+}

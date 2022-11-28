@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Appointment from "./Appointment";
+import Appointment from "./Appointment/Appointment";
 import Navitem from "./Navitem";
-import Contact from "./Contact";
-import Client from "./Client";
-import FAQ from "./FAQ";
-import ClientDetail from "./ClientDetail";
+import Contact from "./Contact/Contact";
+import Client from "./Client/Client";
+import FAQ from "./FAQ/FAQ";
+import ClientDetail from "./Client/ClientDetail";
+import ActionPlan from "./ActionPlan/ActionPlan";
 
 const TopNav = styled.div`
 	z-index: 999;
@@ -42,6 +43,7 @@ const App = () => {
 				<Route path="/coach/FAQ" element={<FAQ />}/>
 
 				<Route path="/coach/client/:id" element={<ClientDetail />} />
+				<Route path="/coach/client/actionplan/:id" element={<ActionPlan />} />
 			</Routes>
 		</Router>
 	)

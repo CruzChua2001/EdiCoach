@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { useAllClient } from "./Context"
+import { useAllClient } from "../Context"
 import { Link } from "react-router-dom"
 
 const AllClients = () => {

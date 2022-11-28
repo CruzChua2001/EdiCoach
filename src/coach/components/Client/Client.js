@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 import SearchClient from "./SearchClient"
 import AllClients from "./AllClients"
-import { AllClient } from "./Context"
+import { AllClient } from "../Context"
 
 const Breadcrump = styled.p`
     display: flex;
