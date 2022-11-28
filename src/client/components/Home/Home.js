@@ -1,17 +1,16 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../App.css";
 
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FileEarmark, Person, PencilSquare } from "react-bootstrap-icons";
 import { ScheduleAppointments } from "./ScheduleAppointments";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { redirect } from "react-router-dom";
 import ClientNavBar from "../ClientNavBar";
 
-export default function App() {
+export default function Home() {
   return (
     <div>
-      <ClientNavBar />
       <Container>
         <h2>Welcome back, Lorem Ipsum!</h2>
         <br />
@@ -23,7 +22,7 @@ export default function App() {
           <Col>
             <Button
               variant="secondary"
-              className="clientTab"
+              className="clientTab shadow"
               href="/client/"
               style={{ cursor: "pointer" }}
             >
@@ -34,8 +33,8 @@ export default function App() {
           <Col>
             <Button
               variant="secondary"
-              className="clientTab"
-              href="/client/"
+              className="clientTab shadow"
+              href="/client/coachSelect"
               style={{ cursor: "pointer" }}
             >
               <Person size={"50px"} />
@@ -45,7 +44,7 @@ export default function App() {
           <Col>
             <Button
               variant="secondary"
-              className="clientTab"
+              className="clientTab shadow"
               href="/client/"
               style={{ cursor: "pointer" }}
             >

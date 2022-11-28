@@ -1,12 +1,13 @@
 import React from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { Bell } from "react-bootstrap-icons";
+import "../css/NavBar.css";
 
 const ClientNavBar = () => {
   return (
     <Navbar collapseOnSelect expand="lg" className="mb-5">
       <Container>
-        <Navbar.Brand href="#" className="navTitle">
+        <Navbar.Brand href="/client/" className="navTitle">
           EDICOACH
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -15,7 +16,7 @@ const ClientNavBar = () => {
           className="justify-content-end p-3"
         >
           <Nav className="me-auto">
-            <Nav.Link href="#" className="navLink">
+            <Nav.Link href="/client/" className="navLink">
               Home
             </Nav.Link>
             <NavDropdown
@@ -27,7 +28,7 @@ const ClientNavBar = () => {
               <NavDropdown.Item href="#">My Bookings</NavDropdown.Item>
               <NavDropdown.Item href="#">Action Plan</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="/coach/" className="navLink">
+            <Nav.Link href="#" className="navLink">
               Contact Us
             </Nav.Link>
             <Nav.Link href="#" className="navLink">
