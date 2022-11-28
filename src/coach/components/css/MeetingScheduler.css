@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css?family=Inter');
+
+body {
+    font-family: 'Inter' !important;
+}
+
+.MuiTypography-caption {
+    color: #D0BECC;
+    font-weight: bold !important;
+}
+
+.rs__cell {
+    border: 0px !important;
+}
+
+.rs__cell:empty {
+    border-bottom: 1px solid #a3a3a3 !important;
+}
+
+.css-1sn4lm3-MuiTypography-root {
+    font-size: 1em !important;
+
+}
+
+.rs__cell:has(.css-10vjzfb-MuiButtonBase-root-MuiButton-root) {
+    border-left: 1px solid #a3a3a3 !important;
+
+}
+
+.rs__cell:has(.css-1mdftu-MuiTypography-root, .css-vkc4v8-MuiTypography-root) {
+    border-bottom: 1px solid #a3a3a3 !important;
+}
+
+.rs__cell:has(.css-1mdftu-MuiTypography-root, .css-vkc4v8-MuiTypography-root) .rs__hover__op {
+    font-size: 2em;
+    margin-top: -10px;
+    margin-bottom: -10px;
+}
+
+.rs__cell:has(.css-1mdftu-MuiTypography-root) .MuiTypography-root {
+    color: #3E468A;
+}
+
+.css-vkc4v8-MuiTypography-root {
+    color: #3E468A !important;
+}
+
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+    color: #3E468A !important;
+    font-weight: bold !important;
+}
