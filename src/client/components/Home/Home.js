@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { Container, Row, Col, Button } from "react-bootstrap";
@@ -7,12 +7,42 @@ import { ScheduleAppointments } from "./ScheduleAppointments";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { redirect } from "react-router-dom";
 import ClientNavBar from "../ClientNavBar";
+import axios from "axios";
 
 export default function Home() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(
+          `https://9hfdiuacnb.execute-api.us-east-1.amazonaws.com/UAT?email=notweewyekeong@gmail.com`
+        );
+        setData(response.data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        setData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getData();
+  }, []);
+  console.log(data);
   return (
     <div>
       <Container>
-        <h2>Welcome back, Lorem Ipsum!</h2>
+        {loading && <h2>A moment please...</h2>}
+        {error && <h2>There is a problem fetching the data</h2>}
+        {data && (
+          <h2>
+            Welcome back, {data.Items[0].firstName.S} {data.Items[0].lastName.S}
+            !
+          </h2>
+        )}
         <br />
         <ScheduleAppointments />
         <br />
