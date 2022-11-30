@@ -91,3 +91,53 @@ body {
     color: #3E468A !important;
     float: right !important;
 }
+
+.coachProfileDiv {
+    padding: 10px;
+    margin: 10px;
+}
+
+.coachProfileImg {
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.coachProfileTitle {
+    font-weight: bold;
+    text-align: center;
+}
+
+.coachProfileSubtitle {
+    text-align: center;
+    color: #A7A7A7;
+}
+
+.coachProfileText {
+    text-align: center;
+    padding: 10px;
+}
+
+.coachProfileTable {
+    color: #3E468A;
+    font-family: 'Inter';
+}
+
+.coachProfileTagTitle {
+    padding: 10px;
+    font-weight: bold;
+}
+
+.coachProfileTagPill {
+    background-color: #3E468A;
+    color: #FFFFFF;
+    font-size: medium;
+    margin: 5px;
+}
+
+.coachProfileButton {
+    width: 100%;
+}

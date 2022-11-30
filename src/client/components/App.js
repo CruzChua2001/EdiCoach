@@ -7,6 +7,7 @@ import ClientNavBar from "./ClientNavBar";
 import Home from "./Home/Home";
 import CoachView from "./CoachView/CoachView";
 import CoachPricing from "./CoachPricing/CoachPricing";
+import CoachProfile from "./CoachProfile/CoachProfile";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/client/" element={<Home />} />
           <Route path="/client/coachSelect" element={<CoachView />} />
           <Route path="/client/pricing" element={<CoachPricing />} />
+          <Route path="/client/coachProfile" element={<CoachProfile />} />
         </Routes>
       </Router>
     </div>
