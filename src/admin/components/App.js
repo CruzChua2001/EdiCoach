@@ -8,6 +8,7 @@ import Navitem from "./Navitem";
 import UserActions from "./UserActions";
 import Login from "./Login";
 import Register from "./Register";
+import Chat from "./Chat";
 
 const TopNav = styled.div`
 	z-index: 999;
@@ -37,6 +38,7 @@ const App = () => {
 				<Route path="/admin/" element={<UserActions />}/>
 				<Route path="/admin/login" element={<Login />}/>
 				<Route path="/admin/register" element={<Register />}/>
+				<Route path="/admin/chat" element={<Chat />}/>
 			</Routes>
 		</Router>
 	)
