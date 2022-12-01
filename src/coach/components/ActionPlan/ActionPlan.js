@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { ActionPlanProvider } from "../Context"
 import ActionPlanDropDown from "./ActionPlanDropDown"
-import ActionPlanVisionGoal from "./ActionPlanVisionGoal"
+import ActionPlanForm from "./ActionPlanForm"
 
 const Breadcrump = styled.p`
     display: flex;
@@ -37,7 +37,7 @@ const ActionPlan = () => {
 
                 <ActionPlanProvider>
                     <ActionPlanDropDown />
-                    <ActionPlanVisionGoal />
+                    <ActionPlanForm />
                 </ActionPlanProvider>
             </DefaultContainer>
         </>

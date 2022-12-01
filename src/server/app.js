@@ -1,10 +1,15 @@
 const express = require("express");
 const path = require("path");
+var cors = require('cors');
 
 const PORT = 3001;
 const STATIC_ASSETS_PATH = path.resolve(`${__dirname}/../../static`);
 
 const app = express();
+
+// app.use(
+// 	cors({origin: ['http://localhost:3001', 'http://127.0.0.1:3001', 'https://6i1lbzm98l.execute-api.us-east-1.amazonaws.com']})
+//   );
 
 // Serve front end assets which have been built by webpack
 app.use("/static", express.static(STATIC_ASSETS_PATH));
