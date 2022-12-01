@@ -1,0 +1,111 @@
+.popup-container {
+    position: relative;
+}
+
+.popup-content {
+    position: absolute !important;
+    margin: 60px auto;
+    left: 0;
+    right: 0;
+    background-color: white;
+    z-index: 10;
+    border-radius: 5px;
+    padding: 0px !important;
+    display: none;
+}
+
+.popup-content form {
+    padding: 10px 30px 50px;
+}
+
+.popup-background {
+    background-color: lightgray;
+    opacity: 70%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.popup-title {
+    background-color: #3E468A;
+    color: white;
+    padding: 20px 20px 10px;
+    border-radius: 5px 5px 0px 0px;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup-subtitle {
+    opacity: 80%;
+    font-size: 0.7em;
+    margin: 30px 0 10px;
+}
+
+.popup-content .text-muted {
+    font-size: 0.6em;
+}
+
+.admin-table {
+    margin: 100px auto 50px;
+}
+
+.admin-table-title {
+    padding: 20px 0px;
+    font-size: 1.8em;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-table-title svg {
+    margin: 10px 20px;
+    cursor: pointer;
+}
+
+.admin-table-title svg:hover {
+    opacity: 50%;
+}
+
+.admin-table-title .dropdown-menu {
+    transform: translate3d(-67px, 50.4px, 0px) !important;
+}
+
+.admin-table-title div {
+    display: flex;
+}
+
+.MuiDataGrid-root {
+    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+    border: none !important;
+}
+
+.MuiDataGrid-columnHeadersInner {
+    background-color: #3E468A;
+    color: white;
+    width: 100%;
+}
+
+.MuiDataGrid-footerContainer {
+    background-color: #3E468A;
+    color: white;
+}
+
+.MuiDataGrid-columnSeparator {
+    display: none !important;
+}
+
+.MuiDataGrid-root button, .MuiDataGrid-root .MuiDataGrid-columnHeadersInner svg {
+    color: white;
+}
+
+.MuiDataGrid-root p {
+    color: white;
+    padding-top: 15px;
+}
+
+#errorMessage {
+    color:red;
+    font-size: 0.8em;
+}

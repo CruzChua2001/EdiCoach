@@ -4,7 +4,7 @@ import {Form, Button} from 'react-bootstrap';
 import bcrypt from 'bcryptjs';
 import { useCookies } from 'react-cookie';
 
-const Login = () => {
+const CoachLogin = () => {
     const FormStyle = {
         display: 'flex',
         alignItems: 'center',
@@ -52,12 +52,16 @@ const Login = () => {
                                               .then(message => {
                                                   if (message.status === "success") {
                                                       console.log(message);
+                                                      
   
                                                       // window.localStorage.setItem("login", true);
                                                       // window.localStorage.setItem("usertype", message.usertype);
-                                                      if (usertype == "Client") {
+                                                      if (usertype == "Admin") {
                                                         setCookie("sessionId", message.userid, { path: '/' });
-                                                        window.location.href = "/client/";
+                                                        window.location.href = "/admin/";
+                                                      } else if (usertype == "Coach") {
+                                                        setCookie("sessionId", message.userid, { path: '/' });
+                                                        window.location.href = "/coach/";
                                                       } else {
                                                         document.getElementById("errorMessage").innerText = "Please login using the correct tunnel!";
                                                       }
@@ -118,4 +122,4 @@ const Login = () => {
 }
 
 
-export default Login
+export default CoachLogin

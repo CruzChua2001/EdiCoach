@@ -49,10 +49,12 @@ app.get("/admin/*", (request, response) => {
 			}
 			if(res.statusCode === 200 ) {
 				var data = JSON.parse(body);
-				if (data["status"] != "success") {
-					response.redirect("/guest/home");
-				} else {
+				if (data["status"] == "success" && data.message.UserType.S == "Admin") {
 					response.sendFile(path.join(__dirname + '/view/admin/index.html'));
+					
+				} else {
+					response.redirect("/guest/home");
+					
 				}
 			}
 			});
