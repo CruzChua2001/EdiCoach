@@ -1,7 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Table } from "react-bootstrap";
+import axios from "axios";
+import moment from "moment";
+
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
 
 export const ScheduleAppointments = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(
+          `https://tvf7ofmy9i.execute-api.us-east-1.amazonaws.com/UAT?ClientID=1124`
+        );
+        setData(response.data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        setData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getData();
+  }, []);
+  console.log(data);
   return (
     <div className="shadow rounded">
       <div className="saTitle">
@@ -18,13 +57,17 @@ export const ScheduleAppointments = () => {
           </tr>
         </thead>
         <tbody>
+        {loading && <div>A moment please...</div>}
+        {error && <div>There is a problem fetching the data</div>}
+        {data && (data.Items.map(b => (
           <tr>
-            <td>1</td>
-            <td>20th December 2022</td>
-            <td>12:00pm</td>
-            <td>1-on-1</td>
-            <td>Nicholas Chan</td>
+            <td>{b.SessionCount.N.toString()} of {b.SessionTotal.N.toString()}</td>
+            <td>{new Date(b.StartDateTime.S).toLocaleDateString("en-GB")}</td>
+            <td>{new Date(b.StartDateTime.S).toLocaleTimeString("en-US")}</td>
+            <td>Type</td>
+            <td>Coach</td>
           </tr>
+            )))}
         </tbody>
       </Table>
       <Button variant="link" className="saLink">

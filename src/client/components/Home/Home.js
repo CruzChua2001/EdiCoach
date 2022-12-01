@@ -29,7 +29,7 @@ export default function Home() {
         setLoading(false);
       }
     };
-    getData();
+    //getData();
   }, []);
   console.log(data);
   return (

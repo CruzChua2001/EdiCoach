@@ -19,6 +19,7 @@ export default function App() {
           <Route path="/client/coachSelect" element={<CoachView />} />
           <Route path="/client/pricing" element={<CoachPricing />} />
           <Route path="/client/coachProfile" element={<CoachProfile />} />
+          <Route path="/client/coachBooking" element={<CoachBooking />} />
         </Routes>
       </Router>
     </div>
