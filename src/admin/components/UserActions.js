@@ -14,6 +14,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { DataGrid } from '@mui/x-data-grid';
 
 import $ from 'jquery';
+import { EmailOutlined } from "@mui/icons-material";
 
 const UserActions = () => {
 
@@ -34,14 +35,14 @@ const UserActions = () => {
       ];
 
     const retrieveUsers = () => {
-        fetch("https://iipemcorb8.execute-api.us-east-1.amazonaws.com/dev/scan", {
+        fetch("https://mj1rmiz1mj.execute-api.us-east-1.amazonaws.com/dev/getall", {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
             msg.json()
             .then(users => {
-                console.log(users.Items);
-                setUsers(users.Items);
+                console.log(users);
+                setUsers(users);
             });
             
             
@@ -54,15 +55,17 @@ const UserActions = () => {
         let firstname = document.getElementById("firstname").value;;
         let lastname = document.getElementById("lastname").value;;
         let dob = document.getElementById("dob").value;;
-        let uuid = uuidv4();
+        let phone = document.getElementById("phone").value;;
+        let gender = document.getElementById("gender").value;;
+        let userid = uuidv4();
         let usertype = document.getElementById("usertype").value;;
 
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(password, salt);
 
-        fetch("https://iipemcorb8.execute-api.us-east-1.amazonaws.com/dev/add", {
+        fetch("https://mj1rmiz1mj.execute-api.us-east-1.amazonaws.com/dev/add", {
         method: 'POST',
-        body: JSON.stringify({email, password: hash, salt, firstname, lastname, dob, uuid, usertype}),
+        body: JSON.stringify({email, password: hash, salt, firstname, lastname, dob, phone, gender, userid, usertype}),
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
             msg.json()
@@ -78,9 +81,7 @@ const UserActions = () => {
     const deleteUser = () => {
         let email = selectedUser;
         console.log(email);
-        fetch("https://iipemcorb8.execute-api.us-east-1.amazonaws.com/dev/delete?" + new URLSearchParams({
-            email: email
-        }), {
+        fetch(`https://iipemcorb8.execute-api.us-east-1.amazonaws.com/dev/delete/`+email, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
@@ -100,7 +101,7 @@ const UserActions = () => {
         let row = [];
         for (let index = 0; index < users.length; index++) {
             const element = users[index];
-            row.push({ id: element.UUID.S, email: element.Email.S, lastname: element.LastName.S, firstname: element.FirstName.S, dob: element.DOB.S })
+            row.push({ id: element.UserId.S, email: element.Email.S, lastname: element.LastName.S, firstname: element.FirstName.S, dob: element.DOB.S })
         }
         console.log(row);
         setRows(row);

@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Inter');
+@import url('https://fonts.googleapis.com/css?family=Kulim+Park');
+
+body {
+    font-family: 'Inter';
+    color: #3E468A;
+}
+
+.saTitle {
+    background-color: #3E468A;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: #FFFFFF;
+    padding: 5px;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.saTable {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.saLink {
+    color: #3E468A;
+    text-align: center;
+    margin: auto;
+    display: flex;
+}
+
+.clientTab {
+    border-radius: 10px;
+    background-color: #F5F5F5;
+    color: #3E468A;
+    padding: 30px;
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
+.clientTab h4 {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.coachCardTitle {
+    text-align: center;
+    color: #3E468A;
+    font-weight: bold;
+}
+
+.coachCardSubtitle {
+    text-align: center;
+    color: #BFBFBF;
+}
+
+.coachCardImg {
+    margin: 10px auto 10px auto;
+    height: 7em;
+    width: 7em;
+    border-radius: 50%;
+    display: block;
+}
+
+.signup-subtitle {
+    opacity: 80%;
+    font-size: 0.7em;
+    margin: 30px 0 10px;
+}
+
+#errorMessage {
+    color:red;
+    font-size: 0.8em;
+    margin-bottom: 15px;
+}
