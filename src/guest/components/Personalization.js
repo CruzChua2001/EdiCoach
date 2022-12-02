@@ -64,7 +64,7 @@ const Personlization = () => {
                             <Button onClick={decreaseQuestionNumber} disabled = {firstQuestion} style= {{backgroundColor: "red"}} >Back</Button>
                             <Button onClick={increaseQuestionNumber} style={ {backgroundColor: (lastQuestion ? "green"  : "blue"), float:"right"} }>{lastQuestion ? "Complete" : "Next"}</Button>
                         </Form>
-                        {/*JSON.stringify(responses, null, 2)*/}
+                        {JSON.stringify(responses, null, 2)}
                     </div>
                 </Col>
             </Row>
