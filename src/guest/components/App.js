@@ -13,6 +13,8 @@ import Signup from "./Signup";
 import OneonOnecoaching from "./OneonOnecoaching";
 import NavBar from "./Navbar";
 import Personlization from "./Personalization";
+import CoachForm from "./CoachForm";
+import Footer from "./Footer";
 
 export default function App() {
 	return (
@@ -28,7 +30,12 @@ export default function App() {
 				<Route path="/guest/coachlogin" element={<CoachLogin />} />
 				<Route path="/guest/sign-up" element={<Signup />} />
 				<Route path="/guest/personalization" element={<Personlization />} />
+				<Route path="/guest/CoachForm" element={<CoachForm />} />
 			</Routes>
+
+			<footer>
+				<Footer />
+			</footer>
 
 		</Router>
 	);
