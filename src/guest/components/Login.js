@@ -1,5 +1,5 @@
 import React from "react";
-import {Form, Button} from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 
 import bcrypt from 'bcryptjs';
 import { useCookies } from 'react-cookie';
