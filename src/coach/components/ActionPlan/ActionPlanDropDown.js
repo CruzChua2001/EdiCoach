@@ -6,7 +6,7 @@ const ActionPlanDropDown = () => {
     let actionPlanContext = useActionPlan();
 
     return (
-        <>
+        <div className="mb-5">
             <b style={{ textDecoration: "underline" }}>General Information</b>
             <br />
             <span>Client</span>
@@ -19,7 +19,7 @@ const ActionPlanDropDown = () => {
                     <Dropdown.Item href="#/action-1">Edison Choo</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
-        </>
+        </div>
     )
 }
 
