@@ -8,6 +8,7 @@ import Home from "./Home/Home";
 import CoachView from "./CoachView/CoachView";
 import CoachPricing from "./CoachPricing/CoachPricing";
 import CoachProfile from "./CoachProfile/CoachProfile";
+import CoachBooking from "./CoachBooking/CoachBooking";
 
 export default function App() {
   return (

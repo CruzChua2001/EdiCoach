@@ -67,7 +67,6 @@ body {
 }
 
 .pricingText {
-
     font-weight: bold;
     color: #3E468A;
     font-size: 20px;
@@ -140,4 +139,46 @@ body {
 
 .coachProfileButton {
     width: 100%;
+}
+
+.appointmentsHead {
+    color: #3E468A !important;
+    font-family: 'Inter' !important;
+    font-weight: bold !important;
+}
+
+.appointmentsText {
+    color: #3E468A !important;
+    font-family: 'Inter' !important;
+}
+
+.appointmentButtons {
+    display: flex !important;
+    justify-content: flex-end !important;
+    width: 100%;
+    margin: 5px;
+}
+
+.coachBookingImg {
+    height: 135px;
+    width: 135px;
+    border-radius: 50%;
+}
+
+.coachBookingDiv {
+    padding: 10px;
+    display: flex;
+}
+
+.coachBookingTitle {
+    margin: 10px;
+    margin-left: 30px;
+
+    font-weight: bold;
+}
+
+.coachBookingSubtitle {
+    margin: 10px;
+    margin-left: 30px;
+    color: #A7A7A7;
 }

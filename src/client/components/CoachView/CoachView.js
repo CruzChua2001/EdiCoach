@@ -12,7 +12,7 @@ export default function CoachView() {
               <h3>Scheduled Appointments</h3>
             </div>
             <div className="p-3">
-              <Link to={"/client/"}>
+              <Link to={"/client/coachProfile"}>
                 <Card style={{ width: "12rem" }} className="rounded">
                   <Card.Img
                     className="coachCardImg"
@@ -41,7 +41,7 @@ export default function CoachView() {
               <h3>All Coaches</h3>
             </div>
             <div className="p-3">
-              <Link to={"/client/"}>
+              <Link to={"/client/coachProfile"}>
                 <Card style={{ width: "12rem" }} className="rounded">
                   <Card.Img
                     className="coachCardImg"

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Table, Badge, Button } from "react-bootstrap";
-import { Cpu } from "react-bootstrap-icons";
 
 export default function CoachProfile() {
   return (
     <Container>
+      <Button>Back</Button>
       <Row>
         <Col lg={4}>
           <div className="shadow rounded coachProfileDiv">
@@ -84,7 +84,11 @@ export default function CoachProfile() {
                 </Col>
                 <Col>
                   <div className="coachProfileDiv">
-                    <Button variant="success" className="coachProfileButton">
+                    <Button
+                      href="/client/coachBooking"
+                      variant="success"
+                      className="coachProfileButton"
+                    >
                       Book Coach
                     </Button>
                   </div>
