@@ -3,7 +3,7 @@ import { Button, Table } from "react-bootstrap";
 
 export const ScheduleAppointments = () => {
   return (
-    <div className="saDiv">
+    <div className="shadow rounded">
       <div className="saTitle">
         <h3>Scheduled Appointments</h3>
       </div>

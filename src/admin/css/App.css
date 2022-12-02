@@ -1,13 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Inter');
+@import url('https://fonts.googleapis.com/css?family=Kulim+Park');
 
 body {
     font-family: 'Inter';
     color: #3E468A;
-}
-
-.saDiv {
-    border: 1px solid #ececec;
-    border-radius: 10px;
 }
 
 .saTitle {
@@ -45,4 +41,23 @@ body {
 .clientTab h4 {
     margin-top: 10px;
     font-weight: bold;
+}
+
+.coachCardTitle {
+    text-align: center;
+    color: #3E468A;
+    font-weight: bold;
+}
+
+.coachCardSubtitle {
+    text-align: center;
+    color: #BFBFBF;
+}
+
+.coachCardImg {
+    margin: 10px auto 10px auto;
+    height: 7em;
+    width: 7em;
+    border-radius: 50%;
+    display: block;
 }

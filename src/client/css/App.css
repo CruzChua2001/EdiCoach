@@ -1,44 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Inter');
 @import url('https://fonts.googleapis.com/css?family=Kulim+Park');
 
-.mdHeader {
-    color: #3E468A;
-    font-weight: bolder;
-}
-
-.mdTable {
-    font-family: 'Inter';
-    color: #3E468A;
-}
-
-.mdButton {
-    background-color: #1A284D;
-    width: 100%;
-    color: #ffffff;
-}
-
-.mdButton:hover {
-    background-color: #2C4482;
-}
-
-.mdButton:active {
-    background-color: #1A284D !important;
-}
-
-.mdButton.mdButton:visited {
-    background-color: #2C4482 !important;
-}
-
-
-
 body {
     font-family: 'Inter';
     color: #3E468A;
-}
-
-.saDiv {
-    border: 1px solid #ececec;
-    border-radius: 10px;
 }
 
 .saTitle {
@@ -78,27 +43,21 @@ body {
     font-weight: bold;
 }
 
-.navTitle {
-    color: #3E468A !important;
-    font-size: 3em;
-    font-family: 'Kulim Park';
-}
-
-.navLink {
-    font-family: 'Inter';
+.coachCardTitle {
+    text-align: center;
+    color: #3E468A;
     font-weight: bold;
-    font-size: 1.25em;
-    line-height: 55.758px;
 }
 
-.navImg {
-    height: 2em;
-    width: 2em;
+.coachCardSubtitle {
+    text-align: center;
+    color: #BFBFBF;
+}
+
+.coachCardImg {
+    margin: 10px auto 10px auto;
+    height: 7em;
+    width: 7em;
     border-radius: 50%;
-}
-
-.navIcon {
-    margin-top: auto;
-    margin-bottom: auto;
     display: block;
 }

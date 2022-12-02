@@ -1,36 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Inter');
 @import url('https://fonts.googleapis.com/css?family=Kulim+Park');
 
-.mdHeader {
-    color: #3E468A;
-    font-weight: bolder;
-}
-
-.mdTable {
-    font-family: 'Inter';
-    color: #3E468A;
-}
-
-.mdButton {
-    background-color: #1A284D;
-    width: 100%;
-    color: #ffffff;
-}
-
-.mdButton:hover {
-    background-color: #2C4482;
-}
-
-.mdButton:active {
-    background-color: #1A284D !important;
-}
-
-.mdButton.mdButton:visited {
-    background-color: #2C4482 !important;
-}
-
-
-
 body {
     font-family: 'Inter';
     color: #3E468A;
