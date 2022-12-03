@@ -163,17 +163,17 @@ body {
     height: 135px;
     width: 135px;
     border-radius: 50%;
+    margin-left: 30px;
 }
 
 .coachBookingDiv {
     padding: 10px;
-    display: flex;
+    display: inline-block
 }
 
 .coachBookingTitle {
     margin: 10px;
     margin-left: 30px;
-
     font-weight: bold;
 }
 
@@ -181,4 +181,14 @@ body {
     margin: 10px;
     margin-left: 30px;
     color: #A7A7A7;
+}
+
+.calenderTimeButton {
+    background-color: #3E468A;
+    margin: 5px;
+}
+
+.calenderTimeButton :hover {
+    background-color: #3E468A;
+    opacity: 80%;
 }
