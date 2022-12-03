@@ -13,17 +13,26 @@ const FormStyle = {
 const NUMBER_OF_QUESTIONS = 5;
 const QUESTIONS = ["How are u?", "jim?", "eat protein?", "protein shake?", "sleep?"]
 
-const Personlization = () => {
+const Personalization = () => {
 
     const [questionNumber, setQuestionNumber] = useState(0)
     const [responses, setResponses] = useState({})
     const responseRef = useRef()
 
+    const personalizationAnswers = () => {
+        fetch("https://vonlxpnb0j.execute-api.us-east-1.amazonaws.com/UAT/skills", {
+            method: 'POST',
+            body: JSON.stringify({...responses, Email: "1@gmail.com"}),
+            headers: { 'Content-Type': 'application/json' }})
+            .then(msg => {console.log("test")}     
+            ).catch(err => console.log(err))
+    }
+
     const increaseQuestionNumber = () => {
         if(questionNumber >= 4 ){
             //to store value as an object with key value pair in this case stores responses to it's question number
             setResponses({...responses, [questionNumber]: responseRef.current.value})
-            submitForm()
+            personalizationAnswers()
             return
         }
         setResponses({...responses, [questionNumber]: responseRef.current.value})
@@ -37,10 +46,6 @@ const Personlization = () => {
 
     const lastQuestion = questionNumber === 4
     const firstQuestion = questionNumber === 0
-
-    const submitForm = () => {
-        console.log(responses)
-    }
 
     return (<>
      <div style={FormStyle} >
@@ -72,4 +77,4 @@ const Personlization = () => {
     </>)
 }
 
-export default Personlization
+export default Personalization
