@@ -19,11 +19,24 @@ const Personlization = () => {
     const [responses, setResponses] = useState({})
     const responseRef = useRef()
 
+    const personalizationAnswers = (temp) => {
+
+        const formatAns = {Email : "12@gmail.com", UserType : "Client", Skills: temp}
+
+        fetch("https://vonlxpnb0j.execute-api.us-east-1.amazonaws.com/UAT/skills", {
+            method: 'POST',
+            body: JSON.stringify(formatAns),
+            headers: { 'Content-Type': 'application/json' }})
+            .then(msg => {console.log("test")}     
+            ).catch(err => console.log(err))
+    }
+
     const increaseQuestionNumber = () => {
         if(questionNumber >= 4 ){
             //to store value as an object with key value pair in this case stores responses to it's question number
-            setResponses({...responses, [questionNumber]: responseRef.current.value})
-            submitForm()
+            let temp = {...responses, [questionNumber]: responseRef.current.value}
+            setResponses(temp)
+            personalizationAnswers(temp)
             return
         }
         setResponses({...responses, [questionNumber]: responseRef.current.value})
