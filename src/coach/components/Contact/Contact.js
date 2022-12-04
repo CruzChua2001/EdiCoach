@@ -1,7 +1,7 @@
 import React from "react"
 
-const Contact = () => {
+const CoachContact = () => {
     return (<>Contact</>)
 }
 
-export default Contact
+export default CoachContact

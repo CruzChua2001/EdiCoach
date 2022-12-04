@@ -1,7 +1,7 @@
 import React from "react"
 
-const FAQ = () => {
+const CoachFAQ = () => {
     return (<>FAQ</>)
 }
 
-export default FAQ
+export default CoachFAQ

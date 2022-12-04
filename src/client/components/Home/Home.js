@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { redirect } from "react-router-dom";
 import ClientNavBar from "../ClientNavBar";
 
-export default function Home() {
+export default function ClientHome() {
   return (
     <div>
       <Container>

@@ -16,7 +16,7 @@ const Item = styled.a`
 const Navitem = () => {
     return (
         <>
-            <Item href="/coach/appointment" className="mr-2"> Appointment </Item>
+            <Item href="/coach/" className="mr-2"> Appointment </Item>
             <Item href="/coach/client" className="mr-2"> Clients </Item>
             <Item href="/coach/contact" className="mr-2"> Contact Us </Item>
             <Item href="/coach/faq" className="mr-3"> FAQ </Item>

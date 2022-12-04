@@ -15,7 +15,7 @@ const CoachNavBar = () => {
           className="justify-content-end p-3"
         >
           <Nav className="me-auto">
-            <Nav.Link href="/coach/appointment" className="navLink">
+            <Nav.Link href="/coach/" className="navLink">
               Appointment
             </Nav.Link>
             <Nav.Link href="/coach/client" className="navLink">

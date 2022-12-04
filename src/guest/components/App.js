@@ -28,9 +28,9 @@ import Signup from "./Signup";
 import OneonOnecoaching from "./OneonOnecoaching";
 import NavBar from "./Navbar";
 
-export default function App() {
+export default function GuestApp() {
 	return (
-		<Router>
+		<>
 			<NavBar />
 		
 			<Routes>
@@ -42,7 +42,6 @@ export default function App() {
 				<Route path="/guest/coachlogin" element={<CoachLogin />} />
 				<Route path="/guest/sign-up" element={<Signup />} />
 			</Routes>
-
-		</Router>
+		</>
 	);
 }
