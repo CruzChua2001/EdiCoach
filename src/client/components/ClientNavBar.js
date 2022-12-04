@@ -26,7 +26,7 @@ const ClientNavBar = () => {
             >
               <NavDropdown.Item href="#">Find a Coach</NavDropdown.Item>
               <NavDropdown.Item href="#">My Bookings</NavDropdown.Item>
-              <NavDropdown.Item href="#">Action Plan</NavDropdown.Item>
+              <NavDropdown.Item href="/client/actionplan">Action Plan</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href="#" className="navLink">
               Contact Us
