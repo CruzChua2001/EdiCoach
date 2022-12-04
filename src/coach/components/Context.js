@@ -7,7 +7,6 @@ export const useAllClient = () => {
 }
 
 export const AllClient = ({ children }) => {
-    const [filter, setFilter] = useState({})
     const [clientResult, setClientResult] = useState([])
 
     useEffect(() => {
@@ -24,16 +23,16 @@ export const AllClient = ({ children }) => {
             return response.json()
         })
         .then((result) => {
-            setClientResult(result.Items)
+            setClientResult(result)
         })
         .catch((error) => {
             console.log("Error: " + error);
         })
 
-    }, [filter])
+    }, [])
 
     return (
-        <AllClientContext.Provider value={{ filter: filter, setFilter: setFilter, clientResult: clientResult, setClientResult: setClientResult }}> 
+        <AllClientContext.Provider value={{ clientResult: clientResult, setClientResult: setClientResult }}> 
             { children } 
         </AllClientContext.Provider>
     )
