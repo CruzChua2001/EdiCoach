@@ -22,7 +22,18 @@ export const DateTimeSelector = () => {
             .toISOString()
             .slice(0, 10)}`
         );
-        setTimes(response.data.Times);
+        console.log(response.data);
+        var timeList = [];
+        for (let i = 0; i < response.data.Count; i++) {
+          let timeString = `${new Date(
+            response.data.Items[i].StartDateTime.S
+          ).toLocaleTimeString()} - ${new Date(
+            response.data.Items[i].EndDateTime.S
+          ).toLocaleTimeString()}`;
+          timeList.push(timeString);
+        }
+        setTimes(timeList);
+        console.log(times);
         setError(null);
       } catch (err) {
         setError(err.message);
@@ -40,9 +51,10 @@ export const DateTimeSelector = () => {
       <Calendar onChange={updateDate} value={date} />
       <br />
       <div>
-        {times.map((time) => (
-          <Button className="calenderTimeButton">{time}</Button>
-        ))}
+        {times &&
+          times.map((time) => (
+            <Button className="calenderTimeButton">{time}</Button>
+          ))}
       </div>
     </div>
   );

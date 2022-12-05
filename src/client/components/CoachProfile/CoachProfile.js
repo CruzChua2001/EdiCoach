@@ -1,10 +1,69 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Table, Badge, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { Select, MenuItem, FormControl } from "@mui/material";
+import { Backspace } from "react-bootstrap-icons";
+import axios from "axios";
 
 export default function CoachProfile() {
+  const [sessions, setSessions] = useState(12);
+  const [cost, setCost] = useState(660);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState(null);
+
+  const navigate = useNavigate();
+
+  const priceObject = {
+    12: 660,
+    16: 800,
+    20: 900,
+  };
+
+  function submitPayment() {
+    const postData = async () => {
+      try {
+        var body = {
+          ClientID: "1123",
+          CoachID: "1124",
+          Session: sessions,
+          Price: priceObject[sessions],
+        };
+        const response = await axios.put(
+          `https://hqyui19u1f.execute-api.us-east-1.amazonaws.com/UAT/payment`,
+          body,
+          {
+            withCredentials: false,
+          }
+        );
+        setData(response);
+        setError(null);
+        navigate("/client/coachBooking/");
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    postData();
+  }
+
+  const handleSessionChange = (event) => {
+    let curr_val = event.target.value;
+    setSessions(curr_val);
+    setCost(priceObject[curr_val]);
+    console.log(curr_val);
+  };
+
   return (
     <Container>
-      <Button>Back</Button>
+      <Button
+        variant="primary"
+        href="/client/coachSelect"
+        className="calenderTimeButton"
+      >
+        <Backspace /> Back
+      </Button>
       <Row>
         <Col lg={4}>
           <div className="shadow rounded coachProfileDiv">
@@ -21,6 +80,9 @@ export default function CoachProfile() {
               in IT. Have any questions regarding the in’s and out’s of the IT
               industry? I’m your guy
             </p>
+            <Button variant="primary" className="coachProfileButton">
+              Message
+            </Button>
           </div>
         </Col>
         <Col lg={8}>
@@ -74,26 +136,41 @@ export default function CoachProfile() {
                   </Col>
                 </Row>
               </div>
-              <Row>
-                <Col>
-                  <div className="coachProfileDiv">
-                    <Button variant="primary" className="coachProfileButton">
-                      Message
-                    </Button>
-                  </div>
-                </Col>
-                <Col>
-                  <div className="coachProfileDiv">
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div className="coachProfileDiv">
+                <Row>
+                  <Col>
+                    <div style={{ display: "flex" }}>
+                      <div>Total: </div>
+                      <div className="pricingTag me-2">${cost}</div>
+                      <FormControl>
+                        <Select
+                          defaultValue={12}
+                          className="pricingSession"
+                          value={sessions}
+                          onChange={handleSessionChange}
+                        >
+                          <MenuItem value={12}>12 Sessions</MenuItem>
+                          <MenuItem value={16}>16 Sessions</MenuItem>
+                          <MenuItem value={20}>20 Sessions</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>
+                  </Col>
+                  <Col className="coachPaymentButtonDiv">
                     <Button
-                      href="/client/coachBooking"
                       variant="success"
-                      className="coachProfileButton"
+                      className="coachPaymentButton"
+                      onClick={submitPayment}
                     >
-                      Book Coach
+                      Proceed to Payment
                     </Button>
-                  </div>
-                </Col>
-              </Row>
+                  </Col>
+                </Row>
+              </div>
             </Col>
           </Row>
         </Col>
