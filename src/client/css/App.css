@@ -131,7 +131,7 @@ body {
 }
 
 .coachProfileTagPill {
-    background-color: #3E468A;
+    background-color: #3E468A !important;
     color: #FFFFFF;
     font-size: medium;
     margin: 5px;
