@@ -82,10 +82,9 @@ function CoachBooking() {
         </div>
         <div>
           <Calendar onChange={updateDate} value={date} />
-          <br />
-          <div>
+          <div style={{ padding: "5px" }}>
             {error && <h4>Encountered error retrieving time slots</h4>}
-            {loading && <Spinner />}
+            {loading && <Spinner className="spinnerLoad" />}
             {times &&
               times.map((time, idx) => (
                 <ToggleButton

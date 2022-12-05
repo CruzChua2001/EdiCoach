@@ -345,3 +345,8 @@ body {
 .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #e6e6e6;
 }
+
+.spinnerLoad {
+    display: table;
+    margin: 0 auto;
+}
