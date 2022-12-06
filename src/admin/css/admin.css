@@ -2,9 +2,9 @@
     position: relative;
 }
 
-.popup-content {
+.popup-content, .popup-profile-content {
     position: absolute !important;
-    margin: 60px auto;
+    margin: 0px auto 60px;
     left: 0;
     right: 0;
     background-color: white;
@@ -14,16 +14,19 @@
     display: none;
 }
 
-.popup-content form {
+.popup-content form, .popup-profile-content form {
     padding: 10px 30px 50px;
+    border: 3px solid #3E468A;
 }
 
 .popup-background {
-    background-color: lightgray;
-    opacity: 70%;
+    background-color: grey;
+    opacity: 0.5;
+    top:0;
+    left: 0;
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 300vh;
     display: none;
 }
 
@@ -45,6 +48,11 @@
 
 .popup-content .text-muted {
     font-size: 0.6em;
+}
+
+.popup-label {
+    font-size: 1.2em;;
+    font-weight: bold;
 }
 
 .admin-table {
@@ -96,7 +104,7 @@
     display: none !important;
 }
 
-.MuiDataGrid-root button, .MuiDataGrid-root .MuiDataGrid-columnHeadersInner svg {
+.MuiDataGrid-root button, .MuiDataGrid-root .MuiDataGrid-columnHeadersInner svg, .MuiDataGrid-root .MuiTablePagination-root svg {
     color: white;
 }
 
@@ -108,4 +116,99 @@
 #errorMessage {
     color:red;
     font-size: 0.8em;
+}
+
+.chatContainer {
+    height: 750px;
+    border: rgba(0,0,0, 0.2) solid 1px;
+}
+
+.chatContainer .chatForm {
+    height: 50px;
+    border-top: rgba(0,0,0, 0.2) solid 1px;
+    padding: 7px;
+}
+
+.chatContainer .chatForm div {
+    display: flex;
+    width: 100%;
+}
+
+.chatContainer .chatForm input {
+    margin-right: 7px;
+}
+
+.chatContainer .chatHeader {
+    height: 50px;
+    background-color: #3E468A;
+}
+
+.chatContainer .chatContent {
+    height: 650px;
+    padding: 20px;
+    overflow:auto;
+}
+
+.chatContainer .chatContent div {
+    clear: both;
+}
+
+.chatContainer .chatContent .fromChat {
+    margin-bottom: 10px;
+    float: left;
+}
+
+.chatContainer .chatContent .fromChat .chatMsg {
+    background-color: blue;
+    color: white;
+    min-height: 30px;
+    max-width: 250px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.chatContainer .chatContent .toChat {
+    margin-bottom: 20px;
+    float: right;
+}
+
+.chatContainer .chatContent .toChat .chatMsg {
+    background-color: green;
+    color: white;
+    min-height: 30px;
+    max-width: 100px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.chatContainer .chatContent .chatName {
+    font-size: 0.8em;
+}
+
+.chatProfile {
+    padding: 15px;
+}
+
+.chatProfile .profileTitle {
+    font-weight: 200;
+    font-size: 1.2em;
+    margin-bottom: 25px;
+}
+
+.chatProfile .profilePic div {
+    height: 75px;
+    width: 75px;
+    background-color: gray;
+    border-radius: 45px;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.chatProfile .profileData div:first-child {
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
+.chatProfile .profileData {
+    margin-top: 10px;
 }

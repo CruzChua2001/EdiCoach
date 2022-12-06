@@ -4,6 +4,8 @@ import {Form, Button} from 'react-bootstrap';
 import bcrypt from 'bcryptjs';
 import { useCookies } from 'react-cookie';
 
+import config from '../../../config';
+
 const CoachLogin = () => {
     const FormStyle = {
         display: 'flex',
@@ -18,7 +20,7 @@ const CoachLogin = () => {
           let email = document.getElementById("email").value;
           let password = document.getElementById("password").value;
   
-          fetch("https://mj1rmiz1mj.execute-api.us-east-1.amazonaws.com/dev/getsalt/"+email, {
+          fetch(config.USER_API+"/getsalt/"+email, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }})
           .then((msg) => {
@@ -33,7 +35,7 @@ const CoachLogin = () => {
 
                       let usertype;
   
-                      fetch("https://1b46sbaptd.execute-api.us-east-1.amazonaws.com/dev/login", {
+                      fetch(config.SESSION_API+"/login", {
                           method: 'POST',
                           body: JSON.stringify({email, password:hash}),
                           headers: { 'Content-Type': 'application/json' }})
@@ -43,7 +45,7 @@ const CoachLogin = () => {
                                   console.log(message);
                                   if (message.status === "success") {
                                         usertype = message.data.UserType.S;
-                                      fetch("https://1b46sbaptd.execute-api.us-east-1.amazonaws.com/dev/create", {
+                                      fetch(config.SESSION_API+"/create", {
                                           method: 'POST',
                                           body: JSON.stringify(message.data),
                                           headers: { 'Content-Type': 'application/json' }})
@@ -101,21 +103,23 @@ const CoachLogin = () => {
     
     return ( <>
         <div style={FormStyle} >
-            <div class="shadow p-5 mb-5 bg-white rounded">
+            <div style={{border: "3px solid #3E468A"}} class="shadow p-5 mb-5 bg-white rounded">
+            <div className="loginTitle">EdiCoach</div>
+                    <div className="loginSubTitle">Welcome back to EdiCoach, Coaches</div>
                     <Form>
-                        <Form.Group className="mb-3" controlId="LoginEmail">
+                        <Form.Group className="mb-3" controlId="email">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" id='email' placeholder="Enter email" />
+                            <Form.Control type="email" placeholder="Enter email" />
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="LoginPassword">
+                        <Form.Group className="mb-3" controlId="password">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" id='password' placeholder="Password" />
+                            <Form.Control type="password" placeholder="Password" />
                         </Form.Group>
                         <div id="errorMessage"></div>
-                        <Button variant="primary" type="button" onClick={Login}>Login</Button>
+                        <Button className="loginBtn" variant="primary" type="button" onClick={Login}>Login</Button>
                     </Form>
-                    <a href = "/guest/sign-up">Create an Account</a>
+                    <a className="loginLink" href = "/guest/sign-up">Create an Account</a>
             </div>
         </div>
     </>)
