@@ -61,8 +61,9 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <div className="appointmentButtons">
-                <Button variant="danger">Cancel</Button>{" "}
+              <div className="appointmentButtons p-2">
+                <Button variant="danger">Cancel Booking</Button>
+                <Button variant="success">Change Booking Date</Button>
                 <Button variant="success">Join Call</Button>
               </div>
             </Box>

@@ -154,8 +154,6 @@ body {
 }
 
 .appointmentButtons {
-    display: flex !important;
-    justify-content: flex-end !important;
     width: 100%;
     margin: 5px;
 }
