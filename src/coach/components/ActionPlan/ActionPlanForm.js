@@ -166,7 +166,7 @@ const ActionPlanForm = () => {
                                 <Form.Control type="text" placeholder="Enter section here" value={item.Group} onChange={setGroup} id={item.id} />
                            </div>
                             <div className="w-25">
-                                <Button className="float-right" style={{float: 'right'}} variant="danger" onClick={() => removeSection(item.id)}> <XCircle className="mb-1" /> Remove Section</Button>
+                                <Button className="float-end" variant="danger" onClick={() => removeSection(item.id)}> <XCircle className="mb-1" /> Remove Section</Button>
                             </div>
                        </div>
                        <div className="shadow border rounded p-4">
@@ -178,7 +178,7 @@ const ActionPlanForm = () => {
                                     </div>
                                     <div className="w-25">
                                         {item.Questions.length > 1 && 
-                                            <Button className="float-right" style={{float: 'right'}} variant="danger" onClick={() => removeQuestion(ques.id)}> <XCircle className="mb-1" /> Remove Question</Button>
+                                            <Button className="float-end" variant="danger" onClick={() => removeQuestion(ques.id)}> <XCircle className="mb-1" /> Remove Question</Button>
                                         }
                                     </div>
                                 </div>
@@ -199,7 +199,7 @@ const ActionPlanForm = () => {
 
                                     <div className="w-50">
                                         <Dropdown>
-                                            <Dropdown.Toggle variant="" className="float-right rounded border px-4 py-2" style={{float: 'right'}} style={{ fontSize: "18px" }}>
+                                            <Dropdown.Toggle variant="" className="float-end rounded border px-4 py-2" style={{ fontSize: "18px" }}>
                                                 {ques.QuestionType}
                                             </Dropdown.Toggle>
 
@@ -221,8 +221,8 @@ const ActionPlanForm = () => {
                ))}
             </div>
             <Button variant="" className="mt-2 border rounded" onClick={addDivider}><PlusCircle className="pb-1" size={18} /> Add Section </Button>
-            <Button className="mt-2 float-right" style={{float: 'right'}} onClick={submitActionPlan}>Submit</Button>
-            <Button className="mt-2 float-right" style={{float: 'right'}} variant={'danger'}>Cancel</Button>
+            <Button className="mt-2 float-end" onClick={submitActionPlan}>Submit</Button>
+            <Button className="mt-2 float-end" variant={'danger'}>Cancel</Button>
         </div>
     )
 }
