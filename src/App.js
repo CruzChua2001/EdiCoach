@@ -8,6 +8,9 @@ import Login from "./guest/components/Login";
 import CoachLogin from "./guest/components/CoachLogin";
 import Signup from "./guest/components/Signup";
 import OneonOnecoaching from "./guest/components/OneonOnecoaching";
+import CoachForm from "./guest/components/CoachForm";
+import CoachApplication from "./guest/components/CoachApplication";
+import Personlization from "./guest/components/Personalization";
 
 import ClientHome from "./client/components/Home/Home";
 import CoachView from "./client/components/CoachView/CoachView";
@@ -46,6 +49,9 @@ const App = () => {
           <Route path="/guest/login" element={<Login />} />
           <Route path="/guest/coachlogin" element={<CoachLogin />} />
           <Route path="/guest/sign-up" element={<Signup />} />
+          <Route path="/guest/personalization" element={<Personlization />} />
+          <Route path="/guest/coachform" element={<CoachForm />} />
+          <Route path="/guest/coachapplication" element={<CoachApplication />} />
         </Route>
 
         {/* Client Path */}
