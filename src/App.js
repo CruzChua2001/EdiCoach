@@ -31,13 +31,7 @@ import ClientLayout from "./Layout/ClientLayout";
 import CoachLayout from "./Layout/CoachLayout";
 import AdminLayout from "./Layout/AdminLayout";
 
-import "./guest/css/App.css";
-import "./guest/css/NavBar.css";
-import "./coach/components/css/App.css";
-import "./coach/components/css/MeetingScheduler.css";
-import "./coach/components/App.css";
-import "./admin/css/admin.css";
-import "./client/css/App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   return (
