@@ -177,22 +177,26 @@ const ActionPlanContainer = () => {
                         <h2>Career Coaching</h2>
                         <span>3rd December 2022</span>
                     </div>
-                    <div className="w-25" id={index+"_open"}>
-                        <ChevronDown 
-                            size={25}
-                            className="float-right mt-4 mr-3"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => openForm(index)}
-                        />
-                    </div>
-                    <div className="w-25" id={index+"_close"} style={{ display:'none' }}>
-                        <ChevronUp 
-                            size={25}
-                            className="float-right mt-4 mr-3"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => closeForm(index)}
-                        />
-                    </div>
+                        <div className="w-25" id={index+"_open"}>
+
+                            <div className="float-right" style={{float: 'right'}}>
+                                <ChevronDown 
+                                    size={25}
+                                    className="float-right mt-4 mr-3"
+                                    style={{ cursor: 'pointer', float: 'right' }}
+                                    onClick={() => openForm(index)}
+                                />
+
+                            </div>
+                        </div>
+                        <div className="w-25" id={index+"_close"} style={{ display:'none' }}>
+                            <ChevronUp 
+                                size={25}
+                                className="float-right mt-4 mr-3"
+                                style={{ cursor: 'pointer', float: 'right' }}
+                                onClick={() => closeForm(index)}
+                            />
+                        </div>
                 </div>
 
                 <div id={index + "_form"} style={{ display: 'none' }} className="border rounded mt-1 p-3">
