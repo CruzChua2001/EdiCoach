@@ -2,14 +2,13 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-resolve: {
-	fallback: {
-		crypto: require.resolve("crypto-browserify"),
-		stream: require.resolve("stream-browserify"),
-	}
-	},
+  resolve: {
+    fallback: {
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify"),
+    },
+  },
   output: {
-    //path: path.join(__dirname, "/dist"), // the bundle output path for production
     path: path.join(__dirname, "/static"), // the bundle output path for development
     filename: "bundle.js", // the name of the bundle
   },
@@ -39,11 +38,11 @@ resolve: {
         loader: "url-loader",
         options: { limit: false },
       },
-	  {
+      {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel-loader',
-        options: { presets: ['@babel/env','@babel/preset-react'] },
+        loader: "babel-loader",
+        options: { presets: ["@babel/env", "@babel/preset-react"] },
       },
     ],
   },
