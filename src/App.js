@@ -14,6 +14,7 @@ import CoachView from "./client/components/CoachView/CoachView";
 import CoachPricing from "./client/components/CoachPricing/CoachPricing";
 import CoachProfile from "./client/components/CoachProfile/CoachProfile";
 import CoachBooking from "./client/components/CoachBooking/CoachBooking";
+import ClientActionPlan from "./client/components/ActionPlan/ActionPlan";
 
 import Appointment from "./coach/components/Appointment/Appointment";
 import Client from "./coach/components/Client/Client";
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/client/coachPricing" element={<CoachPricing />} />
           <Route path="/client/coachProfile" element={<CoachProfile />} />
           <Route path="/client/coachBooking" element={<CoachBooking />} />
+          <Route path="/client/actionplan" element={<ClientActionPlan />} />
         </Route>
 
         {/* Coach Path */}

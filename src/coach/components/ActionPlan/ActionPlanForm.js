@@ -148,7 +148,10 @@ const ActionPlanForm = () => {
             },
             body: JSON.stringify({"id": uuid, "client": "bc@gmail.com", "coach": "abc@gmail.com","form": form})
         })
-        .then(response => console.log(response))
+        .then(response => {
+            console.log(response)
+            window.location.href = "/coach/"
+        })
     }
 
     return (

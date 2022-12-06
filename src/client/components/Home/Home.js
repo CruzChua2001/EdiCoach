@@ -53,7 +53,7 @@ export default function ClientHome() {
             <Button
               variant="secondary"
               className="clientTab shadow"
-              href="/client/"
+              href="/client/actionplan"
               style={{ cursor: "pointer" }}
             >
               <FileEarmark size={"50px"} />
