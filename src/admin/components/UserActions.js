@@ -82,6 +82,7 @@ const UserActions = () => {
     }
 
     const deleteUser = () => {
+        $(".dropdown-menu").hide();
         let email = selectedUser;
         console.log(email);
         fetch(config.USER_API+`/delete/`+email, {
@@ -125,6 +126,15 @@ const UserActions = () => {
                     $(".dropdown-menu a").attr("aria-disabled", "true");
                     $(".dropdown-menu a").first().attr("aria-disabled", "false");
                 }
+
+                if ($(".dropdown-menu").css("display") == "none") {
+                    $(".dropdown-menu").show();
+                } else {
+                    $(".dropdown-menu").hide();
+                }
+
+                $(".show").show();
+                
             }, 100)
             
         })
@@ -133,6 +143,7 @@ const UserActions = () => {
 
     const openAdd = () => {
         console.log("Opening...")
+        $(".dropdown-menu").hide();
         document.getElementsByClassName("popup-background").item(0).style.display = "block";
         document.getElementsByClassName("popup-content").item(0).style.display = "block";
     }
@@ -147,6 +158,7 @@ const UserActions = () => {
 
     const openProfile = () => {
         console.log("Opening...")
+        $(".dropdown-menu").hide();
 
         let selectedProfile = users.filter(user => user.Email.S == selectedUser)[0];
 
@@ -170,7 +182,20 @@ const UserActions = () => {
         console.log("Closing...")
         document.getElementsByClassName("popup-background").item(0).style.display = "none";
         document.getElementsByClassName("popup-profile-content").item(0).style.display = "none";
-    } 
+    }
+
+    const toggleBtn = () => {
+        if (document.getElementsByClassName("dropdown-menu").item(0)) {
+            let visible = document.getElementsByClassName("dropdown-menu").item(0).style.display;
+            if (visible != "block") {
+                document.getElementsByClassName("dropdown-menu").item(0).style.display = "block";
+            } else {
+                document.getElementsByClassName("dropdown-menu").item(0).style.display = "none";
+            }
+        }
+        
+        
+    }
     
 
     return (
