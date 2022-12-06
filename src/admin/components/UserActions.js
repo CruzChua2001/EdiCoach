@@ -355,7 +355,7 @@ const UserActions = () => {
             <Col xs="8" style={{height:"370px"}}>
                 <div className="admin-table-title">
                     <div>
-                        ALL USERS TABLES
+                        TABLE OF ALL USERS
                     </div>
                     <div>
                     <ArrowClockwise />
