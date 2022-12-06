@@ -18,18 +18,18 @@ const DefaultContainer = styled.div`
     margin-inline: 8%;
 `
 
-const ActionPlan = () => {
+const CreateActionPlan = () => {
     const { id } = useParams()
     return (
         <>
             <Breadcrump>
-                <a href="/coach/appointment" className="mr-2 text-decoration-none text-secondary"> Home </a>
+                <a href="/coach/appointment" className="mx-2 text-decoration-none text-secondary"> Home </a>
                 /
-                <a href="coach/client" className="ml-2 mr-2 text-decoration-none text-secondary"> Client </a>
+                <a href="coach/client" className="mx-2 text-decoration-none text-secondary"> Client </a>
                 /
-                <a href="coach/client" className="ml-2 mr-2 text-decoration-none text-secondary"> Name </a>
+                <a href="coach/client" className="mx-2 text-decoration-none text-secondary"> Name </a>
                 /
-                <b className="ml-2"> Action Plan </b>
+                <b className="mx-2"> Action Plan </b>
             </Breadcrump>
 
             <DefaultContainer className="primary-font-color">
@@ -44,4 +44,4 @@ const ActionPlan = () => {
     )
 }
 
-export default ActionPlan
+export default CreateActionPlan
