@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import React, { useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { ChevronDown, ChevronUp } from "react-bootstrap-icons";
 import { useActionPlan } from "../Context"
 import FileInput from './FileInput'
@@ -54,55 +54,10 @@ const CoachInformation = (props) => {
     )
 }
 
-const Paragraph = () => {
-    return (
-        <Form.Control as="textarea" placeholder="Long-answer text" />
-    )
-}
-
-const ShortAnswer = () => {
-    return (
-        <Form.Control type="text" placeholder="Short answer text" maxLength={50} />
-    )
-}
-
-const ActionPlanForm = (props) => {
-
-    const formType = [
-        {"Paragraph": <Paragraph />}, 
-        {"Short Answer": <ShortAnswer />},
-        {"File Upload": <FileInput disabled={false} />}
-        //{"Multiple Choice": <MultipleChoice />} 
-    ]
-
-    const getAnswer = (quesType) => {
-        return formType.filter(item => Object.keys(item) == quesType)[0][quesType]
-    }
-
-    return (
-        <div className="text-left">
-            {props.form.map((item, index) => (
-                <div key={index} className="mt-3">
-                    <Header>{item.Group}</Header>
-                    {item.Questions.map(ques => (
-                        <div key={ques.id}>
-                            <p>{ques.Question}</p>
-
-                            {getAnswer(ques.QuestionType)}
-
-                        </div>
-                    ))}
-                </div>
-            ))}
-        </div>
-    )
-}
-
 
 const ActionPlanContainer = () => {
 
     const actionPlan = useActionPlan();
-    console.log(actionPlan.actionPlan)
 
     const openForm = (id) => {
         document.getElementById(id+"_form").style.display = 'block'
@@ -117,18 +72,53 @@ const ActionPlanContainer = () => {
     }
 
     const submitForm = (id) => {
-        let temp = { ...actionPlan.actionPlan.filter(temp => temp.id == id)[0], coach: "asn@gmail.com"  }
         
-        actionPlan.setActionPlan(tmp => {
-            return tmp.map(item => {
-                if(item.id == temp.id){
-                    return temp
+        let temp = actionPlan.actionPlan.filter(temp => temp.id == id)[0]
+        let empty = 0;
+        let allFiles = []
+
+        let newForm = temp.form.map(f => {
+            let newAnswers = f.Questions.map(ques => {
+
+                if(ques.QuestionType == "Paragraph" || ques.QuestionType == "Short Answer") {
+                    let ans = document.getElementById(ques.id).value
+
+                    if(ans == "") {
+                        empty++
+                        return ques
+                    }
+
+                    return {...ques, Answer: ans}
+                }
+                else if(ques.QuestionType == "File Upload") {
+                    let l = document.getElementById(ques.id).files.length
+                    let files = document.getElementById(ques.id).files
+
+                    if(files.length <= 0) {
+                        empty++
+                        return ques
+                    }
+
+                    let fileAns = []
+                    for(let i=0; i < l; i++) {
+                        fileAns.push(files[i].name)
+                        allFiles.push(files[i])
+                    }
+
+                    return {...ques, Answer: fileAns}
                 }
                 else {
-                    return item
+                    return ques
                 }
+                
             })
+            return {...f, Questions: newAnswers}
         })
+
+        //use empty for empty
+
+        //console.log(newForm)
+        const newTemp = { ...temp, coach: "asn@gmail.com", form: newForm }
 
         fetch('https://6i1lbzm98l.execute-api.us-east-1.amazonaws.com/uat/actionplan', {
             method: 'PUT',
@@ -136,9 +126,46 @@ const ActionPlanContainer = () => {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
-            body: JSON.stringify(temp)
+            body: JSON.stringify(newTemp)
         })
-        .then(response => console.log(response))
+        .then(response => {
+            console.log(response)
+            window.location.href = "/client/actionplan"
+        })
+    }
+    
+    const ActionPlanForm = (props) => {
+    
+        const getAnswer = (question) => {
+
+            if(question.QuestionType == "Paragraph") {
+                return (<Form.Control as="textarea" placeholder={question.Answer != "" ? question.Answer : "Enter your answer here"} id={question.id} />)
+            }
+            else if(question.QuestionType == "Short Answer") {
+                return (<Form.Control type="text" placeholder={question.Answer != "" ? question.Answer : "Enter your answer here"} maxLength={50} id={question.id} />)
+            }
+            else if(question.QuestionType == "File Upload") {
+                return (<Form.Control type="file" id={question.id} multiple={true} />)
+            }
+        }
+    
+        return (
+            <div className="text-left">
+                {props.form.map((item, index) => (
+                    <div key={index} className="mt-3">
+                        <Header>{item.Group}</Header>
+                        {item.Questions.map(ques => (
+                            <div key={ques.id}>
+                                <p>{ques.Question}</p>
+                                
+                                {getAnswer(ques)} 
+    
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        )
     }
 
     return (
