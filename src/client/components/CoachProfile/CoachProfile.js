@@ -29,10 +29,32 @@ export default function CoachProfile() {
           Session: sessions,
           Price: priceObject[sessions],
         };
+        // fetch(
+        //   "https://hqyui19u1f.execute-api.us-east-1.amazonaws.com/UAT/payment",
+        //   {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       Accept: "application/json",
+        //       "Access-Control-Allow-Origin": "http://localhost:8080/",
+        //     },
+        //     body: JSON.stringify(body),
+        //   }
+        // ).then((response) => {
+        //   console.log(response);
+        //   window.location.href = "/client/";
+        // });
         const response = await axios.put(
           `https://hqyui19u1f.execute-api.us-east-1.amazonaws.com/UAT/payment`,
-          body,
+          JSON.stringify(body),
           {
+            headers: {
+              "Access-Control-Allow-Headers":
+                "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": true,
+            },
             withCredentials: false,
           }
         );

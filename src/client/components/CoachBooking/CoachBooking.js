@@ -5,7 +5,10 @@ import { Calendar } from "react-calendar";
 
 import axios from "axios";
 
+import { SSMClient, AddTagsToResourceCommand } from "@aws-sdk/client-ssm";
+
 function CoachBooking() {
+  const ssmClient = new SSMClient({ region: "ap-southeast-1" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 

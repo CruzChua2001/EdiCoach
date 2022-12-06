@@ -4,21 +4,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FileEarmark, Person, PencilSquare } from "react-bootstrap-icons";
 import { ScheduleAppointments } from "./ScheduleAppointments";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { redirect } from "react-router-dom";
-import ClientNavBar from "../ClientNavBar";
 import axios from "axios";
 
 export default function ClientHome() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const email = "notweewyekeong@gmail.com";
 
   useEffect(() => {
     const getData = async () => {
       try {
         const response = await axios.get(
-          `https://9hfdiuacnb.execute-api.us-east-1.amazonaws.com/UAT?email=notweewyekeong@gmail.com`
+          `https://9hfdiuacnb.execute-api.us-east-1.amazonaws.com/UAT?email=${email}`
         );
         setData(response.data);
         setError(null);
@@ -75,7 +73,7 @@ export default function ClientHome() {
             <Button
               variant="secondary"
               className="clientTab shadow"
-              href="/client/"
+              href="/client/manageAppointments"
               style={{ cursor: "pointer" }}
             >
               <PencilSquare size={"50px"} />

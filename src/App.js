@@ -15,6 +15,7 @@ import CoachPricing from "./client/components/CoachPricing/CoachPricing";
 import CoachProfile from "./client/components/CoachProfile/CoachProfile";
 import CoachBooking from "./client/components/CoachBooking/CoachBooking";
 import ClientActionPlan from "./client/components/ActionPlan/ActionPlan";
+import { ManageAppointments } from "./client/components/ManageAppointments/ManageAppointments";
 
 import Appointment from "./coach/components/Appointment/Appointment";
 import Client from "./coach/components/Client/Client";
@@ -31,7 +32,7 @@ import ClientLayout from "./Layout/ClientLayout";
 import CoachLayout from "./Layout/CoachLayout";
 import AdminLayout from "./Layout/AdminLayout";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   return (
@@ -54,7 +55,11 @@ const App = () => {
           <Route path="/client/coachSelect" element={<CoachView />} />
           <Route path="/client/coachPricing" element={<CoachPricing />} />
           <Route path="/client/coachProfile" element={<CoachProfile />} />
-          <Route path="/client/coachBooking" element={<CoachBooking />} />
+          <Route path="/client/coachBooking/:id" element={<CoachBooking />} />
+          <Route
+            path="/client/manageAppointments"
+            element={<ManageAppointments />}
+          />
           <Route path="/client/actionplan" element={<ClientActionPlan />} />
         </Route>
 
