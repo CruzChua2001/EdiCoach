@@ -81,10 +81,12 @@ function Row(props) {
                         {bookingRow.SessionCount}
                       </TableCell>
                       <TableCell align="right">
-                        {bookingRow.StartDateTime}
+                        {bookingRow.StartDateTime &&
+                          new Date(bookingRow.StartDateTime).toLocaleString()}
                       </TableCell>
                       <TableCell align="right">
-                        {bookingRow.EndDateTime}
+                        {bookingRow.StartDateTime &&
+                          new Date(bookingRow.StartDateTime).toLocaleString()}
                       </TableCell>
                       <TableCell align="right">{bookingRow.Status}</TableCell>
                       {bookingRow.Status && (

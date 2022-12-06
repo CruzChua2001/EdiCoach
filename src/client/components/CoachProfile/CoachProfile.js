@@ -29,12 +29,15 @@ export default function CoachProfile() {
           Session: sessions,
           Price: priceObject[sessions],
         };
-        axios.put('https://hqyui19u1f.execute-api.us-east-1.amazonaws.com/UAT/payment', body)
-        .then(response => console.log(response));
-        
+        axios
+          .put(
+            "https://hqyui19u1f.execute-api.us-east-1.amazonaws.com/UAT/payment",
+            body
+          )
+          .then((response) => navigate("/client/"));
+
         setData(response);
         setError(null);
-        navigate("/client/coachBooking/");
       } catch (err) {
         setError(err.message);
       } finally {

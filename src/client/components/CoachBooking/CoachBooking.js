@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Container, Spinner, Button, ToggleButton } from "react-bootstrap";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { Calendar } from "react-calendar";
-
 import axios from "axios";
 
 import { SSMClient, AddTagsToResourceCommand } from "@aws-sdk/client-ssm";
 
 function CoachBooking() {
+  const navigate = useNavigate();
+  const { id } = useParams();
   const ssmClient = new SSMClient({ region: "ap-southeast-1" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -15,7 +17,8 @@ function CoachBooking() {
   const [date, setDate] = useState(new Date());
   const [times, setTimes] = useState([]);
 
-  const [chosenTime, setChosenTime] = useState();
+  const [startTime, setStartTime] = useState();
+  const [endTime, setEndTime] = useState();
 
   useEffect(() => {}, []);
 
@@ -58,6 +61,38 @@ function CoachBooking() {
     getData();
     console.log(`${date.toISOString()}`);
   }
+
+  function submitBooking() {
+    const postData = async () => {
+      try {
+        var body = {
+          BookingID: id,
+          StartDateTime: startTime,
+          EndDateTime: endTime,
+        };
+        axios
+          .post(
+            "https://hqyui19u1f.execute-api.us-east-1.amazonaws.com/UAT/booking",
+            body
+          )
+          .then((response) => navigate("/client/"));
+
+        setData(response);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    postData();
+  }
+
+  function handleChosenTime(timeVal) {
+    setStartTime(timeVal.start);
+    setEndTime(timeVal.end);
+  }
+
   return (
     <Container>
       <div className="shadow rounded ">
@@ -90,18 +125,19 @@ function CoachBooking() {
             {loading && <Spinner className="spinnerLoad" />}
             {times &&
               times.map((time, idx) => (
-                <ToggleButton
-                  key={idx}
-                  value={time.start}
-                  checked={chosenTime === time.start}
-                  onChange={(e) => setChosenTime(e.currentTarget.value)}
-                >
+                <Button key={idx} onClick={(e) => handleChosenTime(time)}>
                   {time.timeString}
-                </ToggleButton>
+                </Button>
               ))}
           </div>
         </div>
       </div>
+      {startTime && (
+        <p>
+          Chosen: {startTime.toLocaleString()} - {endTime.toLocaleString()}
+        </p>
+      )}
+      <Button onClick={submitBooking}>Submit</Button>
     </Container>
   );
 }
