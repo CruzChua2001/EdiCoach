@@ -15,6 +15,7 @@ import NavBar from "./Navbar";
 import Personlization from "./Personalization";
 import CoachForm from "./CoachForm";
 import Footer from "./Footer";
+import CoachApplication from "./CoachApplication"
 
 export default function App() {
 	return (
@@ -31,6 +32,7 @@ export default function App() {
 				<Route path="/guest/sign-up" element={<Signup />} />
 				<Route path="/guest/personalization" element={<Personlization />} />
 				<Route path="/guest/CoachForm" element={<CoachForm />} />
+				<Route path="/guest/CoachApplication" element={<CoachApplication />} />	
 			</Routes>
 
 			<footer>

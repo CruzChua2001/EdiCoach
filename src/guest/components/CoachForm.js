@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from 'react-bootstrap';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
-import 'C:/Users/ashle/Documents/Application Security & Project/EdiCoach/static/gueststyle.css';
+import 'C:/Users/ashle/Documents/Application Security & Project/EdiCoach/src/guest/css/gueststyle.css';
 import { SortNumericDown } from "react-bootstrap-icons";
 import { Message } from "@mui/icons-material";
 
@@ -146,7 +146,7 @@ const CoachForm = () => {
                                 onKeyUp={onKeyUp}
                                 onChange={onChange}
                             />
-                        <div className="container">
+                        <div className="container" id="skillTags">
                             {Forms.Skills.map((tag, index) => ( <div className="tag">{tag}
                             <button onClick={() => deleteTag(index)}>x</button>
                             </div>))}

@@ -21,13 +21,13 @@ const Personlization = () => {
 
     const personalizationAnswers = (temp) => {
 
-        const formatAns = {Email : "12@gmail.com", UserType : "Client", Skills: temp}
+        const formatAns = {Email : "joshualim2122@gmail.com", UserType : "Client", Skills: temp}
 
-        fetch("https://vonlxpnb0j.execute-api.us-east-1.amazonaws.com/UAT/skills", {
+        fetch("https://vonlxpnb0j.execute-api.us-east-1.amazonaws.com/UAT/clientquestionnaire", {
             method: 'POST',
             body: JSON.stringify(formatAns),
             headers: { 'Content-Type': 'application/json' }})
-            .then(msg => {console.log("test")}     
+            .then(msg => {console.log(msg)}     
             ).catch(err => console.log(err))
     }
 
