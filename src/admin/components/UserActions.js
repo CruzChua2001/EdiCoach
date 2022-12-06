@@ -2,6 +2,8 @@ import React, {useEffect, useState, useRef} from "react";
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
+import config from '../../../config';
+
 import { Button } from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -31,11 +33,11 @@ const UserActions = () => {
             `${params.row.firstname || ''} ${params.row.lastname || ''}`,
         },
         { field: 'email', headerName: 'Email', width: 186 },
-        { field: 'dob', headerName: 'DOB', width: 188 },
+        { field: 'usertype', headerName: 'UserType', width: 188 },
       ];
 
     const retrieveUsers = () => {
-        fetch("https://mj1rmiz1mj.execute-api.us-east-1.amazonaws.com/dev/getall", {
+        fetch(config.USER_API+"/getall", {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
@@ -63,26 +65,9 @@ const UserActions = () => {
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(password, salt);
 
-        fetch("https://mj1rmiz1mj.execute-api.us-east-1.amazonaws.com/dev/add", {
+        fetch(config.USER_API+"/add", {
         method: 'POST',
         body: JSON.stringify({email, password: hash, salt, firstname, lastname, dob, phone, gender, userid, usertype}),
-        headers: { 'Content-Type': 'application/json' }})
-        .then((msg) => {
-            msg.json()
-            .then(users => {
-                console.log(users)
-                retrieveUsers();
-            });
-            
-            
-        }).catch(err => console.log(err))
-    }
-
-    const deleteUser = () => {
-        let email = selectedUser;
-        console.log(email);
-        fetch(`https://iipemcorb8.execute-api.us-east-1.amazonaws.com/dev/delete/`+email, {
-        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
             msg.json()
@@ -96,12 +81,29 @@ const UserActions = () => {
         }).catch(err => console.log(err))
     }
 
+    const deleteUser = () => {
+        let email = selectedUser;
+        console.log(email);
+        fetch(config.USER_API+`/delete/`+email, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }})
+        .then((msg) => {
+            msg.json()
+            .then(users => {
+                console.log(users)
+                retrieveUsers();
+            });
+            
+            
+        }).catch(err => console.log(err))
+    }
+
     useEffect(() => {
         var text = "";
         let row = [];
         for (let index = 0; index < users.length; index++) {
             const element = users[index];
-            row.push({ id: element.UserId.S, email: element.Email.S, lastname: element.LastName.S, firstname: element.FirstName.S, dob: element.DOB.S })
+            row.push({ id: element.UserId.S, email: element.Email.S, lastname: element.LastName.S, firstname: element.FirstName.S, usertype: element.UserType.S })
         }
         console.log(row);
         setRows(row);
@@ -131,6 +133,7 @@ const UserActions = () => {
 
     const openAdd = () => {
         console.log("Opening...")
+        document.getElementsByClassName("popup-background").item(0).style.display = "block";
         document.getElementsByClassName("popup-content").item(0).style.display = "block";
     }
 
@@ -138,7 +141,35 @@ const UserActions = () => {
 
     const closeAdd = () => {
         console.log("Closing...")
+        document.getElementsByClassName("popup-background").item(0).style.display = "none";
         document.getElementsByClassName("popup-content").item(0).style.display = "none";
+    } 
+
+    const openProfile = () => {
+        console.log("Opening...")
+
+        let selectedProfile = users.filter(user => user.Email.S == selectedUser)[0];
+
+        console.log(selectedProfile)
+
+        document.getElementById("firstnamelabel").innerHTML = selectedProfile.FirstName.S;
+        document.getElementById("lastnamelabel").innerHTML = selectedProfile.LastName.S;
+        document.getElementById("emaillabel").innerHTML = selectedProfile.Email.S;
+        document.getElementById("phonelabel").innerHTML = selectedProfile.Phone.S;
+        document.getElementById("genderlabel").innerHTML = selectedProfile.Gender.S;
+        document.getElementById("doblabel").innerHTML = selectedProfile.DOB.S;
+        document.getElementById("usertypelabel").innerHTML = selectedProfile.UserType.S;
+
+        document.getElementsByClassName("popup-background").item(0).style.display = "block";
+        document.getElementsByClassName("popup-profile-content").item(0).style.display = "block";
+    }
+
+    
+
+    const closeProfile = () => {
+        console.log("Closing...")
+        document.getElementsByClassName("popup-background").item(0).style.display = "none";
+        document.getElementsByClassName("popup-profile-content").item(0).style.display = "none";
     } 
     
 
@@ -158,50 +189,50 @@ const UserActions = () => {
                 <div className="popup-subtitle">LOGIN INFORMATION</div>
                 <Row>
                     <Col>
-                        <Form.Group className="mb-3">
+                        <Form.Group controlId="firstname" className="mb-3">
                             <Form.Label>First Name</Form.Label>
-                            <Form.Control type="text" placeholder="Enter first name" id="firstname" />
+                            <Form.Control type="text" placeholder="Enter first name" />
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group className="mb-3">
+                        <Form.Group controlId="lastname" className="mb-3">
                             <Form.Label>Last Name</Form.Label>
-                            <Form.Control type="text" placeholder="Enter last name" id="lastname" />
+                            <Form.Control type="text" placeholder="Enter last name" />
                         </Form.Group>
                     </Col>
                 </Row>
 
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-3" controlId="email">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" id="email" />
+                    <Form.Control type="email" placeholder="Enter email" />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Group className="mb-3" controlId="password">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" id="password"/>
+                    <Form.Control type="password" placeholder="Password"/>
                     <Form.Text className="text-muted">
                     Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                     </Form.Text>
                 </Form.Group>
 
                 <div className="popup-subtitle">USER INFORMATION</div>
-                <Form.Group className="mb-3" >
+                <Form.Group className="mb-3">
                     <Form.Label>Phone Number</Form.Label>
                     <Row>
                         <Col xs="2">
-                            <Form.Control type="text" value="+65" id="countrycode" disabled />
+                            <Form.Control type="text" value="+65" disabled />
                         </Col>
                         <Col>
-                            <Form.Control type="text" placeholder="Enter phone number" id="phonenumber" />
+                            <Form.Control type="text" id="phone" placeholder="Enter phone number" />
                         </Col>
                     </Row>
                     
                 </Form.Group>
 
                 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-3" controlId="gender">
                     <Form.Label>Gender</Form.Label>
-                    <Form.Control type="text" placeholder="Enter gender" id="gender" />
+                    <Form.Control type="text" placeholder="Enter gender" />
                     {/* <Form.Select>
                         <option>Select gender</option>
                         <option value="1">Male</option>
@@ -210,14 +241,14 @@ const UserActions = () => {
                     </Form.Select> */}
                 </Form.Group>
 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-3" controlId="dob">
                     <Form.Label>Date of Birth</Form.Label>
-                    <Form.Control type="text" placeholder="Enter date of birth" id="dob" />
+                    <Form.Control type="text" placeholder="Enter date of birth" />
                 </Form.Group>
 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-3" controlId="usertype">
                     <Form.Label>User Type</Form.Label>
-                    <Form.Control type="text" placeholder="Enter user type" id="usertype" />
+                    <Form.Control type="text" placeholder="Enter user type" />
                     {/* <Form.Select>
                         <option>Select gender</option>
                         <option value="1">Male</option>
@@ -227,8 +258,67 @@ const UserActions = () => {
                 </Form.Group>
 
                 <Button variant="primary" onClick={addUser}>
-                    Submit
+                    Add User
                 </Button>
+            </Form>
+            </Col>
+            <Col></Col>
+        </Row>
+    </Container>
+    <Container className="popup-container">
+        <Row>
+            <Col></Col>
+            <Col xs="8"  className="popup-profile-content">
+            <div className="popup-title">
+                <div>User Information</div>
+                <X color="white" size={32} style={{cursor: "pointer"}} onClick={closeProfile}/>
+            </div>
+            <Form>
+                
+                <div className="popup-subtitle">LOGIN INFORMATION</div>
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>First Name</Form.Label>
+                            <div className="popup-label" id="firstnamelabel">-</div>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Last Name</Form.Label>
+                            <div className="popup-label" id="lastnamelabel">-</div>
+                        </Form.Group>
+                    </Col>
+                </Row>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>Email address</Form.Label>
+                    <div className="popup-label" id="emaillabel">-</div>
+                </Form.Group>
+
+                <div className="popup-subtitle">USER INFORMATION</div>
+                <Form.Group className="mb-3">
+                    <Form.Label>Phone Number</Form.Label>
+                    <div className="popup-label" id="phonelabel">-</div>
+                    
+                </Form.Group>
+
+                
+                <Form.Group className="mb-3" >
+                    <Form.Label>Gender</Form.Label>
+                    <div className="popup-label" id="genderlabel">-</div>
+                </Form.Group>
+
+                <Form.Group className="mb-3" >
+                    <Form.Label>Date of Birth</Form.Label>
+                    <div className="popup-label" id="doblabel">-</div>
+                </Form.Group>
+
+                <Form.Group className="mb-3" >
+                    <Form.Label>User Type</Form.Label>
+                    <div className="popup-label" id="usertypelabel">-</div>
+                </Form.Group>
+
             </Form>
             </Col>
             <Col></Col>
@@ -237,7 +327,7 @@ const UserActions = () => {
     <Container className="admin-table">
         <Row>
             <Col></Col>
-            <Col xs="8" style={{height:"362px"}}>
+            <Col xs="8" style={{height:"370px"}}>
                 <div className="admin-table-title">
                     <div>
                         ALL USERS TABLES
@@ -252,7 +342,7 @@ const UserActions = () => {
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={openAdd}>Add User</Dropdown.Item>
                             <Dropdown.Item onClick={deleteUser}>Delele User</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">View Details</Dropdown.Item>
+                            <Dropdown.Item onClick={openProfile}>View Details</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                     </div>

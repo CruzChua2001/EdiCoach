@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const Request = require('request');
 var cors = require('cors');
 
-const PORT = 3001;
+const PORT = 8080;
 const STATIC_ASSETS_PATH = path.resolve(`${__dirname}/../../static`);
 
 const app = express();
