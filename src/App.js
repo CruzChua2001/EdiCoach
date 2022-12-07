@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home from "./guest/components/Home";
-import Careercoaching from "./guest/components/Home";
+import Home from "./guest/components/Home/Home";
+import Careercoaching from "./guest/components/Careercoaching";
 import Contact from "./guest/components/Contact";
 import Login from "./guest/components/Login";
 import CoachLogin from "./guest/components/CoachLogin";

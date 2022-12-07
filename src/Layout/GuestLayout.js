@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from '../guest/components/Navbar'
+import GuestNavBar from "../guest/components/GuestNavBar";
 
 import "../guest/css/App.css";
 import "../guest/css/NavBar.css";
@@ -8,7 +8,7 @@ import "../guest/css/NavBar.css";
 const GuestLayout = () => {
     return (
         <>
-            <Navbar />
+            <GuestNavBar />
 
             <Outlet />
         </>
