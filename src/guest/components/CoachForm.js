@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Form, Button } from 'react-bootstrap';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
-import 'C:/Users/ashle/Documents/Application Security Project/EdiCoach/src/guest/css/gueststyle.css';
 import { SortNumericDown } from "react-bootstrap-icons";
 import { Message } from "@mui/icons-material";
 
