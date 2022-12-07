@@ -45,7 +45,7 @@ const ProfileDetails = () => {
                     </div>
                     <div className="col-6">
                         <h5>Date of Birth</h5>
-                        <p>18 February 2001</p>
+                        <p>20 February 2001</p>
                     </div>
                 </div>
             </div>
