@@ -16,7 +16,7 @@ export default function ClientHome() {
     const getData = async () => {
       try {
         const response = await axios.get(
-          `https://9hfdiuacnb.execute-api.us-east-1.amazonaws.com/UAT?ClientID=1123}`
+          `https://tvf7ofmy9i.execute-api.us-east-1.amazonaws.com/UAT/booking?ClientID=1123`
         );
         setData(response.data);
         setError(null);

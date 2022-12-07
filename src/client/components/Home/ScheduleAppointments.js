@@ -94,7 +94,7 @@ export const ScheduleAppointments = () => {
     const getData = async () => {
       try {
         const response = await axios.get(
-          `https://tvf7ofmy9i.execute-api.us-east-1.amazonaws.com/UAT/booking?ClientID=1124`
+          `https://tvf7ofmy9i.execute-api.us-east-1.amazonaws.com/UAT/booking?ClientID=1123`
         );
         setData(response.data);
         setError(null);
@@ -113,7 +113,7 @@ export const ScheduleAppointments = () => {
       let item = data.Items[i];
       rows.push(
         createData(
-          `${item.SessionCount.N} of ${item.SessionTotal.N}`,
+          `${item.SessionCount.N}`,
           "Nicholas Chan",
           new Date(item.StartDateTime.S).toLocaleString("en-US", options),
           new Date(item.EndDateTime.S).toLocaleString("en-US", options)
@@ -148,7 +148,7 @@ export const ScheduleAppointments = () => {
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <Row key={row.session} row={row} />
+                (row.start != "Invalid Date") && <Row key={row.session} row={row} />
               ))}
             </TableBody>
           </Table>
