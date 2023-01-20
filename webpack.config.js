@@ -2,6 +2,9 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+  experiments: {
+    topLevelAwait: true,
+  },
   resolve: {
     fallback: {
       crypto: require.resolve("crypto-browserify"),
