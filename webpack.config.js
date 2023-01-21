@@ -1,10 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
-  experiments: {
-    topLevelAwait: true,
-  },
   resolve: {
     fallback: {
       crypto: require.resolve("crypto-browserify"),
@@ -18,6 +16,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/index.html", // to import index.html file inside index.js
+    }),
+
+    new webpack.EnvironmentPlugin({
+      PACKAGE_VERSION: "test.test.test",
     }),
   ],
   devServer: {

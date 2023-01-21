@@ -1,9 +1,13 @@
 import React, { useRef, useEffect } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useMaster } from "react-kinesis-webrtc";
+import { MicOff, Videocam, CallEnd } from "@mui/icons-material";
 
 const viewer = {};
+
+var audioStatus = true;
+var videoStatus = true;
 
 function Peer({ media }) {
   const ref = useRef();
@@ -13,7 +17,7 @@ function Peer({ media }) {
       ref.current.srcObject = media;
     }
   }, [ref, media]);
-
+  console.log(media);
   return <video autoPlay ref={ref} />;
 }
 
@@ -28,9 +32,10 @@ export default function CoachVideoStream() {
       "arn:aws:kinesisvideo:ap-southeast-1:219324696713:channel/TestStream/1674148588980",
     region: "ap-southeast-1",
     media: {
-      audio: true,
-      video: true,
+      audio: audioStatus,
+      video: videoStatus,
     },
+    debug: true,
   };
   const { error, localMedia, peers } = useMaster(config);
 
@@ -47,12 +52,31 @@ export default function CoachVideoStream() {
   }
   return (
     <Container>
-      <p>Hello</p>
       {/* Display the local media stream. */}
-      <video autoPlay ref={localMediaRef} />
+      <video autoPlay ref={localMediaRef} width={"100%"} />
+      <Row>
+        <Col className="d-grid">
+          <Button size="lg" id="MicBtn">
+            <MicOff />
+          </Button>
+        </Col>
+        <Col className="d-grid">
+          <Button size="lg" id="VidBtn">
+            <Videocam />
+          </Button>
+        </Col>
+        <Col className="d-grid">
+          <Button size="lg" id="EndCallBtn">
+            <CallEnd />
+          </Button>
+        </Col>
+      </Row>
       {/* Display a Peer component for each remote peer stream */}
       {peers.map(({ id, media }) => (
-        <Peer key={id} media={media} />
+        <div>
+          <p id={id}>{id}</p>
+          <Peer key={id} media={media} />
+        </div>
       ))}
     </Container>
   );
