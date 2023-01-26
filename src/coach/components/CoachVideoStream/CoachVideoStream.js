@@ -17,7 +17,6 @@ function Peer({ media }) {
       ref.current.srcObject = media;
     }
   }, [ref, media]);
-  console.log(media);
   return <video autoPlay ref={ref} />;
 }
 
@@ -74,7 +73,7 @@ export default function CoachVideoStream() {
       {/* Display a Peer component for each remote peer stream */}
       {peers.map(({ id, media }) => (
         <div>
-          <p id={id}>{id}</p>
+          <p key={id + "id"}>{id}</p>
           <Peer key={id} media={media} />
         </div>
       ))}

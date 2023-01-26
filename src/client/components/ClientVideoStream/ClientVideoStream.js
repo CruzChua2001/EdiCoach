@@ -42,7 +42,7 @@ export default function ClientVideoStream() {
   return (
     <div>
       <video autoPlay ref={videoRef} />
-      <video autoPlay ref={localMediaRef} />
+      <video controls autoPlay ref={localMediaRef} muted />
     </div>
   );
 }
