@@ -25,6 +25,7 @@ import Contact from "./Contact";
 import Login from "./Login";
 import CoachLogin from "./CoachLogin";
 import Signup from "./Signup";
+import CodeConfirmation from "./CodeConfirmation";
 import OneonOnecoaching from "./OneonOnecoaching";
 import NavBar from "./Navbar";
 
@@ -41,6 +42,7 @@ export default function GuestApp() {
 				<Route path="/guest/login" element={<Login />} />
 				<Route path="/guest/coachlogin" element={<CoachLogin />} />
 				<Route path="/guest/sign-up" element={<Signup />} />
+				<Route path="/guest/code" element={<CodeConfirmation />} />
 			</Routes>
 		</>
 	);

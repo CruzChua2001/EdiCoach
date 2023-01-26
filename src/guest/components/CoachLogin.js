@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import {Form, Button} from 'react-bootstrap';
 
 import bcrypt from 'bcryptjs';
 import { useCookies } from 'react-cookie';
 
 import config from '../../../config';
+import { AccountContext } from "../../Account";
+
+import { CognitoUserPool, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
+
+const poolData = config.poolData;
 
 const CoachLogin = () => {
+    const { authenticate } = useContext(AccountContext);
+
     const FormStyle = {
         display: 'flex',
         alignItems: 'center',
@@ -19,73 +26,33 @@ const CoachLogin = () => {
       const Login = () => {
           let email = document.getElementById("email").value;
           let password = document.getElementById("password").value;
-  
-          fetch(config.USER_API+"/getsalt/"+email, {
+
+        fetch(config.TEST_API+"/getusertype/"+email, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }})
           .then((msg) => {
               msg.json()
-              .then(salt => {
-                  if (salt == "Error") {
-                      document.getElementById("errorMessage").innerText = "Email not found";
+              .then(type => {
+                  if (type == "Error") {
+                    document.getElementById("errorMessage").innerText = "Email or password is incorrect";
+                      
   
-                  } else {
+                  } else if (type == "Client") {
+                    document.getElementById("errorMessage").innerText = "Login in client login page instead";
+                }else {
   
-                      let hash = bcrypt.hashSync(password, salt);
-
-                      let usertype;
-  
-                      fetch(config.SESSION_API+"/login", {
-                          method: 'POST',
-                          body: JSON.stringify({email, password:hash}),
-                          headers: { 'Content-Type': 'application/json' }})
-                          .then((msg) => {
-                              msg.json()
-                              .then(message => {
-                                  console.log(message);
-                                  if (message.status === "success") {
-                                        usertype = message.data.UserType.S;
-                                      fetch(config.SESSION_API+"/create", {
-                                          method: 'POST',
-                                          body: JSON.stringify(message.data),
-                                          headers: { 'Content-Type': 'application/json' }})
-                                          .then((msg) => {
-                                              msg.json()
-                                              .then(message => {
-                                                  if (message.status === "success") {
-                                                      console.log(message);
-                                                      
-  
-                                                      // window.localStorage.setItem("login", true);
-                                                      // window.localStorage.setItem("usertype", message.usertype);
-                                                      if (usertype == "Admin") {
-                                                        setCookie("sessionId", message.userid, { path: '/' });
-                                                        window.location.href = "/admin/";
-                                                      } else if (usertype == "Coach") {
-                                                        setCookie("sessionId", message.userid, { path: '/' });
-                                                        window.location.href = "/coach/";
-                                                      } else {
-                                                        document.getElementById("errorMessage").innerText = "Please login using the correct tunnel!";
-                                                      }
-                                                      
-                                                      
-                                                  } else {
-                                                      document.getElementById("errorMessage").innerText = message.message;
-                                                      
-                                                  }
-                                              });
-                                              
-                                              
-                                          }).catch(err => console.log(err))
-  
-                                  } else {
-                                      document.getElementById("errorMessage").innerText = message.message;
-                                      
-                                  }
-                              });
-                              
-                              
-                          }).catch(err => console.log(err))
+                    authenticate(email, password)
+                    .then((data) => {
+                        if (type == "Admin") {
+                            window.location.href = "/admin/";
+                        } else if (type == "Coach") {
+                            window.location.href = "/coach/";
+                        }
+                    })
+                    .catch((err) => {
+                        document.getElementById("errorMessage").innerHTML = err;
+                        document.getElementById("errorMessage").display = "block";
+                    })
   
                   }
   
@@ -93,6 +60,80 @@ const CoachLogin = () => {
               
               
           }).catch(err => console.log(err))
+  
+        //   fetch(config.USER_API+"/getsalt/"+email, {
+        //   method: 'GET',
+        //   headers: { 'Content-Type': 'application/json' }})
+        //   .then((msg) => {
+        //       msg.json()
+        //       .then(salt => {
+        //           if (salt == "Error") {
+        //               document.getElementById("errorMessage").innerText = "Email not found";
+  
+        //           } else {
+  
+        //               let hash = bcrypt.hashSync(password, salt);
+
+        //               let usertype;
+  
+        //               fetch(config.SESSION_API+"/login", {
+        //                   method: 'POST',
+        //                   body: JSON.stringify({email, password:hash}),
+        //                   headers: { 'Content-Type': 'application/json' }})
+        //                   .then((msg) => {
+        //                       msg.json()
+        //                       .then(message => {
+        //                           console.log(message);
+        //                           if (message.status === "success") {
+        //                                 usertype = message.data.UserType.S;
+        //                               fetch(config.SESSION_API+"/create", {
+        //                                   method: 'POST',
+        //                                   body: JSON.stringify(message.data),
+        //                                   headers: { 'Content-Type': 'application/json' }})
+        //                                   .then((msg) => {
+        //                                       msg.json()
+        //                                       .then(message => {
+        //                                           if (message.status === "success") {
+        //                                               console.log(message);
+                                                      
+  
+        //                                               // window.localStorage.setItem("login", true);
+        //                                               // window.localStorage.setItem("usertype", message.usertype);
+        //                                               if (usertype == "Admin") {
+        //                                                 setCookie("sessionId", message.userid, { path: '/' });
+        //                                                 window.location.href = "/admin/";
+        //                                               } else if (usertype == "Coach") {
+        //                                                 setCookie("sessionId", message.userid, { path: '/' });
+        //                                                 window.location.href = "/coach/";
+        //                                               } else {
+        //                                                 document.getElementById("errorMessage").innerText = "Please login using the correct tunnel!";
+        //                                               }
+                                                      
+                                                      
+        //                                           } else {
+        //                                               document.getElementById("errorMessage").innerText = message.message;
+                                                      
+        //                                           }
+        //                                       });
+                                              
+                                              
+        //                                   }).catch(err => console.log(err))
+  
+        //                           } else {
+        //                               document.getElementById("errorMessage").innerText = message.message;
+                                      
+        //                           }
+        //                       });
+                              
+                              
+        //                   }).catch(err => console.log(err))
+  
+        //           }
+  
+        //       });
+              
+              
+        //   }).catch(err => console.log(err))
   
           
       }

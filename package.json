@@ -21,6 +21,7 @@
     "@mui/material": "^5.10.16",
     "@mui/x-data-grid": "^5.17.14",
     "@mui/x-date-pickers": "^5.0.9",
+    "amazon-cognito-identity-js": "^6.1.2",
     "axios": "^1.2.0",
     "babel-loader": "^9.1.0",
     "bcryptjs": "^2.4.3",

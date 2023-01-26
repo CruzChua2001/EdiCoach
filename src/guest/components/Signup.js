@@ -3,7 +3,11 @@ import {Form, Button} from 'react-bootstrap';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
+import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+
 import config from '../../../config';
+
+const poolData = config.poolData;
 
 const Signup = () => {
 
@@ -31,25 +35,85 @@ const Register = () => {
     let usertype = "Client";
     let userid = uuidv4();
 
-    fetch(config.SESSION_API+"/register", {
-    method: 'POST',
-    body: JSON.stringify({email, password: hash, salt, firstname, lastname, dob, phone, gender, userid, usertype}),
-    headers: { 'Content-Type': 'application/json' }})
-    .then((msg) => {
-        msg.json()
-        .then(message => {
-            if (message.status === "success") {
+    const UserPool = new CognitoUserPool(poolData);
 
-                window.location.href = "/guest/login";
+    let attributeList = [];
+
+    var dataFirstname = {
+        Name: 'custom:firstname',
+        Value: firstname,
+    };
+    
+    var dataLastname = {
+        Name: 'custom:lastname',
+        Value: lastname,
+    };
+    var dataDob = {
+        Name: 'custom:dob',
+        Value: dob,
+    };
+    
+    var dataPhone = {
+        Name: 'custom:phone',
+        Value: phone,
+    };
+    var dataUserType = {
+        Name: 'custom:userType',
+        Value: "Client",
+    };
+    var dataGender = {
+        Name: 'custom:gender',
+        Value: gender,
+    };
+    var attributeFirstname = new CognitoUserAttribute(dataFirstname);
+    var attributeLastname = new CognitoUserAttribute(dataLastname);
+    var attributeDob = new CognitoUserAttribute(dataDob);
+    var attributePhone = new CognitoUserAttribute(dataPhone);
+    var attributeUserType = new CognitoUserAttribute(dataUserType);
+    var attributeGender = new CognitoUserAttribute(dataGender);
+    
+    attributeList.push(attributeFirstname);
+    attributeList.push(attributeLastname);
+    attributeList.push(attributeDob);
+    attributeList.push(attributePhone);
+    attributeList.push(attributeUserType);
+    attributeList.push(attributeGender);
+
+    UserPool.signUp(email, password, attributeList, null, (err, data) => {
+        if (err) {
+            console.error(err);
+            document.getElementById("errorMessage").innerHTML = err;
+            document.getElementById("errorMessage").display = "block";
+        }
+        console.log(data);
+        if (data) {
+            window.localStorage.setItem("username", data["userSub"]);
+            window.location.href = "/guest/confirmation";
+        }
+        
+    })
+
+    // fetch(config.SESSION_API+"/register", {
+    // method: 'POST',
+    // body: JSON.stringify({email, password: hash, salt, firstname, lastname, dob, phone, gender, userid, usertype}),
+    // headers: { 'Content-Type': 'application/json' }})
+    // .then((msg) => {
+    //     msg.json()
+    //     .then(message => {
+    //         if (message.status === "success") {
+
+    //             window.location.href = "/guest/login";
                 
-            } else {
-                document.getElementById("errorMessage").innerText = message.message;
-                console.log(message);
-            }
-        });
+    //         } else {
+    //             document.getElementById("errorMessage").innerText = message.message;
+    //             console.log(message);
+    //         }
+    //     });
         
         
-    }).catch(err => console.log(err))
+    // }).catch(err => console.log(err))
+
+
 }
 
 

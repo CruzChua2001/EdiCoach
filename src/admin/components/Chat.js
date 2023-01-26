@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Amplify from '@aws-amplify/core'
 import * as gen from '../../graphql/generated'
 import { useCookies } from 'react-cookie';
@@ -9,12 +9,26 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
+import { AccountContext } from "../../Account";
+
 
 import config from '../../../config';
 
 Amplify.configure(gen.config)
 
 function Chat() {
+    const [status, setStatus] = useState(false);
+    const { getSession, getData } = useContext(AccountContext);
+
+    useEffect(() => {
+        getData()
+        .then((session) => {
+            console.log(session);
+            setStatus(true);
+        })
+        .catch((err) => console.log(err))
+    }, [])
+
     const fromChat = {
         marginBottom: "10px",
         float: "left"
@@ -226,7 +240,7 @@ function Chat() {
 
     //Display pushed data on browser
     return (
-        <div>
+        <>
             <Container>
                 <Row>
                     <Col>
@@ -291,7 +305,7 @@ function Chat() {
                 <p>Subscribed/Listening to channel "{channel}"...</p>
                 <pre>{JSON.stringify(JSON.parse(received), null, 2)}</pre>
             </header> */}
-        </div>
+        </>
     )
 }
 
