@@ -7,6 +7,7 @@ import Contact from "./guest/components/Contact";
 import Login from "./guest/components/Login";
 import CoachLogin from "./guest/components/CoachLogin";
 import Signup from "./guest/components/Signup";
+import CodeConfirmation from "./guest/components/CodeConfirmation";
 import OneonOnecoaching from "./guest/components/OneonOnecoaching";
 import CoachForm from "./guest/components/CoachForm";
 import CoachApplication from "./guest/components/CoachApplication";
@@ -29,6 +30,8 @@ import CreateActionPlan from "./coach/components/ActionPlan/CreateActionPlan";
 
 import UserActions from "./admin/components/UserActions";
 import Chat from "./admin/components/Chat";
+import Test from "./admin/components/test";
+import Notifications from "./admin/components/Notifications";
 
 import GuestLayout from "./Layout/GuestLayout";
 import ClientLayout from "./Layout/ClientLayout";
@@ -48,6 +51,7 @@ const App = () => {
           <Route path="/guest/login" element={<Login />} />
           <Route path="/guest/coachlogin" element={<CoachLogin />} />
           <Route path="/guest/sign-up" element={<Signup />} />
+          <Route path="/guest/confirmation" element={<CodeConfirmation />} />
           <Route path="/guest/personalization" element={<Personlization />} />
           <Route path="/guest/coachform" element={<CoachForm />} />
           <Route path="/guest/coachapplication" element={<CoachApplication />} />
@@ -82,6 +86,8 @@ const App = () => {
         <Route path="/admin/" element={<AdminLayout />}>
           <Route path="/admin/" element={<UserActions />} />
           <Route path="/admin/chat" element={<Chat />} />
+          <Route path="/admin/test" element={<Test />} />
+          <Route path="/admin/notifications" element={<Notifications />} />
         </Route>
       </Routes>
     </Router>
