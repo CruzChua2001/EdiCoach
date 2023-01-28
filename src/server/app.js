@@ -30,7 +30,8 @@ app.get("/*", (request, response) => {
   response.sendFile(path.join(__dirname + "../../index.html"));
 });
 
-server.listen(PORT, () =>
+//Change server to app for http
+app.listen(PORT, () =>
   console.log(
     `Example app listening on port ${PORT}.\n\nLoad it in your browser at https://localhost:${PORT}`
   )
