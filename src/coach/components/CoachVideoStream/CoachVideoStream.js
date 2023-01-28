@@ -1,8 +1,17 @@
-import React, { useRef, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React, { useRef, useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useMaster } from "react-kinesis-webrtc";
-import { MicOff, Videocam, CallEnd } from "@mui/icons-material";
+
+import "../../../videostream/Video.css";
+
+import {
+  Mic,
+  MicOff,
+  Videocam,
+  VideocamOff,
+  CallEnd,
+} from "@mui/icons-material";
 
 const viewer = {};
 
@@ -11,13 +20,19 @@ var videoStatus = true;
 
 function Peer({ media }) {
   const ref = useRef();
-
   useEffect(() => {
     if (ref.current) {
       ref.current.srcObject = media;
     }
   }, [ref, media]);
-  return <video autoPlay ref={ref} />;
+  return (
+    <video
+      autoPlay
+      ref={ref}
+      className="mainVideo"
+      poster="https://hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif"
+    />
+  );
 }
 
 export default function CoachVideoStream() {
@@ -37,6 +52,8 @@ export default function CoachVideoStream() {
     debug: true,
   };
   const { error, localMedia, peers } = useMaster(config);
+  const [isVideo, setIsVideo] = useState(true);
+  const [isMic, setIsMic] = useState(true);
 
   // Assign the local media stream to a video source
   useEffect(() => {
@@ -49,34 +66,59 @@ export default function CoachVideoStream() {
   if (error) {
     return <p>An error occurred: {error.message}</p>;
   }
+
+  function handleVidInput() {
+    if (localMediaRef.current) {
+      setIsVideo(!isVideo);
+      localMedia.getVideoTracks()[0].enabled = !isVideo;
+    }
+  }
+
+  function handleMicInput() {
+    if (localMediaRef.current) {
+      setIsMic(!isMic);
+      localMedia.getAudioTracks()[0].enabled = !isMic;
+    }
+  }
+
   return (
     <Container>
       {/* Display the local media stream. */}
-      <video autoPlay ref={localMediaRef} width={"100%"} />
-      <Row>
-        <Col className="d-grid">
-          <Button size="lg" id="MicBtn">
-            <MicOff />
-          </Button>
-        </Col>
-        <Col className="d-grid">
-          <Button size="lg" id="VidBtn">
-            <Videocam />
-          </Button>
-        </Col>
-        <Col className="d-grid">
-          <Button size="lg" id="EndCallBtn">
-            <CallEnd />
-          </Button>
-        </Col>
-      </Row>
-      {/* Display a Peer component for each remote peer stream */}
-      {peers.map(({ id, media }) => (
-        <div>
-          <p key={id + "id"}>{id}</p>
-          <Peer key={id} media={media} />
+      <div className="mainVideoContainer">
+        <img
+          src="https://hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif"
+          className="mainVideo"
+        />
+        {peers.map(({ id, media }) => (
+          <div>
+            <Peer key={id} media={media} />
+          </div>
+        ))}
+        <div className="secondaryVideoContainer">
+          <video autoPlay className="secondaryVideo" ref={localMediaRef} />
         </div>
-      ))}
+        <div className="callBtnGroup">
+          <button className="circleButton" id="MicBtn" onClick={handleMicInput}>
+            {isMic ? <Mic /> : <MicOff />}
+          </button>
+          <button
+            className="circleButton"
+            size="lg"
+            id="VidBtn"
+            onClick={handleVidInput}
+          >
+            {isVideo ? <Videocam /> : <VideocamOff />}
+          </button>
+          <button
+            className="circleButton"
+            size="lg"
+            id="EndCallBtn"
+            style={{ backgroundColor: "red" }}
+          >
+            <CallEnd />
+          </button>
+        </div>
+      </div>
     </Container>
   );
 }
