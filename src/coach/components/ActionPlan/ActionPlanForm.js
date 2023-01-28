@@ -3,7 +3,6 @@ import { Button, Form, Dropdown } from "react-bootstrap";
 import { PlusCircle, XCircle } from "react-bootstrap-icons";
 import { useActionPlan } from "../Context"
 import { v4 as uuidv4 } from 'uuid';
-import FileInput from "./FileInput";
 
 
 const Paragraph = () => {
@@ -15,6 +14,12 @@ const Paragraph = () => {
 const ShortAnswer = () => {
     return (
         <Form.Control type="text" placeholder="Short answer text" disabled={true} maxLength={50} />
+    )
+}
+
+const FileInput = () => {
+    return (
+        <Form.Control type="file" disabled={true} />
     )
 }
 
@@ -42,7 +47,7 @@ const ActionPlanForm = () => {
     const [formType, setFormType] = useState([
         {"Paragraph": <Paragraph />}, 
         {"Short Answer": <ShortAnswer />},
-        {"File Upload": <FileInput disabled={true} />}
+        {"File Upload": <FileInput />}
         //{"Multiple Choice": <MultipleChoice />}
     ])
 
@@ -140,8 +145,8 @@ const ActionPlanForm = () => {
 
     const submitActionPlan = (e) => {
         let uuid = uuidv4()
-        fetch('https://6i1lbzm98l.execute-api.us-east-1.amazonaws.com/uat/actionplan', {
-            method: 'POST',
+        fetch('https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan', {
+            method: 'put',
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
@@ -156,7 +161,7 @@ const ActionPlanForm = () => {
 
     return (
         <div>
-            <b style={{ textDecoration: "underline" }}>General Information</b>
+            <b style={{ textDecoration: "underline" }}>Form</b>
             <br />
             <div className="mt-3 mb-2">
                {form.map((item) => (

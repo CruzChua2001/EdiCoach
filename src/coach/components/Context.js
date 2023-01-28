@@ -49,10 +49,6 @@ export const ActionPlanProvider = ({ children }) => {
     const [allClient, setAllClient] = useState([])
     const [actionPlan, setActionPlan] = useState({})
 
-    // useEffect(() => {
-    //     setSelected({UUID: "testing", Name: "Cruz Chua"})
-    // }, [selected])
-
     return (
         <ActionPlanContext.Provider value={{ selected: selected, setSelected: setSelected, allClient: allClient, setAllClient: setAllClient, actionPlan: actionPlan, setActionPlan: setActionPlan }}>
             { children }

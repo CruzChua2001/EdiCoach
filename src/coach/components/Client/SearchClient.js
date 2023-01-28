@@ -21,7 +21,7 @@ const SearchClient = () => {
     const getSearchClient = () => {
         let url = "https://i0lyxkgqc4.execute-api.us-east-1.amazonaws.com/uat/getallclients"
         if(search != ""){
-            url = 'https://i0lyxkgqc4.execute-api.us-east-1.amazonaws.com/uat/?q=' + search + "*"
+            url = 'https://search-usersearch-na6jfzf7hvbszzmkycftcnsiwm.ap-southeast-1.cloudsearch.amazonaws.com/2013-01-01/search?q=' + search + "*"
         }
 
         axios.get(url).then(resp => {

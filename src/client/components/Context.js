@@ -10,7 +10,7 @@ export const ActionPlanProvider = ({ children, client }) => {
     const [actionPlan, setActionPlan] = useState([])
 
     useEffect(() => {
-        let url = "https://6i1lbzm98l.execute-api.us-east-1.amazonaws.com/uat/actionplan?client=" + client
+        let url = "https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan?client=" + client
 
         fetch(url)
         .then((response) => {
