@@ -8,8 +8,6 @@ import "../css/admin.css";
 import Navitem from "./Navitem";
 
 import UserActions from "./UserActions";
-import Login from "./Login";
-import Register from "./Register";
 import Chat from "./Chat";
 import AdminNavBar from "./AdminNavBar";
 
@@ -34,8 +32,6 @@ const App = () => {
 
 			<Routes>
 				<Route path="/admin/" element={<UserActions />}/>
-				<Route path="/admin/login" element={<Login />}/>
-				<Route path="/admin/register" element={<Register />}/>
 				<Route path="/admin/chat" element={<Chat />}/>
 			</Routes>
 		</Router>

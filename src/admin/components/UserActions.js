@@ -18,6 +18,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import $ from 'jquery';
 import { EmailOutlined } from "@mui/icons-material";
 
+import { CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js';
+
+const poolData = config.poolData;
+
 const UserActions = () => {
 
     const [users, setUsers] = useState([]);
@@ -37,7 +41,7 @@ const UserActions = () => {
       ];
 
     const retrieveUsers = () => {
-        fetch(config.USER_API+"/getall", {
+        fetch(config.TEST_API+"/getall", {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
@@ -65,9 +69,9 @@ const UserActions = () => {
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(password, salt);
 
-        fetch(config.USER_API+"/add", {
+        fetch(config.TEST_API+"/add", {
         method: 'POST',
-        body: JSON.stringify({email, password: hash, salt, firstname, lastname, dob, phone, gender, userid, usertype}),
+        body: JSON.stringify({email, password: password, salt, firstname, lastname, dob, phone, gender, userid, usertype}),
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
             msg.json()
@@ -85,7 +89,25 @@ const UserActions = () => {
         $(".dropdown-menu").hide();
         let email = selectedUser;
         console.log(email);
-        fetch(config.USER_API+`/delete/`+email, {
+
+        // const UserPool = new CognitoUserPool(poolData);
+
+        // const userData = {
+        //     Username: email,
+        //     Pool: UserPool
+        // }
+
+        // const cognitoUser = new CognitoUser(userData);
+
+        // cognitoUser.deleteUser((err, data) => {
+        //     if (err) {
+        //         console.error(err);
+        //     }
+        //     console.log(data);
+        //     // retrieveUsers();
+        // })
+
+        fetch(config.TEST_API+`/delete/`+email, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
@@ -104,7 +126,7 @@ const UserActions = () => {
         let row = [];
         for (let index = 0; index < users.length; index++) {
             const element = users[index];
-            row.push({ id: element.UserId.S, email: element.Email.S, lastname: element.LastName.S, firstname: element.FirstName.S, usertype: element.UserType.S })
+            row.push({ id: element.userid.S, email: element.email.S, lastname: element.lastname.S, firstname: element.firstname.S, usertype: element.usertype.S })
         }
         console.log(row);
         setRows(row);
@@ -160,17 +182,17 @@ const UserActions = () => {
         console.log("Opening...")
         $(".dropdown-menu").hide();
 
-        let selectedProfile = users.filter(user => user.Email.S == selectedUser)[0];
+        let selectedProfile = users.filter(user => user.email.S == selectedUser)[0];
 
         console.log(selectedProfile)
 
-        document.getElementById("firstnamelabel").innerHTML = selectedProfile.FirstName.S;
-        document.getElementById("lastnamelabel").innerHTML = selectedProfile.LastName.S;
-        document.getElementById("emaillabel").innerHTML = selectedProfile.Email.S;
-        document.getElementById("phonelabel").innerHTML = selectedProfile.Phone.S;
-        document.getElementById("genderlabel").innerHTML = selectedProfile.Gender.S;
-        document.getElementById("doblabel").innerHTML = selectedProfile.DOB.S;
-        document.getElementById("usertypelabel").innerHTML = selectedProfile.UserType.S;
+        document.getElementById("firstnamelabel").innerHTML = selectedProfile.firstname.S;
+        document.getElementById("lastnamelabel").innerHTML = selectedProfile.lastname.S;
+        document.getElementById("emaillabel").innerHTML = selectedProfile.email.S;
+        document.getElementById("phonelabel").innerHTML = selectedProfile.phone.S;
+        document.getElementById("genderlabel").innerHTML = selectedProfile.gender.S;
+        document.getElementById("doblabel").innerHTML = selectedProfile.dob.S;
+        document.getElementById("usertypelabel").innerHTML = selectedProfile.usertype.S;
 
         document.getElementsByClassName("popup-background").item(0).style.display = "block";
         document.getElementsByClassName("popup-profile-content").item(0).style.display = "block";

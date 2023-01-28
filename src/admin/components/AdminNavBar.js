@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { Bell } from "react-bootstrap-icons";
 import "../css/NavBar.css";
 
 import { useCookies } from 'react-cookie';
+import { AccountContext } from "../../Account";
 
 const AdminNavBar = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['name']);
 
+  const { logout } = useContext(AccountContext);
+
   const Logout = () => {
+    logout();
     removeCookie("sessionId");
     // window.location.href = "/guest/home";
 }
