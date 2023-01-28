@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from "./guest/components/Home";
@@ -27,6 +27,7 @@ import CoachFAQ from "./coach/components/FAQ/FAQ";
 import CoachContact from "./coach/components/Contact/Contact";
 import ClientDetail from "./coach/components/Client/ClientDetail";
 import CreateActionPlan from "./coach/components/ActionPlan/CreateActionPlan";
+import CoachVideoStream from "./coach/components/CoachVideoStream/CoachVideoStream";
 
 import UserActions from "./admin/components/UserActions";
 import Chat from "./admin/components/Chat";
@@ -37,6 +38,7 @@ import GuestLayout from "./Layout/GuestLayout";
 import ClientLayout from "./Layout/ClientLayout";
 import CoachLayout from "./Layout/CoachLayout";
 import AdminLayout from "./Layout/AdminLayout";
+import ClientVideoStream from "./client/components/ClientVideoStream/ClientVideoStream";
 
 const App = () => {
   return (
@@ -54,7 +56,10 @@ const App = () => {
           <Route path="/guest/confirmation" element={<CodeConfirmation />} />
           <Route path="/guest/personalization" element={<Personlization />} />
           <Route path="/guest/coachform" element={<CoachForm />} />
-          <Route path="/guest/coachapplication" element={<CoachApplication />} />
+          <Route
+            path="/guest/coachapplication"
+            element={<CoachApplication />}
+          />
         </Route>
 
         {/* Client Path */}
@@ -69,6 +74,7 @@ const App = () => {
             element={<ManageAppointments />}
           />
           <Route path="/client/actionplan" element={<ClientActionPlan />} />
+          <Route path="/client/cvs" element={<ClientVideoStream />} />
         </Route>
 
         {/* Coach Path */}
@@ -79,7 +85,11 @@ const App = () => {
           <Route path="/coach/FAQ" element={<CoachFAQ />} />
 
           <Route path="/coach/client/:id" element={<ClientDetail />} />
-          <Route path="/coach/client/actionplan/:id" element={<CreateActionPlan />} />
+          <Route
+            path="/coach/client/actionplan/:id"
+            element={<CreateActionPlan />}
+          />
+          <Route path="/coach/cvs/" element={<CoachVideoStream />} />
         </Route>
 
         {/* Admin Path */}
