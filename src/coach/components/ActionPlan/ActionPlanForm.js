@@ -1,10 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Button, Form, Dropdown } from "react-bootstrap";
 import { PlusCircle, XCircle } from "react-bootstrap-icons";
 import { useActionPlan } from "../Context"
 import { v4 as uuidv4 } from 'uuid';
-
 import axios from 'axios'
+
+import { AccountContext } from "../../../Account";
 
 
 const Paragraph = () => {
@@ -52,6 +53,23 @@ const ActionPlanForm = (props) => {
         {"File Upload": <FileInput />}
         //{"Multiple Choice": <MultipleChoice />}
     ])
+
+    const { getSession, getData } = useContext(AccountContext);
+    const [sessionData, setSessionData] = useState([]);
+    useEffect(() => {
+        getData()
+        .then((session) => {
+            const result = formatSessionData(session)
+            setSessionData(result);
+        })
+        .catch((err) => console.log(err));
+
+        const formatSessionData = (session) => {
+            let obj = {}
+            obj["userid"] = session[1]["Value"]
+            return obj
+        }
+    }, []);
 
     const addDivider = () => {
         let uuid = uuidv4();
@@ -152,7 +170,7 @@ const ActionPlanForm = (props) => {
         const data = {
             "id": uuid, 
             "client": actionPlanContext.selected.userid, 
-            "coach": "abc@gmail.com",
+            "coach": sessionData.userid,
             "form": form, 
             "date": currDate, 
             "coachingType": actionPlanContext.coachingType.selected
