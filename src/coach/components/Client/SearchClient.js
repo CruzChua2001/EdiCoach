@@ -19,23 +19,52 @@ const SearchClient = () => {
     const allClient = useAllClient()
 
     const getSearchClient = () => {
-        let url = "https://i0lyxkgqc4.execute-api.us-east-1.amazonaws.com/uat/getallclients"
+        let url = "https://4142e664e1.execute-api.ap-southeast-1.amazonaws.com/dev/gettype/Client"
         if(search != ""){
-            url = 'https://i0lyxkgqc4.execute-api.us-east-1.amazonaws.com/uat/?q=' + search + "*"
+            url = 'https://v0wz6u3kc1.execute-api.ap-southeast-1.amazonaws.com/prod/search?q=' + search + "*" + "&fq=usertype:'Client'"
         }
 
-        axios.get(url).then(resp => {
-            console.log(resp.data)
-            let result = resp.data
+        axios.get(url).then(res => {
+            let result = []
             if(search != ""){
-                result = []
-                resp.data.hits.hit.map(item => {
-                    result.push(item.fields)
-                })
-                
+                const hit = res['data']['hits']['found']
+                if(hit > 0) {
+                    result = formatCloudSearchData(res['data']['hits']['hit'])
+                }
             }
+            else {
+                result = formatClientData(res['data'])
+            }
+
             allClient.setClientResult(result)
         });
+    }
+
+    const formatCloudSearchData = (result) => {
+        let arr = []
+
+        result.forEach(item => {
+            let obj = item['fields']
+            obj['email'] = item['id']
+            arr.push(obj)
+        })
+
+        return arr
+    }
+
+    const formatClientData = (result) => {
+        let arr = []
+        result.forEach(item => {
+            let obj = {}
+            obj['dob'] = item['dob']['S']
+            obj['firstname'] = item['firstname']['S']
+            obj['gender'] = item['gender']['S']
+            obj['lastname'] = item['lastname']['S']
+            obj['phone'] = item['phone']['S']
+            obj['userid'] = item['userid']['S']
+            arr.push(obj)
+        })
+        return arr
     }
 
     return (

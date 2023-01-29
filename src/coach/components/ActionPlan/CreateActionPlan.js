@@ -36,8 +36,8 @@ const CreateActionPlan = () => {
                 <h2 className="font-weight-bold mb-4">Action Plan</h2>
 
                 <ActionPlanProvider>
-                    <ActionPlanDropDown />
-                    <ActionPlanForm />
+                    <ActionPlanDropDown userid={id} />
+                    <ActionPlanForm userid={id} />
                 </ActionPlanProvider>
             </DefaultContainer>
         </>
