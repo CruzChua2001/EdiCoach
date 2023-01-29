@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FileEarmark, Person, PencilSquare } from "react-bootstrap-icons";
 import { ScheduleAppointments } from "./ScheduleAppointments";
-import axios from "axios";
 
 import { AccountContext } from "../../../Account";
 

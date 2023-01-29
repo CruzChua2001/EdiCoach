@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import {
   Box,
@@ -16,8 +16,12 @@ import {
 
 import { KeyboardArrowDown, KeyboardArrowUp, Event } from "@mui/icons-material";
 
+import { AccountContext } from "../../../Account";
+
 import axios from "axios";
 import { Link } from "react-router-dom";
+
+import config from "../../../../config";
 
 function createData(coachName, sessions, price, dateOfPurchase, booking) {
   return {
@@ -91,7 +95,7 @@ function Row(props) {
                       <TableCell align="right">{bookingRow.Status}</TableCell>
                       {bookingRow.Status && (
                         <Link
-                          to={`/client/coachBooking/${bookingRow.BookingID}`}
+                          to={`/client/coachBooking/${bookingRow.BookingID}/${row.coachName}`}
                         >
                           <Button
                             variant="link"
@@ -114,9 +118,11 @@ function Row(props) {
 }
 
 export const AllCoachSessions = () => {
+  const { getSession, getData } = useContext(AccountContext);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sessionData, setSessionData] = useState([]);
 
   var rows = [];
 
@@ -130,24 +136,31 @@ export const AllCoachSessions = () => {
   };
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get(
-          `https://hqyui19u1f.execute-api.us-east-1.amazonaws.com/UAT/payment?ClientID=1123`
-        );
-        setData(response.data);
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-        setData(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getData();
+    getData()
+      .then((session) => {
+        console.log(session);
+        setSessionData(session);
+        getPaymentData(session.filter((param) => param.Name == "sub")[0].Value);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
-  console.log(data);
+  const getPaymentData = async (id) => {
+    console.log(sessionData[0]);
+    let url = `${config.BOOKING_API}payment?ClientID=${id}`;
+    console.log(url);
+    try {
+      const response = await axios.get(url);
+      setData(response.data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+      setData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (data !== null) {
     for (let i = 0; i < data.Count; i++) {
       let item = data.Items[i];
