@@ -4,14 +4,18 @@ import ClientNavBar from "../client/components/ClientNavBar";
 
 import "../client/css/App.css";
 
+import Account, { AccountContext } from "../Account";
+
 const ClientLayout = () => {
-    return (
-        <>
-            <ClientNavBar />
+  return (
+    <>
+      <Account>
+        <ClientNavBar />
 
-            <Outlet />
-        </>
-    )
-}
+        <Outlet />
+      </Account>
+    </>
+  );
+};
 
-export default ClientLayout
+export default ClientLayout;
