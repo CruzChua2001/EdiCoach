@@ -4,6 +4,8 @@ import { PlusCircle, XCircle } from "react-bootstrap-icons";
 import { useActionPlan } from "../Context"
 import { v4 as uuidv4 } from 'uuid';
 
+import axios from 'axios'
+
 
 const Paragraph = () => {
     return (
@@ -145,14 +147,7 @@ const ActionPlanForm = () => {
 
     const submitActionPlan = (e) => {
         let uuid = uuidv4()
-        fetch('https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan', {
-            method: 'put',
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({"id": uuid, "client": "bc@gmail.com", "coach": "abc@gmail.com","form": form})
-        })
+        axios.put('https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan', JSON.stringify({"id": uuid, "client": "bc@gmail.com", "coach": "abc@gmail.com","form": form}))
         .then(response => {
             console.log(response)
             window.location.href = "/coach/"
