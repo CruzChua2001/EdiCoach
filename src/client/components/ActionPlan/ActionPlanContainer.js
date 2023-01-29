@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import React, { useState, useEffect } from "react"
 import { ChevronDown, ChevronUp } from "react-bootstrap-icons";
 import { useActionPlan } from "../Context"
-import FileInput from './FileInput'
 import { Button, Form } from 'react-bootstrap';
+import { IoTEvents } from 'aws-sdk';
 
 const Header = styled.p`
     text-decoration: underline;
@@ -120,7 +120,7 @@ const ActionPlanContainer = () => {
         //console.log(newForm)
         const newTemp = { ...temp, coach: "asn@gmail.com", form: newForm }
 
-        fetch('https://6i1lbzm98l.execute-api.us-east-1.amazonaws.com/uat/actionplan', {
+        fetch('https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan', {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
@@ -174,8 +174,8 @@ const ActionPlanContainer = () => {
             <div key={index} className="mt-2">
                 <div className="border rounded p-3 d-flex" style={{ backgroundColor: '#E7E7E7' }}>
                     <div className="mt-2 w-75"> 
-                        <h2>Career Coaching</h2>
-                        <span>3rd December 2022</span>
+                        <h2>{item.coachingType}</h2>
+                        <span>{item.date}</span>
                     </div>
                         <div className="w-25" id={index+"_open"}>
 
