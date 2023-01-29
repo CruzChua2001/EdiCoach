@@ -64,9 +64,10 @@ export const ActionPlanProvider = ({ children }) => {
     const [selected, setSelected] = useState({})
     const [allClient, setAllClient] = useState([])
     const [actionPlan, setActionPlan] = useState({})
+    const [coachingType, setCoachingType] = useState({selected: "1-on-1 Coaching", allCoachingType: ["1-on-1 Coaching", "Career Coaching"]})
 
     return (
-        <ActionPlanContext.Provider value={{ selected: selected, setSelected: setSelected, allClient: allClient, setAllClient: setAllClient, actionPlan: actionPlan, setActionPlan: setActionPlan }}>
+        <ActionPlanContext.Provider value={{ selected: selected, setSelected: setSelected, allClient: allClient, setAllClient: setAllClient, actionPlan: actionPlan, setActionPlan: setActionPlan, coachingType: coachingType, setCoachingType: setCoachingType }}>
             { children }
         </ActionPlanContext.Provider>
     )

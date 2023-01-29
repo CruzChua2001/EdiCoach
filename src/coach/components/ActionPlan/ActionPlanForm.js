@@ -42,7 +42,7 @@ const FileInput = () => {
 // }
 
 
-const ActionPlanForm = () => {
+const ActionPlanForm = (props) => {
     const actionPlanContext = useActionPlan();
     
     const [form, setForm] = useState([])
@@ -147,7 +147,18 @@ const ActionPlanForm = () => {
 
     const submitActionPlan = (e) => {
         let uuid = uuidv4()
-        axios.put('https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan', JSON.stringify({"id": uuid, "client": "bc@gmail.com", "coach": "abc@gmail.com","form": form}))
+        let date = new Date()
+        const currDate = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear()
+        const data = {
+            "id": uuid, 
+            "client": actionPlanContext.selected.userid, 
+            "coach": "abc@gmail.com",
+            "form": form, 
+            "date": currDate, 
+            "coachingType": actionPlanContext.coachingType.selected
+        }
+
+        axios.put('https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan', JSON.stringify(data))
         .then(response => {
             console.log(response)
             window.location.href = "/coach/"
@@ -156,73 +167,96 @@ const ActionPlanForm = () => {
 
     return (
         <div>
-            <b style={{ textDecoration: "underline" }}>Form</b>
-            <br />
-            <div className="mt-3 mb-2">
-               {form.map((item) => (
-                   <div className="my-2" key={item.id}>
-                       <div className="d-flex mb-2">
-                           <div className="w-75">
-                                <Form.Control type="text" placeholder="Enter section here" value={item.Group} onChange={setGroup} id={item.id} />
-                           </div>
-                            <div className="w-25">
-                                <Button className="float-end" variant="danger" onClick={() => removeSection(item.id)}> <XCircle className="mb-1" /> Remove Section</Button>
-                            </div>
-                       </div>
-                       <div className="shadow border rounded p-4">
-                       {item.Questions.map(ques => (
-                           <div key={ques.id} className="mt-5">
-                                <div className="d-flex">
-                                    <div className="w-75">
-                                        <Form.Control type="text" placeholder="Enter question here" value={ques.Question} onChange={setQuestion} id={ques.id} />
-                                    </div>
-                                    <div className="w-25">
-                                        {item.Questions.length > 1 && 
-                                            <Button className="float-end" variant="danger" onClick={() => removeQuestion(ques.id)}> <XCircle className="mb-1" /> Remove Question</Button>
-                                        }
-                                    </div>
-                                </div>
-                               
-                           
-                                <div className="d-flex mt-2">
-                                    <div className="w-50">
-                                        {formType.map((item, index) => {
-                                            if(Object.keys(item) == ques.QuestionType) {
-                                                return ( 
-                                                    <div key={index}>
-                                                        {Object.values(item)}
-                                                    </div> 
-                                                )
-                                            }
-                                        })}
-                                    </div>
+            <div>
+                <b style={{ textDecoration: "underline" }}>Coaching Type</b>
+                <br />
+                <Dropdown>
+                    <Dropdown.Toggle variant="" className="shadow rounded border px-5 py-3" style={{ fontSize: "18px" }}>
+                        { actionPlanContext.coachingType.selected }
+                    </Dropdown.Toggle>
 
-                                    <div className="w-50">
-                                        <Dropdown>
-                                            <Dropdown.Toggle variant="" className="float-end rounded border px-4 py-2" style={{ fontSize: "18px" }}>
-                                                {ques.QuestionType}
-                                            </Dropdown.Toggle>
-
-                                            <Dropdown.Menu>
-                                                {formType.map((item, index) => (
-                                                    <Dropdown.Item key={index} disabled={Object.keys(item) == ques.QuestionType} onClick={() => setQuestionType(Object.keys(item)[0], ques.id)}>{Object.keys(item)}</Dropdown.Item>
-                                                ))}
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </div>
-                                </div>
-                           </div>
-
-                       ))}
-                       <Button variant="primary" className="mt-3 mb-4 border rounded" data-group-id={item.id} onClick={addQuestion} ><PlusCircle className="pb-1" size={18} /> Add Question </Button>
-                    </div>
-                        
-                   </div>
-               ))}
+                    <Dropdown.Menu>
+                        { actionPlanContext.coachingType.allCoachingType.map((item, index) => {
+                            if(item != actionPlanContext.coachingType.selected){
+                                return (
+                                    <Dropdown.Item key={index}>{item}</Dropdown.Item>
+                                )
+                            }
+                            return 
+                        })}
+                    </Dropdown.Menu>
+                </Dropdown>
             </div>
-            <Button variant="" className="mt-2 border rounded" onClick={addDivider}><PlusCircle className="pb-1" size={18} /> Add Section </Button>
-            <Button className="mt-2 float-end" onClick={submitActionPlan}>Submit</Button>
-            <Button className="mt-2 float-end" variant={'danger'}>Cancel</Button>
+
+            <div className="mt-5">
+                <b style={{ textDecoration: "underline" }}>Form</b>
+                <br />
+                <div className="mt-3 mb-2">
+                {form.map((item) => (
+                    <div className="my-2" key={item.id}>
+                        <div className="d-flex mb-2">
+                            <div className="w-75">
+                                    <Form.Control type="text" placeholder="Enter section here" value={item.Group} onChange={setGroup} id={item.id} />
+                            </div>
+                                <div className="w-25">
+                                    <Button className="float-end" variant="danger" onClick={() => removeSection(item.id)}> <XCircle className="mb-1" /> Remove Section</Button>
+                                </div>
+                        </div>
+                        <div className="shadow border rounded p-4">
+                        {item.Questions.map(ques => (
+                            <div key={ques.id} className="mt-5">
+                                    <div className="d-flex">
+                                        <div className="w-75">
+                                            <Form.Control type="text" placeholder="Enter question here" value={ques.Question} onChange={setQuestion} id={ques.id} />
+                                        </div>
+                                        <div className="w-25">
+                                            {item.Questions.length > 1 && 
+                                                <Button className="float-end" variant="danger" onClick={() => removeQuestion(ques.id)}> <XCircle className="mb-1" /> Remove Question</Button>
+                                            }
+                                        </div>
+                                    </div>
+                                
+                            
+                                    <div className="d-flex mt-2">
+                                        <div className="w-50">
+                                            {formType.map((item, index) => {
+                                                if(Object.keys(item) == ques.QuestionType) {
+                                                    return ( 
+                                                        <div key={index}>
+                                                            {Object.values(item)}
+                                                        </div> 
+                                                    )
+                                                }
+                                            })}
+                                        </div>
+
+                                        <div className="w-50">
+                                            <Dropdown>
+                                                <Dropdown.Toggle variant="" className="float-end rounded border px-4 py-2" style={{ fontSize: "18px" }}>
+                                                    {ques.QuestionType}
+                                                </Dropdown.Toggle>
+
+                                                <Dropdown.Menu>
+                                                    {formType.map((item, index) => (
+                                                        <Dropdown.Item key={index} disabled={Object.keys(item) == ques.QuestionType} onClick={() => setQuestionType(Object.keys(item)[0], ques.id)}>{Object.keys(item)}</Dropdown.Item>
+                                                    ))}
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </div>
+                                    </div>
+                            </div>
+
+                        ))}
+                        <Button variant="primary" className="mt-3 mb-4 border rounded" data-group-id={item.id} onClick={addQuestion} ><PlusCircle className="pb-1" size={18} /> Add Question </Button>
+                        </div>
+                            
+                    </div>
+                ))}
+                </div>
+                <Button variant="" className="mt-2 border rounded" onClick={addDivider}><PlusCircle className="pb-1" size={18} /> Add Section </Button>
+                <Button className="mt-2 float-end" onClick={submitActionPlan}>Submit</Button>
+                <Button className="mt-2 float-end" variant={'danger'}>Cancel</Button>
+            </div>
         </div>
     )
 }
