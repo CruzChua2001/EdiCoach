@@ -7,11 +7,13 @@ const ProfileReviewSession = () => {
             REVIEW SESSION---------------
             <br />
             <div className="mt-2">
-                <div className="border rounded shadow mt-2 ps-4 p-3">
-                    3 Dec session
+                <a href="/coach/reviewsession" className="text-decoration-none">
+                    <div className="border rounded shadow mt-2 ps-4 p-3">
+                        3 Dec session
 
-                    <BoxArrowUpRight className="float-end mt-1" />
-                </div>
+                        <BoxArrowUpRight className="float-end mt-1" />
+                    </div>
+                </a>
 
                 <div className="border rounded shadow mt-2 ps-4 p-3">
                     29 Nov session
