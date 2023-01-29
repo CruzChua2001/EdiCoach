@@ -82,3 +82,8 @@ body {
     border: 2px solid #e7e9ea;
     box-shadow: 2px 3px #cbdbd1;
 }
+
+.reviewSessionAction {
+    right: 10%;
+    position: absolute;
+}

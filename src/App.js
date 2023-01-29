@@ -28,6 +28,7 @@ import CoachContact from "./coach/components/Contact/Contact";
 import ClientDetail from "./coach/components/Client/ClientDetail";
 import CreateActionPlan from "./coach/components/ActionPlan/CreateActionPlan";
 import CoachVideoStream from "./coach/components/CoachVideoStream/CoachVideoStream";
+import ReviewSession from "./coach/components/ReviewSession/ReviewSession";
 
 import UserActions from "./admin/components/UserActions";
 import Chat from "./admin/components/Chat";
@@ -90,6 +91,7 @@ const App = () => {
             element={<CreateActionPlan />}
           />
           <Route path="/coach/cvs/" element={<CoachVideoStream />} />
+          <Route path="/coach/reviewsession" element={<ReviewSession />} />
         </Route>
 
         {/* Admin Path */}
