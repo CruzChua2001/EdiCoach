@@ -66,6 +66,7 @@ export default function CoachProfile() {
         var body = {
           ClientID: sessionData.filter((param) => param.Name == "sub")[0].Value,
           CoachID: coachID,
+          CoachName: data[0].firstname.S + " " + data[0].lastname.S,
           Session: sessions,
           Price: priceObject[sessions],
         };

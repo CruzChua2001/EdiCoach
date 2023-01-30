@@ -122,7 +122,7 @@ export const ScheduleAppointments = ({ accountID }) => {
       rows.push(
         createData(
           `${item.SessionCount.N}`,
-          "Nicholas Chan",
+          `${item.CoachName.S}`,
           new Date(item.StartDateTime.S).toLocaleString("en-US", options),
           new Date(item.EndDateTime.S).toLocaleString("en-US", options)
         )

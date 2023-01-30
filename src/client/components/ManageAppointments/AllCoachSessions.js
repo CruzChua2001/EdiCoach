@@ -23,9 +23,17 @@ import { Link } from "react-router-dom";
 
 import config from "../../../../config";
 
-function createData(coachName, sessions, price, dateOfPurchase, booking) {
+function createData(
+  coachName,
+  coachID,
+  sessions,
+  price,
+  dateOfPurchase,
+  booking
+) {
   return {
     coachName,
+    coachID,
     sessions,
     price,
     dateOfPurchase,
@@ -95,7 +103,7 @@ function Row(props) {
                       <TableCell align="right">{bookingRow.Status}</TableCell>
                       {bookingRow.Status && (
                         <Link
-                          to={`/client/coachBooking/${bookingRow.BookingID}/${row.coachName}`}
+                          to={`/client/coachBooking/${bookingRow.BookingID}/${row.coachID}`}
                         >
                           <Button
                             variant="link"
@@ -178,6 +186,7 @@ export const AllCoachSessions = () => {
       }
       rows.push(
         createData(
+          `${item.CoachName.S}`,
           `${item.CoachID.S}`,
           `${item.Session.N}`,
           `${item.Price.N}`,

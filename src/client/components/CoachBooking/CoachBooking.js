@@ -24,8 +24,8 @@ function CoachBooking() {
     const getBookingData = async () => {
       try {
         let url = config.USER_MANAGEMENT_API + `/get/${coachID}`;
-        console.log(url);
         const response = await axios.get(url);
+        console.log(response.data);
         setData(response.data);
         setError(null);
       } catch (err) {
