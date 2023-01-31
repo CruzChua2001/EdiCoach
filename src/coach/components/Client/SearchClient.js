@@ -67,6 +67,12 @@ const SearchClient = () => {
         return arr
     }
 
+    const enterSearchClient = (e) => {
+        if(e.key == "Enter") {
+            getSearchClient()
+        }
+    }
+
     return (
         <>
             <h2 className="mt-4 text-center primary-font-color">Search Clients</h2>
@@ -75,15 +81,16 @@ const SearchClient = () => {
 
             <div className="container">
                 <Searchbar className="row">
-                    <div className="col-lg-11">
+                    <div className="col-10 col-sm-11 col-lg-11">
                         <Form.Control
                             type="text"
                             placeholder="Search client's name"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
+                            onKeyUp={enterSearchClient}
                         /> 
                     </div>
-                    <div className="col-lg-1">
+                    <div className="col-2 col-sm-1 col-lg-1">
                         <Button variant='primary' onClick={getSearchClient}>
                             <Search />
                         </Button>
