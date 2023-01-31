@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import React, { useState, useEffect } from "react"
 import { ChevronDown, ChevronUp } from "react-bootstrap-icons";
 import { useActionPlan } from "../Context"
-import FileInput from './FileInput'
 import { Button, Form } from 'react-bootstrap';
+import axios from 'axios'
 
 const Header = styled.p`
     text-decoration: underline;
@@ -13,9 +13,26 @@ const Header = styled.p`
 `
 
 const CoachInformation = (props) => {
-    const getCoach = (coach) => {
-        return {"name": "Lim Xuan Wei", "phone": "92736278"}
-    }
+
+    const [coachInfo, setCoachInfo] = useState({})
+
+    useEffect(_ => {
+        let url = "https://4142e664e1.execute-api.ap-southeast-1.amazonaws.com/dev/get/" + props.coach
+
+        axios.get(url)
+        .then(res => {
+            const result = formatCoachData(res["data"])
+            setCoachInfo(result)
+        })
+
+        const formatCoachData = (result) => {
+            let obj = {}
+            obj['name'] = result[0]['firstname']['S'] + " " + result[0]['lastname']['S']
+            obj['phone'] = result[0]['phone']['S']
+            obj['email'] = result[0]['email']['S']
+            return obj
+        }
+    }, [])
 
     return (
         <>
@@ -26,7 +43,7 @@ const CoachInformation = (props) => {
                         <span>Coach Name:</span>
                     </div>
                     <div className="col-6">
-                        <span>{getCoach(props.coach).name}</span>
+                        <span>{coachInfo.name}</span>
                     </div>
                 </div>
                 <div className="row">
@@ -35,7 +52,7 @@ const CoachInformation = (props) => {
                     </div>
                     <div className="col-6">
                         <span>
-                            {props.coach}
+                            {coachInfo.email}
                         </span>
                     </div>
                 </div>
@@ -45,7 +62,7 @@ const CoachInformation = (props) => {
                     </div>
                     <div className="col-6">
                         <span>
-                            {getCoach(props.coach).phone}
+                            {coachInfo.phone}
                         </span>
                     </div>
                 </div>
@@ -75,7 +92,6 @@ const ActionPlanContainer = () => {
         
         let temp = actionPlan.actionPlan.filter(temp => temp.id == id)[0]
         let empty = 0;
-        let allFiles = []
 
         let newForm = temp.form.map(f => {
             let newAnswers = f.Questions.map(ques => {
@@ -101,8 +117,24 @@ const ActionPlanContainer = () => {
 
                     let fileAns = []
                     for(let i=0; i < l; i++) {
-                        fileAns.push(files[i].name)
-                        allFiles.push(files[i])
+                        //Push the file name into the file ans
+                        const file_name = ques.id + "_" + i
+                        fileAns.push(file_name)
+                        
+                        //Encode the file object
+                        var reader = new FileReader()
+                        reader.readAsDataURL(files[i])
+                        reader.onload = () => {
+                            let obj = {}
+                            obj['FileName'] = file_name
+                            obj['File'] = reader.result
+                            
+                            let url = "https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/fileupload"
+                            axios.put(url, JSON.stringify(obj))
+                            .then(res => {
+                                console.log(res)
+                            })
+                        }
                     }
 
                     return {...ques, Answer: fileAns}
@@ -115,12 +147,9 @@ const ActionPlanContainer = () => {
             return {...f, Questions: newAnswers}
         })
 
-        //use empty for empty
+        const newTemp = { ...temp, form: newForm }
 
-        //console.log(newForm)
-        const newTemp = { ...temp, coach: "asn@gmail.com", form: newForm }
-
-        fetch('https://6i1lbzm98l.execute-api.us-east-1.amazonaws.com/uat/actionplan', {
+        fetch('https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan', {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
@@ -145,7 +174,19 @@ const ActionPlanContainer = () => {
                 return (<Form.Control type="text" placeholder={question.Answer != "" ? question.Answer : "Enter your answer here"} maxLength={50} id={question.id} />)
             }
             else if(question.QuestionType == "File Upload") {
-                return (<Form.Control type="file" id={question.id} multiple={true} />)
+                return (
+                    <>
+                        <Form.Control type="file" id={question.id} multiple={true} />
+                        {question.Answer.length == 0 ? 
+                        (
+                            <span>0 Files submitted</span>
+                        ) 
+                        : 
+                        (
+                            <span>{question.Answer.length} Files submitted</span>
+                        )}
+                    </>
+                )
             }
         }
     
@@ -155,7 +196,7 @@ const ActionPlanContainer = () => {
                     <div key={index} className="mt-3">
                         <Header>{item.Group}</Header>
                         {item.Questions.map(ques => (
-                            <div key={ques.id}>
+                            <div key={ques.id} className="mt-3">
                                 <p>{ques.Question}</p>
                                 
                                 {getAnswer(ques)} 
@@ -174,8 +215,8 @@ const ActionPlanContainer = () => {
             <div key={index} className="mt-2">
                 <div className="border rounded p-3 d-flex" style={{ backgroundColor: '#E7E7E7' }}>
                     <div className="mt-2 w-75"> 
-                        <h2>Career Coaching</h2>
-                        <span>3rd December 2022</span>
+                        <h2>{item.coachingType}</h2>
+                        <span>{item.date}</span>
                     </div>
                         <div className="w-25" id={index+"_open"}>
 

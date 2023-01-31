@@ -1,48 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FileEarmark, Person, PencilSquare } from "react-bootstrap-icons";
 import { ScheduleAppointments } from "./ScheduleAppointments";
-import axios from "axios";
+
+import { AccountContext } from "../../../Account";
 
 export default function ClientHome() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const email = "notweewyekeong@gmail.com";
-
+  const { getSession, getData } = useContext(AccountContext);
+  var [sessionData, setSessionData] = useState([]);
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get(
-          `https://tvf7ofmy9i.execute-api.us-east-1.amazonaws.com/UAT/booking?ClientID=1123`
-        );
-        setData(response.data);
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-        setData(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    //getData();
+    getData()
+      .then((session) => {
+        console.log(session);
+        setSessionData(session);
+      })
+      .catch((err) => console.log(err));
   }, []);
-  console.log(data);
+
   return (
     <div>
       <Container>
-        {loading && <h2>A moment please...</h2>}
-        {error && <h2>There is a problem fetching the data</h2>}
-        {data && (
-          <h2>
-            Welcome back, {data.Items[0].firstName.S} {data.Items[0].lastName.S}
-            !
-          </h2>
+        <h2>
+          Welcome back,
+          {sessionData.length > 0
+            ? " " +
+              sessionData.filter((param) => param.Name == "custom:firstname")[0]
+                .Value
+            : " Loading..."}
+        </h2>
+        {sessionData.length > 0 ? (
+          <ScheduleAppointments
+            accountID={
+              sessionData.filter((param) => param.Name == "sub")[0].Value
+            }
+          />
+        ) : (
+          ""
         )}
-        <br />
-        <ScheduleAppointments />
+
         <br />
         <h2>Shortcuts</h2>
         <br />

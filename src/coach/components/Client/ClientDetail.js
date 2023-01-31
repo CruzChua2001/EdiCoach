@@ -47,7 +47,7 @@ const ClientDetail = () => {
                     <ProfileReviewSession />
                 </LeftProfile>
                 <RightProfile>
-                    <ProfileDetails />
+                    <ProfileDetails userid={id} />
                 </RightProfile>
             </ProfileContainer>
         </Container>
