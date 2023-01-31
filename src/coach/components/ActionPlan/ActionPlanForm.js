@@ -140,6 +140,11 @@ const ActionPlanForm = (props) => {
         })
         setForm(temp)
     }
+    
+    const setCoachingType = (e) => {
+        let tmp = {...actionPlanContext.coachingType, "selected": e.target.dataset.type}
+        actionPlanContext.setCoachingType(tmp)
+    }
 
     const setQuestionType = (questionType, quesId) => {
         let temp = form.map(temp => {
@@ -197,7 +202,7 @@ const ActionPlanForm = (props) => {
                         { actionPlanContext.coachingType.allCoachingType.map((item, index) => {
                             if(item != actionPlanContext.coachingType.selected){
                                 return (
-                                    <Dropdown.Item key={index}>{item}</Dropdown.Item>
+                                    <Dropdown.Item key={index} onClick={setCoachingType} data-type={item}>{item}</Dropdown.Item>
                                 )
                             }
                             return 

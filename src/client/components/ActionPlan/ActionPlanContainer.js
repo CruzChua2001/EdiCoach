@@ -196,7 +196,7 @@ const ActionPlanContainer = () => {
                     <div key={index} className="mt-3">
                         <Header>{item.Group}</Header>
                         {item.Questions.map(ques => (
-                            <div key={ques.id}>
+                            <div key={ques.id} className="mt-3">
                                 <p>{ques.Question}</p>
                                 
                                 {getAnswer(ques)} 
