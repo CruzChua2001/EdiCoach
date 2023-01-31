@@ -11,6 +11,8 @@ import UserActions from "./UserActions";
 import Chat from "./Chat";
 import AdminNavBar from "./AdminNavBar";
 
+import ChatBot from "./ChatBot";
+
 const TopNav = styled.div`
 	z-index: 999;
 	display: relative;
@@ -34,6 +36,8 @@ const App = () => {
 				<Route path="/admin/" element={<UserActions />}/>
 				<Route path="/admin/chat" element={<Chat />}/>
 			</Routes>
+
+			<ChatBot />
 		</Router>
 	)
 }

@@ -1,4 +1,6 @@
 export default {
+
+  TRANSLATE_API:"https://p8jgafljrk.execute-api.ap-southeast-1.amazonaws.com/dev",
   USER_API: "https://20vaa7nz56.execute-api.us-east-1.amazonaws.com/dev",
   SESSION_API: " https://1b46sbaptd.execute-api.us-east-1.amazonaws.com/dev",
   USER_API_KEY: "aioPSeVjifFxaqBjJlVu5mYqcmsfpaq2TKtwTKq7",
