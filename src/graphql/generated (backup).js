@@ -1,12 +1,12 @@
-﻿import { API, graphqlOperation } from '@aws-amplify/api'
+﻿import {API, graphqlOperation } from '@aws-amplify/api'
 import { listCHATS } from './queries'
 import { createCHATS } from './mutations'
 
 export const config = {
-    "aws_appsync_graphqlEndpoint": "https://qkxqfn4aivbi7gz4bfkcrhuine.appsync-api.ap-southeast-1.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://3hgbo4b67vcvjeibhr4fl2qcq4.appsync-api.ap-southeast-1.amazonaws.com/graphql",
     "aws_appsync_region": "ap-southeast-1",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-uzf4g56u7fchji6ng4w5uvdpk4",
+    "aws_appsync_apiKey": "da2-4pse6aqf5fgntgdixn4hwlplxu",
 }
 
 export const subscribeDoc = /* GraphQL */ `

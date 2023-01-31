@@ -20,15 +20,7 @@ function Chat() {
     const [status, setStatus] = useState(false);
     const { getSession, getData } = useContext(AccountContext);
 
-    useEffect(() => {
-        getData()
-        .then((session) => {
-            console.log(session);
-            setStatus(true);
-        })
-        .catch((err) => console.log(err))
-    }, [])
-
+    
     const fromChat = {
         marginBottom: "10px",
         float: "left"
@@ -50,10 +42,28 @@ function Chat() {
     const [from, setFrom] = useState({})
 
     const [cookies, setCookie] = useCookies();
+
+    const [channel, setChannel] = useState("");
     
 
     //Define the channel name here
-    let channel = '5aa2dbd9-3155-4ad9-b3a9-a9d2077d11b8&d83e5bec-3412-45f3-b0c9-d4ecbdbf7922'
+    // let channel = '5aa2dbd9-3155-4ad9-b3a9-a9d2077d11b8&d83e5bec-3412-45f3-b0c9-d4ecbdbf7922'
+
+    useEffect(() => {
+        getData()
+        .then((session) => {
+            console.log(session);
+            // setStatus(true);
+            let fromChat = {
+                "userid": {"S":session.filter((item) => item.Name == "sub")[0].Value},
+                "firstname": {"S":session.filter((item) => item.Name == "custom:firstname")[0].Value + " " + session.filter((item) => item.Name == "custom:lastname")[0].Value}
+            };
+            setFrom(fromChat)
+            console.log(fromChat)
+        })
+        .catch((err) => console.log(err))
+    }, [])
+
 
     //Publish data to subscribed clients
     async function handleSubmit(evt) {
@@ -62,8 +72,8 @@ function Chat() {
         let data = {
             Channel:channel, 
             CreatedAt: new Date(), 
-            To: to.FirstName.S, 
-            From: from.FirstName.S, 
+            To: to.firstname.S, 
+            From: from.firstname.S, 
             Message: send
         }
         await gen.publish(channel, JSON.stringify(data))
@@ -99,62 +109,81 @@ function Chat() {
     // }, [])
 
     useEffect(() => {
-        //Subscribe via WebSockets
-        const subscription = gen.subscribe(channel, ({ data }) => {
-            setReceived(JSON.parse(data));
-        })
-        return () => subscription.unsubscribe()
-    }, [])
+        let type = window.localStorage.getItem("chattype");
+        let channelid;
+        if (Object.keys(from) != 0) {
+            if (type == "Coach") {
+                channelid = from.userid.S + "&" + window.localStorage.getItem("chatuserid");
+            } else {
+                channelid = window.localStorage.getItem("chatuserid") + "&" + from.userid.S;
+            }
+            setChannel(channelid);
+            console.log(channelid);
+            //Subscribe via WebSockets
+            const subscription = gen.subscribe(channelid, ({ data }) => {
+                setReceived(JSON.parse(data));
+            })
+            return () => subscription.unsubscribe()
+        }
+        
+    }, [from])
 
     useEffect(() => {
         
 
-        if (cookies['sessionId'] != undefined) {
-            let sessionId = cookies['sessionId'];
+        if (window.localStorage.getItem("chatuserid")) {
+            // let sessionId = cookies['sessionId'];
             let toData;
 
-            if (sessionId == "d83e5bec-3412-45f3-b0c9-d4ecbdbf7922") {
-                toData = {
-                    "UserId":{"S":"5aa2dbd9-3155-4ad9-b3a9-a9d2077d11b8"},
-                    "FirstName":{"S":"Edison"}
-                };
-            } else {
-                toData = {
-                    "UserId":{"S":"d83e5bec-3412-45f3-b0c9-d4ecbdbf7922"},
-                    "FirstName":{"S":"Cruz"}
-                };
-            }
+            // if (sessionId == "d83e5bec-3412-45f3-b0c9-d4ecbdbf7922") {
+            //     toData = {
+            //         "UserId":{"S":"5aa2dbd9-3155-4ad9-b3a9-a9d2077d11b8"},
+            //         "FirstName":{"S":"Edison"}
+            //     };
+            // } else {
+            //     toData = {
+            //         "UserId":{"S":"d83e5bec-3412-45f3-b0c9-d4ecbdbf7922"},
+            //         "FirstName":{"S":"Cruz"}
+            //     };
+            // }
 
-            document.querySelector(".profileData div:nth-child(2)").innerHTML = toData.FirstName.S;
+            toData = {
+                "userid":{"S":window.localStorage.getItem("chatuserid")},
+                "firstname":{"S":window.localStorage.getItem("chatname")}
+            };
+
+            document.querySelector(".profileData div:nth-child(2)").innerHTML = toData.firstname.S;
 
             setTo(toData);
 
-            fetch(config.SESSION_API+"/get/"+sessionId, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }})
-                .then((msg) => {
-                    msg.json()
-                    .then(data => {
-                        console.log(data)
+            // fetch(config.SESSION_API+"/get/"+sessionId, {
+            //     method: 'GET',
+            //     headers: { 'Content-Type': 'application/json' }})
+            //     .then((msg) => {
+            //         msg.json()
+            //         .then(data => {
+            //             console.log(data)
 
 
-                        if (data.status != "success") {
-                            console.log("error");
-                        } else {
-                            setFrom(data.message)
-                        }
-                    })
-                }).catch(err => console.log(err))
+            //             if (data.status != "success") {
+            //                 console.log("error");
+            //             } else {
+            //                 setFrom(data.message)
+            //             }
+            //         })
+            //     }).catch(err => console.log(err))
 
                 if (channel) {
+                    console.log(channel)
                     gen.listall(channel)
                     .then((res) => {
-                        let msg = res.data.listCHATS.items;
+                        console.log(res)
+                        let msg = res.data.listChats.items;
         
                         if (msg.length != 0) {
                             for (let index = 0; index < msg.length; index++) {
                                 const element = msg[index];
-                                if (element.From == toData.FirstName.S) {
+                                if (element.From == toData.firstname.S) {
                                     document.getElementById("Chats").innerHTML += `
                                         <div>
                                         <div className='fromChat' 
@@ -210,7 +239,7 @@ function Chat() {
 
     useEffect(() => {
         if (Object.keys(received).length != 0) {
-            if (received.From == to.FirstName.S) {
+            if (received.From == to.firstname.S) {
                 document.getElementById("Chats").innerHTML += `
                             <div>
                             <div className='fromChat'
@@ -238,6 +267,70 @@ function Chat() {
         }
     }, [received])
 
+    const translate = () => {
+        document.getElementById("Chats").innerHTML = "";
+        gen.listall(channel)
+        .then((res) => {
+            
+            let msg = res.data.listChats.items.sort((a,b)=>a.CreatedAt-b.CreatedAt);;
+
+            translateAPI(msg);
+        });
+
+
+    }
+
+    const translateAPI = async (msg) => {
+        if (msg.length != 0) {
+            for (let index = 0; index < msg.length; index++) {
+                const element = msg[index];
+
+                let text = element.Message;
+                let target = document.getElementById("lang").value;
+                let response = await fetch(config.TRANSLATE_API+"/translate", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({text, target})});
+                // .then((msg) => {
+                //     msg.json()
+                //     .then(data => {
+                        
+                //     })
+                // }).catch(err => console.log(err))
+
+                if (response) {
+                    let data = await response.json();
+                    if (element.From == to.firstname.S) {
+                        document.getElementById("Chats").innerHTML += `
+                            <div>
+                            <div className='fromChat' 
+                            style="margin-bottom: 10px; float: left;">
+                                <div className='chatName'
+                                style="font-size: 0.8em;">${element.From}</div>
+                                <div className='chatMsg' 
+                                style="background-color: #007FFF;color: white;min-height: 30px;max-width: 100px;padding: 8px;border-radius: 5px;">${data.TranslatedText}</div>
+                            </div>
+                            </div>
+                            `
+                    } else {
+                        document.getElementById("Chats").innerHTML += `
+                            <div>
+                            <div className='toChat'
+                            style="margin-bottom: 10px; float: right;">
+                                <div className='chatName'
+                                style="font-size: 0.8em;">${element.From}</div>
+                                <div className='chatMsg'
+                                style="background-color: #32cd32;color: white;min-height: 30px;max-width: 100px;padding: 8px;border-radius: 5px;">${data.TranslatedText}</div>
+                            </div>
+                            </div>
+                            `
+                    }
+                }
+            }
+        }  
+        
+    }
+
     //Display pushed data on browser
     return (
         <>
@@ -258,6 +351,17 @@ function Chat() {
                             <div className='profileData'>
                                 <div>Phone:</div>
                                 <div>-</div>
+                            </div>
+                            <div className='profileData' >
+                                <div>Chat Language:</div>
+                                <div>
+                                    <select name="lang" id="lang" onChange={translate}>
+                                    <option value="en">English</option>
+                                    <option value="zh">Chinese</option>
+                                    <option value="ms">Malay</option>
+                                    <option value="ta">Tamil</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </Col>
