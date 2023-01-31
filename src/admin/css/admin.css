@@ -212,3 +212,23 @@
 .chatProfile .profileData {
     margin-top: 10px;
 }
+
+.li-disabled {
+    pointer-events:none;
+    opacity:0.7;
+}
+
+.MuiButton-root {
+    border: 2px solid #3E468A !important;
+}
+
+iframe {
+    float: right;
+    height: 400px;
+    margin-right: 50px;
+    margin-top: 30px;
+}
+
+#lex-web-ui-iframe {
+    height: 500px;
+}

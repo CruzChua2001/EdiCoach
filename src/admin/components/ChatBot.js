@@ -21,32 +21,36 @@ import "../css/NavBar.css";
 
 const ChatBot = () => {
 
-  // useEffect(() => {
-  //   const script = document.createElement("script");
+  useEffect(() => {
+    const script = document.createElement("script");
 
-  //   script.id = "testid"
+    script.id = "testid"
 
-  //   document.getElementById("test").appendChild(script)
-  //   document.getElementById("testid").innerHTML = `
-  //   var loaderOpts = {
-  //     baseUrl: 'https://d1af2gy3ebie26.cloudfront.net/',
-  //     shouldLoadMinDeps: true
-  //   };
-  //   var loader = new ChatBotUiLoader.IframeLoader(loaderOpts);
-  //   var chatbotUiConfig = {
-  //           /* Example of setting session attributes on parent page
-  //           lex: {
-  //             sessionAttributes: {
-  //               userAgent: navigator.userAgent,
-  //               QNAClientFilter: ''
-  //             }
-  //           }
-  //           */
-  //         };
-  //   loader.load(chatbotUiConfig)
-  //     .catch(function (error) { console.error(error); });
-  //   `;
-  // }, [])
+    document.getElementById("test").appendChild(script)
+    document.getElementById("testid").innerHTML = `
+    var loaderOpts = {
+      baseUrl: 'https://d177emb5qgv5eb.cloudfront.net/',
+      shouldLoadMinDeps: true
+    };
+    loaderOpts = {
+      configUrl: 'https://d177emb5qgv5eb.cloudfront.net/lex-web-ui-loader-config.json',
+      iframeSrcPath: 'https://d177emb5qgv5eb.cloudfront.net/index.html/?lexWebUiEmbed=true'
+    }
+    var loader = new ChatBotUiLoader.IframeLoader(loaderOpts);
+    var chatbotUiConfig = {
+            /* Example of setting session attributes on parent page
+            lex: {
+              sessionAttributes: {
+                userAgent: navigator.userAgent,
+                QNAClientFilter: ''
+              }
+            }
+            */
+          };
+    loader.load(chatbotUiConfig)
+      .catch(function (error) { console.error(error); });
+    `;
+  }, [])
 
   return (
     <div>
