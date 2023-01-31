@@ -67,27 +67,26 @@ export default function CoachView() {
               <h3>All Coaches</h3>
             </div>
             <div className="p-3">
-              {data != null
-                ? data.map((coach) => {
-                    <Link to={"/client/coachProfile"}>
-                      <Card style={{ width: "12rem" }} className="rounded">
-                        <Card.Img
-                          className="coachCardImg"
-                          variant="top"
-                          src="https://st.depositphotos.com/1144472/1532/i/450/depositphotos_15320783-stock-photo-portrait-of-young-woman-at.jpg"
-                        />
-                        <Card.Body>
-                          <Card.Title className="coachCardTitle">
-                            {coach.firstname.S + " " + coach.lastname.S}
-                          </Card.Title>
-                          <Card.Subtitle className="coachCardSubtitle">
-                            Addiction Life Coach
-                          </Card.Subtitle>
-                        </Card.Body>
-                      </Card>
-                    </Link>;
-                  })
-                : "Hello"}
+              {data &&
+                data.map((coach) => (
+                  <Link to={`/client/coachProfile/${coach.userid.S}`}>
+                    <Card style={{ width: "12rem" }} className="rounded">
+                      <Card.Img
+                        className="coachCardImg"
+                        variant="top"
+                        src="https://st.depositphotos.com/1144472/1532/i/450/depositphotos_15320783-stock-photo-portrait-of-young-woman-at.jpg"
+                      />
+                      <Card.Body>
+                        <Card.Title className="coachCardTitle">
+                          {coach.firstname.S + " " + coach.lastname.S}
+                        </Card.Title>
+                        <Card.Subtitle className="coachCardSubtitle">
+                          Addiction Life Coach
+                        </Card.Subtitle>
+                      </Card.Body>
+                    </Card>
+                  </Link>
+                ))}
             </div>
           </div>
         </Col>

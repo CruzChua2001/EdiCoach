@@ -68,14 +68,20 @@ const App = () => {
           <Route path="/client/" element={<ClientHome />} />
           <Route path="/client/coachSelect" element={<CoachView />} />
           <Route path="/client/coachPricing" element={<CoachPricing />} />
-          <Route path="/client/coachProfile" element={<CoachProfile />} />
-          <Route path="/client/coachBooking/:id" element={<CoachBooking />} />
+          <Route
+            path="/client/coachProfile/:coachID"
+            element={<CoachProfile />}
+          />
+          <Route
+            path="/client/coachBooking/:id/:coachID"
+            element={<CoachBooking />}
+          />
           <Route
             path="/client/manageAppointments"
             element={<ManageAppointments />}
           />
           <Route path="/client/actionplan" element={<ClientActionPlan />} />
-          <Route path="/client/cvs" element={<ClientVideoStream />} />
+          <Route path="/client/cvs/:id" element={<ClientVideoStream />} />
         </Route>
 
         {/* Coach Path */}
@@ -90,7 +96,7 @@ const App = () => {
             path="/coach/client/actionplan/:id"
             element={<CreateActionPlan />}
           />
-          <Route path="/coach/cvs/" element={<CoachVideoStream />} />
+          <Route path="/coach/cvs/:id" element={<CoachVideoStream />} />
           <Route path="/coach/reviewsession" element={<ReviewSession />} />
         </Route>
 

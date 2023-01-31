@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import {
   Box,
   Collapse,
@@ -66,7 +67,11 @@ function Row(props) {
               <div className="appointmentButtons p-2">
                 <Button variant="danger">Cancel Booking</Button>
                 <Button variant="success">Change Booking Date</Button>
-                <Button variant="success">Join Call</Button>
+                <Link to={`/client/cvs/${row.coachName}`}>
+                  <Button href="/client/cvs" variant="success">
+                    Join Call
+                  </Button>
+                </Link>
               </div>
             </Box>
           </Collapse>
@@ -78,7 +83,6 @@ function Row(props) {
 
 export const ScheduleAppointments = ({ accountID }) => {
   console.log(accountID);
-  console.log(config.BOOKING_API);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -97,9 +101,10 @@ export const ScheduleAppointments = ({ accountID }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(
-          config.BOOKING_API + `booking?ClientID=${accountID}`
-        );
+        let url = config.BOOKING_API + `booking?ClientID=${accountID}`;
+        console.log(url);
+        const response = await axios.get(url);
+        console.log(response.data);
         setData(response.data);
         setError(null);
       } catch (err) {
@@ -117,7 +122,7 @@ export const ScheduleAppointments = ({ accountID }) => {
       rows.push(
         createData(
           `${item.SessionCount.N}`,
-          "Nicholas Chan",
+          `${item.CoachName.S}`,
           new Date(item.StartDateTime.S).toLocaleString("en-US", options),
           new Date(item.EndDateTime.S).toLocaleString("en-US", options)
         )
