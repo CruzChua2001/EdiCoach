@@ -23,59 +23,6 @@ const Login = () => {
 
       const [cookies, setCookie, removeCookie] = useCookies(['name']);
 
-    //   let hash = bcrypt.hashSync(password, salt);
-
-    //   let usertype;
-
-    //   fetch(config.SESSION_API+"/login", {
-    //       method: 'POST',
-    //       body: JSON.stringify({email, password:hash}),
-    //       headers: { 'Content-Type': 'application/json' }})
-    //       .then((msg) => {
-    //           msg.json()
-    //           .then(message => {
-    //               console.log(message);
-    //               if (message.status === "success") {
-    //                     usertype = message.data.UserType.S;
-    //                           fetch(config.SESSION_API+"/create", {
-    //     method: 'POST',
-    //     body: JSON.stringify(message.data),
-    //     headers: { 'Content-Type': 'application/json' }})
-    //     .then((msg) => {
-    //         msg.json()
-    //         .then(message => {
-    //             if (message.status === "success") {
-    //                 console.log(message);
-
-    //                 // window.localStorage.setItem("login", true);
-    //                 // window.localStorage.setItem("usertype", message.usertype);
-    //                 if (usertype == "Client") {
-    //                   setCookie("sessionId", message.userid, { path: '/' });
-    //                   window.location.href = "/client/";
-    //                 } else {
-    //                   document.getElementById("errorMessage").innerText = "Please login using the correct tunnel!";
-    //                 }
-                    
-                    
-    //             } else {
-    //                 document.getElementById("errorMessage").innerText = message.message;
-                    
-    //             }
-    //         });
-            
-            
-    //     }).catch(err => console.log(err))
-
-    //               } else {
-    //                   document.getElementById("errorMessage").innerText = message.message;
-                      
-    //               }
-    //           });
-              
-              
-    //       }).catch(err => console.log(err))
-
-
       const Login = () => {
           let email = document.getElementById("email").value;
           let password = document.getElementById("password").value;
@@ -109,9 +56,6 @@ const Login = () => {
               
               
           }).catch(err => console.log(err))
-
-        
-  
           
       }
   
@@ -121,7 +65,11 @@ const Login = () => {
     
     return ( <>
         <div style={FormStyle} >
-            <div style={{border: "3px solid #3E468A"}} class="shadow p-5 mb-5 bg-white rounded">
+            <div style={{border: "3px solid #3E468A"}} class="d-flex shadow p-5 mb-5 bg-white rounded">
+                <div className="mr-2">
+                    <img src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/TWC_Online-Therapy-01.png" width="400" height="400" />
+                </div>
+                <div>
                     <div className="loginTitle">EdiCoach</div>
                     <div className="loginSubTitle">Welcome back to EdiCoach, Clients</div>
                     <Form>
@@ -138,6 +86,7 @@ const Login = () => {
                         <Button className="loginBtn" variant="primary" type="button" onClick={Login}>Login</Button>
                     </Form>
                     <a className="loginLink" href = "/guest/sign-up">Create an Account</a>
+                </div>
             </div>
         </div>
     </>)
