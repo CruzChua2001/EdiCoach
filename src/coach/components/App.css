@@ -72,3 +72,18 @@ body {
     margin-bottom: auto;
     display: block;
 }
+
+.hoverClientBox {
+    border: 0.4px solid #e7e9ea;
+    box-shadow: 1.5px 2px#e7e9ea;
+}
+
+.hoverClientBox:hover {
+    border: 2px solid #e7e9ea;
+    box-shadow: 2px 3px #cbdbd1;
+}
+
+.reviewSessionAction {
+    right: 10%;
+    position: absolute;
+}

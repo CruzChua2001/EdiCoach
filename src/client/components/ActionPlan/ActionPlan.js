@@ -1,10 +1,26 @@
-import React from "react"
+import React, {useState, useContext, useEffect} from "react"
 import { Container } from "react-bootstrap";
 import ActionPlanContainer from "./ActionPlanContainer";
 import { ActionPlanProvider } from "../Context"
+import { AccountContext } from "../../../Account";
 
 const ClientActionPlan = () => {
-    let client = "bc@gmail.com"
+    const { getSession, getData } = useContext(AccountContext);
+    const [sessionData, setSessionData] = useState({});
+    useEffect(() => {
+        getData()
+        .then((session) => {
+            const result = formatSessionData(session)
+            setSessionData(result);
+        })
+        .catch((err) => console.log(err));
+
+        const formatSessionData = (session) => {
+            let obj = {}
+            obj["userid"] = session[1]["Value"]
+            return obj
+        }
+    }, []);
 
     return (
         <Container>
@@ -12,7 +28,7 @@ const ClientActionPlan = () => {
 
             <hr className="border border-dark" />
 
-            <ActionPlanProvider client={client}>
+            <ActionPlanProvider clientUserId={sessionData["userid"]}>
                 <ActionPlanContainer />
             </ActionPlanProvider>
 
