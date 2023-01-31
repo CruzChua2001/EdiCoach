@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Container, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMaster } from "react-kinesis-webrtc";
 
 import "../../../videostream/Video.css";
@@ -16,14 +16,18 @@ import {
   Download,
 } from "@mui/icons-material";
 
+import axios from "axios";
+import config from "../../../../config";
+
 const viewer = {};
 
 var audioStatus = true;
 var videoStatus = true;
 
 export default function CoachVideoStream() {
+  const { id } = useParams();
   const localMediaRef = useRef();
-  const config = {
+  const vidConfig = {
     credentials: {
       accessKeyId: "AKIATGEGFJCERG3HVFVD",
       secretAccessKey: "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",
@@ -37,7 +41,7 @@ export default function CoachVideoStream() {
     },
     debug: true,
   };
-  const { error, localMedia, peers } = useMaster(config);
+  const { error, localMedia, peers } = useMaster(vidConfig);
   const [isVideo, setIsVideo] = useState(true);
   const [isMic, setIsMic] = useState(true);
   const recordRef = useRef(true);
@@ -81,16 +85,22 @@ export default function CoachVideoStream() {
       console.log(e.data);
     };
     mediaRecorder.onstop = (e) => {
-      var downloadBtn = document.getElementById("downloadBtn");
+      //var downloadBtn = document.getElementById("downloadBtn");
       console.log(chunks.length);
       let recordBlob = new Blob(chunks, { type: "video/webm" });
-      var downloadBtnContainer = document.getElementById(
-        "downloadBtnContainer"
-      );
-      downloadBtnContainer.hidden = false;
-      downloadBtn.href = window.URL.createObjectURL(recordBlob);
-      downloadBtn.download = "RecordedVideo.webm";
-      a.click();
+      var reader = new FileReader();
+      reader.readAsDataURL(recordBlob);
+      reader.onloadend = () => {
+        var base64String = reader.result;
+        console.log(base64String);
+        postData(base64String);
+      };
+      //var downloadBtnContainer = document.getElementById(
+      //  "downloadBtnContainer"
+      //);
+      //downloadBtnContainer.hidden = false;
+      //downloadBtn.href = window.URL.createObjectURL(recordBlob);
+      //downloadBtn.download = "RecordedVideo.webm";
     };
   }
 
@@ -109,6 +119,19 @@ export default function CoachVideoStream() {
       console.log("recorder stopped");
     }
   }
+
+  const postData = async (base64String) => {
+    try {
+      var body = {
+        BookingID: id,
+        Base64Vid: base64String,
+      };
+      axios.post(config.BOOKING_API + "save_vid", JSON.stringify(body));
+    } catch (err) {
+      console.log(err);
+    } finally {
+    }
+  };
 
   return (
     <Container>
