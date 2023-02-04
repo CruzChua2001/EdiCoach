@@ -55,7 +55,7 @@ const ClientActionPlan = () => {
         const url = "https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/notification"        
         axios.get(url+"?Email="+clientEmail)
         .then(res => {
-            if(res.data["subscription_arn"]["subscription_arn"] == true) {
+            if(res.data["verified"] == true) {
                 setSubscribed(true)
             }
         })
