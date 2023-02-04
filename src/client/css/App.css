@@ -348,3 +348,7 @@ body {
     display: table;
     margin: 0 auto;
 }
+
+.notificationBell {
+    cursor: pointer;
+}
