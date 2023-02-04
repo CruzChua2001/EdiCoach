@@ -120,21 +120,6 @@ const ActionPlanContainer = () => {
                         //Push the file name into the file ans
                         const file_name = ques.id + "_" + i
                         fileAns.push(file_name)
-                        
-                        //Encode the file object
-                        var reader = new FileReader()
-                        reader.readAsDataURL(files[i])
-                        reader.onload = () => {
-                            let obj = {}
-                            obj['FileName'] = file_name
-                            obj['File'] = reader.result
-                            
-                            let url = "https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/fileupload"
-                            axios.put(url, JSON.stringify(obj))
-                            .then(res => {
-                                console.log(res)
-                            })
-                        }
                     }
 
                     return {...ques, Answer: fileAns}
@@ -148,7 +133,6 @@ const ActionPlanContainer = () => {
         })
 
         const newTemp = { ...temp, form: newForm }
-
         fetch('https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan', {
             method: 'PUT',
             headers: {
@@ -177,6 +161,7 @@ const ActionPlanContainer = () => {
                 return (
                     <>
                         <Form.Control type="file" id={question.id} multiple={true} />
+                        <Button className="mt-2 me-2" onClick={submitFile} data-question-id={question.id}>Add File</Button>
                         {question.Answer.length == 0 ? 
                         (
                             <span>0 Files submitted</span>
@@ -207,6 +192,35 @@ const ActionPlanContainer = () => {
                 ))}
             </div>
         )
+    }
+
+    const submitFile = (e) => {
+        const quesId = e.target.dataset.questionId
+        let files = document.getElementById(quesId).files
+
+        for(let i=0; i < files.length; i++) {
+            //Push the file name into the file ans
+            const file_name = quesId + "_" + i
+            
+            //Encode the file object
+            let reader = new FileReader()
+            reader.readAsDataURL(files[i])
+            reader.onload = () => {
+                let obj = {}
+                obj['FileName'] = file_name
+                obj['File'] = reader.result
+                let url = "https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/fileupload"
+                axios.put(url, JSON.stringify(obj))
+                .then(res => {
+                    console.log(res)
+                })
+            }
+        }
+
+        setTimeout(() => {
+            alert("All files Submitted")
+        }, 3000)
+        
     }
 
     return (
