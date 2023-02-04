@@ -170,9 +170,10 @@ const ActionPlanForm = (props) => {
 
     const submitActionPlan = (e) => {
         let uuid = uuidv4()
-        let date = new Date()
-        const currDate = date.getDate() + "/" + date.getMonth()+1 + "/" + date.getFullYear()
-        
+        const date = new Date()
+        const month = parseInt(date.getMonth()) + 1
+        const currDate = date.getDate() + "/" + month + "/" + date.getFullYear()
+
         const data = {
             "id": uuid, 
             "client": actionPlanContext.selected.userid, 
