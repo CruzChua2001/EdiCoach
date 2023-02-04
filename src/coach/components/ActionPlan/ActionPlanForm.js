@@ -186,7 +186,7 @@ const ActionPlanForm = (props) => {
         axios.put('https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan', JSON.stringify(data))
         .then(response => {
             console.log(response)
-            // window.location.href = "/coach/"
+            window.location.href = "/coach/"
         })
     }
 
