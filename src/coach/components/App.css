@@ -87,3 +87,11 @@ body {
     right: 10%;
     position: absolute;
 }
+
+.hoverPoint {
+    cursor: pointer;
+}
+
+.hoverDisable {
+    cursor: not-allowed;
+}
