@@ -48,7 +48,7 @@ const ProfileDetails = (props) => {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Create Case Note</Dropdown.Item>
+                        <Dropdown.Item href={"/coach/casenote/create/" + props.userid}>Create Case Note</Dropdown.Item>
                         <Dropdown.Item href={"/coach/client/actionplan/" + props.userid}>Create Action Plan</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
