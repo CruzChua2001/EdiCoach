@@ -95,3 +95,49 @@ body {
 .hoverDisable {
     cursor: not-allowed;
 }
+
+.positiveText{
+    color: blue;
+    text-decoration: underline;
+}
+
+.negativeText {
+    color: red;
+    text-decoration: underline;
+}
+
+.mixedText {
+    color: green;
+    text-decoration: underline;
+}
+
+.transcribeText {
+    word-break: break-all;
+}
+
+#positiveLegend {
+    width: 15px;
+    height: 15px;
+    background-color: blue;
+    border: 2px solid black;
+    margin-top: 1.2%;
+    margin-right: 1.25%;
+}
+
+#negativeLegend {
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border: 2px solid black;
+    margin-top: 1.2%;
+    margin-right: 1.25%;
+}
+
+#mixedLegend {
+    width: 15px;
+    height: 15px;
+    background-color: green;
+    border: 2px solid black;
+    margin-top: 1.2%;
+    margin-right: 1.25%;
+}
