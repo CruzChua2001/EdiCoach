@@ -43,7 +43,7 @@ const ClientDetail = () => {
             <ProfileContainer>
                 <LeftProfile>
 
-                    <ProfileCaseNote />    
+                    <ProfileCaseNote userid={id} />    
 
                     <ProfileReviewSession />
 

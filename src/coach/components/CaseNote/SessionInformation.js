@@ -52,7 +52,7 @@ const SessionInformation = (props) => {
         }
 
         const url = "https://d5btr8maz5.execute-api.ap-southeast-1.amazonaws.com/prod/casenote"
-        axios.post(url, JSON.stringify(data))
+        axios.put(url, JSON.stringify(data))
         .then(res => {
             window.location.href="/coach/client/" + caseNoteContext.details.UserId
         })

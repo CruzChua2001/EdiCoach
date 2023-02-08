@@ -97,7 +97,6 @@ const ProfileActionPlan = (props) => {
         }
         axios.post("https://hhq8y17lsa.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan", JSON.stringify(data))
         .then(res => {
-            console.log(res.data)
             const result = res.data
             setItems(result["Items"])
             setLastPage(result["LastPage"])
