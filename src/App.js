@@ -20,6 +20,7 @@ import CoachProfile from "./client/components/CoachProfile/CoachProfile";
 import CoachBooking from "./client/components/CoachBooking/CoachBooking";
 import ClientActionPlan from "./client/components/ActionPlan/ActionPlan";
 import { ManageAppointments } from "./client/components/ManageAppointments/ManageAppointments";
+import ClientVideoStream from "./client/components/ClientVideoStream/ClientVideoStream";
 
 import Appointment from "./coach/components/Appointment/Appointment";
 import Client from "./coach/components/Client/Client";
@@ -29,6 +30,7 @@ import ClientDetail from "./coach/components/Client/ClientDetail";
 import CreateActionPlan from "./coach/components/ActionPlan/CreateActionPlan";
 import CoachVideoStream from "./coach/components/CoachVideoStream/CoachVideoStream";
 import ReviewSession from "./coach/components/ReviewSession/ReviewSession";
+import CreateCaseNote from "./coach/components/CaseNote/CreateCaseNote";
 
 import UserActions from "./admin/components/UserActions";
 import Chat from "./admin/components/Chat";
@@ -39,7 +41,6 @@ import GuestLayout from "./Layout/GuestLayout";
 import ClientLayout from "./Layout/ClientLayout";
 import CoachLayout from "./Layout/CoachLayout";
 import AdminLayout from "./Layout/AdminLayout";
-import ClientVideoStream from "./client/components/ClientVideoStream/ClientVideoStream";
 
 const App = () => {
   return (
@@ -92,10 +93,8 @@ const App = () => {
           <Route path="/coach/FAQ" element={<CoachFAQ />} />
 
           <Route path="/coach/client/:id" element={<ClientDetail />} />
-          <Route
-            path="/coach/client/actionplan/:id"
-            element={<CreateActionPlan />}
-          />
+          <Route path="/coach/client/actionplan/:id" element={<CreateActionPlan />}/>
+          <Route path="/coach/casenote/create/:id" element={<CreateCaseNote />}/> 
           <Route path="/coach/cvs/:id" element={<CoachVideoStream />} />
           <Route path="/coach/reviewsession" element={<ReviewSession />} />
         </Route>

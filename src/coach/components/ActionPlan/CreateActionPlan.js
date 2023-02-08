@@ -1,4 +1,5 @@
 import React from "react"
+import { Container } from 'react-bootstrap'
 import { useParams } from "react-router"
 import styled from 'styled-components'
 
@@ -7,21 +8,19 @@ import ActionPlanDropDown from "./ActionPlanDropDown"
 import ActionPlanForm from "./ActionPlanForm"
 
 const Breadcrump = styled.p`
-    display: flex;
-    color: grey;
-    margin-top: 3%;
-    margin-left: 6%;
+display: flex;
+color: grey;
+margin-top: 3%;
 `
 
 const DefaultContainer = styled.div`
-    margin-top: 3%;
-    margin-inline: 8%;
+    margin-top: 5%;
 `
 
 const CreateActionPlan = () => {
     const { id } = useParams()
     return (
-        <>
+        <Container>
             <Breadcrump>
                 <a href="/coach/appointment" className="mx-2 text-decoration-none text-secondary"> Home </a>
                 /
@@ -40,7 +39,7 @@ const CreateActionPlan = () => {
                     <ActionPlanForm userid={id} />
                 </ActionPlanProvider>
             </DefaultContainer>
-        </>
+        </Container>
     )
 }
 

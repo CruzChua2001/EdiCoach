@@ -72,3 +72,20 @@ export const ActionPlanProvider = ({ children }) => {
         </ActionPlanContext.Provider>
     )
 }
+
+const CaseNoteContext = createContext();
+
+export const useCasenote = () => {
+    return useContext(CaseNoteContext)
+}
+
+export const CaseNoteProvider = ({ children }) => {
+    const [details, setDetails] = useState({"Date": "", "Name": "", "Phone": "", "UserId": ""})
+    const [information, setInformation] = useState({"Reason": "", "Discussion": "", "ActionPlan": ""})
+
+    return (
+        <CaseNoteContext.Provider value={{ details: details, setDetails: setDetails, information: information, setInformation: setInformation }}>
+            { children }
+        </CaseNoteContext.Provider>
+    )
+}
