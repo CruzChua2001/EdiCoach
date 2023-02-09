@@ -7,7 +7,7 @@ const Header = styled.span`
     color: grey;
 `
 
-const TranscriptText = () => {
+const TranscriptText = (props) => {
     const [text, setText] = useState("")
     const [analysedText, setAnalysedText] = useState({})
     const [textAnalysis, setTextAnalysis] = useState([])
@@ -16,7 +16,7 @@ const TranscriptText = () => {
     useEffect(_ => {
         let url = "https://umt9ds51i4.execute-api.ap-southeast-1.amazonaws.com/prod/reviewsessions"
 
-        axios.get(url)
+        axios.post(url, JSON.stringify({"bookingid": props.bookingid}))
         .then(res => {
             console.log(res)
             setText(res["data"])
