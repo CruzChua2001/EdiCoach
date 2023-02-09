@@ -11,8 +11,9 @@ export default {
     UserPoolId: "ap-southeast-1_5azh7qHPV",
     ClientId: "1d6ank80p888neg85btc5an3s8",
   },
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID:"310815925245-pg3bp4783cuh8supg394ld53944vo0sb.apps.googleusercontent.com",
 
-  // PLS CHECK THIS EDISON
+  AUTHENTICATION_API:"https://r2an9hpdp4.execute-api.ap-southeast-1.amazonaws.com/dev",
   USER_MANAGEMENT_API:
     "https://4142e664e1.execute-api.ap-southeast-1.amazonaws.com/dev",
 };

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -26,11 +26,27 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
+import { AccountContext } from "../../Account";
+
 const UserActions = () => {
 
     const [users, setUsers] = useState([]);
     const [rows, setRows] = useState([]);
     const [selectedUser, setSelectedUser] = useState("");
+    const [sessionToken, setSessionToken] = useState("");
+
+    const { getSession } = useContext(AccountContext);
+
+    useEffect(() => {
+        getSession()
+        .then((session) => {
+            console.log(session);
+            if (session)  {
+                setSessionToken(session.idToken.jwtToken);
+            }
+        })
+        .catch((err) => console.log(err))
+    }, [])
 
     let columns = [
         {
@@ -46,9 +62,12 @@ const UserActions = () => {
       ];
 
     const retrieveUsers = () => {
-        fetch(config.TEST_API+"/getall", {
+        fetch(config.USER_MANAGEMENT_API+"/getall", {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' }})
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': sessionToken
+        }})
         .then((msg) => {
             msg.json()
             .then(users => {
@@ -74,7 +93,7 @@ const UserActions = () => {
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(password, salt);
 
-        fetch(config.TEST_API+"/add", {
+        fetch(config.USER_MANAGEMENT_API+"/add", {
         method: 'POST',
         body: JSON.stringify({email, password: password, salt, firstname, lastname, dob, phone, gender, userid, usertype, skills:""}),
         headers: { 'Content-Type': 'application/json' }})
@@ -113,7 +132,7 @@ const UserActions = () => {
         //     // retrieveUsers();
         // })
 
-        fetch(config.TEST_API+`/delete/`+email, {
+        fetch(config.USER_MANAGEMENT_API+`/delete/`+email, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
@@ -139,7 +158,8 @@ const UserActions = () => {
     }, [users])
 
     useEffect(() => {
-        retrieveUsers();
+        if (sessionToken) {
+            retrieveUsers();
 
         $("#basic-button").on("click", function() {
             setTimeout(() => {
@@ -166,7 +186,9 @@ const UserActions = () => {
             }, 100)
             
         })
-    }, [])
+        }
+        
+    }, [sessionToken])
 
 
     const openAdd = () => {
@@ -237,7 +259,7 @@ const UserActions = () => {
     };
     
 
-    return (
+    return  (
     <>
     <div className="popup-background"></div>
     <Container className="popup-container">

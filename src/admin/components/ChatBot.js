@@ -29,12 +29,12 @@ const ChatBot = () => {
     document.getElementById("test").appendChild(script)
     document.getElementById("testid").innerHTML = `
     var loaderOpts = {
-      baseUrl: 'https://d177emb5qgv5eb.cloudfront.net/',
+      baseUrl: 'https://d3w4bz9wsgiar0.cloudfront.net/',
       shouldLoadMinDeps: true
     };
     loaderOpts = {
-      configUrl: 'https://d177emb5qgv5eb.cloudfront.net/lex-web-ui-loader-config.json',
-      iframeSrcPath: 'https://d177emb5qgv5eb.cloudfront.net/index.html/?lexWebUiEmbed=true'
+      configUrl: 'https://d3w4bz9wsgiar0.cloudfront.net/lex-web-ui-loader-config.json',
+      iframeSrcPath: 'https://d3w4bz9wsgiar0.cloudfront.net/index.html/?lexWebUiEmbed=true'
     }
     var loader = new ChatBotUiLoader.IframeLoader(loaderOpts);
     var chatbotUiConfig = {
@@ -53,7 +53,7 @@ const ChatBot = () => {
   }, [])
 
   return (
-    <div>
+    <div className="chatbot">
       <div id="test">
 
       </div>

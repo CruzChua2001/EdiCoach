@@ -11,6 +11,8 @@ import Form from 'react-bootstrap/Form';
 
 import { AccountContext } from "../../Account";
 
+import $ from 'jquery';
+
 
 import config from '../../../config';
 
@@ -70,11 +72,14 @@ function Chat() {
         evt.preventDefault()
         evt.stopPropagation()
         let data = {
-            Channel:channel, 
-            CreatedAt: new Date(), 
-            To: to.firstname.S, 
-            From: from.firstname.S, 
-            Message: send
+            Channel:channel,
+            CreatedAt: new Date(),
+            To: to.firstname.S,
+            From: from.firstname.S,
+            Message: send,
+            IsRead: "false",
+            ToId: to.userid.S,
+            FromId: from.userid.S
         }
         await gen.publish(channel, JSON.stringify(data))
         gen.create(data)
@@ -176,37 +181,64 @@ function Chat() {
                 if (channel) {
                     console.log(channel)
                     gen.listall(channel)
-                    .then((res) => {
+                    .then(async (res) => {
                         console.log(res)
                         let msg = res.data.listChats.items;
         
                         if (msg.length != 0) {
                             for (let index = 0; index < msg.length; index++) {
                                 const element = msg[index];
-                                if (element.From == toData.firstname.S) {
+                                let time = new Date(element.CreatedAt);
+                                let chatid = time.getFullYear().toString() + time.getDate().toString() + time.getHours().toString() + time.getMinutes().toString() + time.getSeconds().toString();
+                                let displayTime = (time.getHours()%12) + ":" + time.getMinutes() + " " + (time.getHours() > 11 ? "PM" : "AM")
+                                
+                                if (element.FromId == toData.userid.S) {
                                     document.getElementById("Chats").innerHTML += `
                                         <div>
-                                        <div className='fromChat' 
-                                        style="margin-bottom: 10px; float: left;">
-                                            <div className='chatName'
-                                            style="font-size: 0.8em;">${element.From}</div>
-                                            <div className='chatMsg' 
-                                            style="background-color: #007FFF;color: white;min-height: 30px;max-width: 100px;padding: 8px;border-radius: 5px;">${element.Message}</div>
+                                        <div class='fromChat' id="${chatid}">
+                                            <div class='chatName'>${element.From}</div>
+                                            <div class='chatMsg'>${element.Message}</div>
+                                            <div class='chatInfo'>
+                                                <div></div>
+                                                <div>${displayTime}</div>
+                                            </div>
                                         </div>
                                         </div>
                                         `
+                                        if (element.IsRead == "false") {
+                                            let data = {
+                                                Channel:channel,
+                                                CreatedAt: element.CreatedAt,
+                                                To: element.To,
+                                                From: element.From,
+                                                Message: element.Message,
+                                                IsRead: "true",
+                                                ToId: element.ToId,
+                                                FromId: element.FromId
+                                            }
+                                            await gen.publish(channel, JSON.stringify(data))
+                                            gen.update(data)
+                                            .then((res) => {
+                                                console.log(res);
+                                            });
+                                        }
                                 } else {
                                     document.getElementById("Chats").innerHTML += `
                                         <div>
-                                        <div className='toChat'
-                                        style="margin-bottom: 10px; float: right;">
-                                            <div className='chatName'
-                                            style="font-size: 0.8em;">${element.From}</div>
-                                            <div className='chatMsg'
-                                            style="background-color: #32cd32;color: white;min-height: 30px;max-width: 100px;padding: 8px;border-radius: 5px;">${element.Message}</div>
+                                        <div class='toChat' id="${chatid}">
+                                            <div class='chatName'>${element.From}</div>
+                                            <div class='chatMsg'>${element.Message}</div>
+                                            <div class='chatInfo'>
+                                                ${element.IsRead == "false" 
+                                                ? `<img class='readImg IsNotRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />`
+                                                : `<img class='readImg IsRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />` 
+                                                }
+                                                <div>${displayTime}</div>
+                                            </div>
                                         </div>
                                         </div>
                                         `
+                                        console.log($(`#${chatid} img`));
                                 }
                                 
                             }
@@ -239,31 +271,67 @@ function Chat() {
 
     useEffect(() => {
         if (Object.keys(received).length != 0) {
-            if (received.From == to.firstname.S) {
-                document.getElementById("Chats").innerHTML += `
-                            <div>
-                            <div className='fromChat'
-                            style="margin-bottom: 10px; float: left;">
-                                <div className='chatName'
-                                style="font-size: 0.8em;">${received.From}</div>
-                                <div className='chatMsg'
-                                style="background-color: #007FFF;color: white;min-height: 30px;max-width: 100px;padding: 8px;border-radius: 5px;">${received.Message}</div>
-                            </div>
-                            </div>
-                            `
+            let time = new Date(received.CreatedAt);
+            let chatid = time.getFullYear().toString() + time.getDate().toString() + time.getHours().toString() + time.getMinutes().toString() + time.getSeconds().toString();
+            let displayTime = (time.getHours()%12) + ":" + time.getMinutes() + " " + (time.getHours() > 11 ? "PM" : "AM")
+            if (received.IsRead == "true") {
+                if (received.FromId != to.userid.S) {
+                    console.log(`#${chatid} .readImg`)
+                    $(`#${chatid} .readImg`).removeClass("IsNotRead");
+                    $(`#${chatid} .readImg`).addClass("IsRead");
+                    console.log($(`#${chatid} img`));
+                }
+                
             } else {
-                document.getElementById("Chats").innerHTML += `
-                            <div>
-                            <div className='fromChat'
-                            style="margin-bottom: 10px; float: right;">
-                                <div className='chatName'
-                                style="font-size: 0.8em;">${received.From}</div>
-                                <div className='chatMsg'
-                                style="background-color: #32cd32;color: white;min-height: 30px;max-width: 100px;padding: 8px;border-radius: 5px;">${received.Message}</div>
-                            </div>
-                            </div>
-                            `
+                if (received.FromId == to.userid.S) {
+                    document.getElementById("Chats").innerHTML += `
+                                <div>
+                                <div class='fromChat' id="${chatid}">
+                                    <div class='chatName'>${received.From}</div>
+                                    <div class='chatMsg'>${received.Message}</div>
+                                    <div class='chatInfo'>
+                                        <div></div>
+                                        <div>${displayTime}</div>
+                                    </div>
+                                </div>
+                                </div>
+                                `
+                        let data = {
+                            Channel:channel,
+                            CreatedAt: received.CreatedAt,
+                            To: received.To,
+                            From: received.From,
+                            Message: received.Message,
+                            IsRead: "true",
+                            ToId: received.ToId,
+                            FromId: received.FromId
+                        }
+                        const updateRead = async () => {
+                            await gen.publish(channel, JSON.stringify(data))
+                            gen.update(data)
+                            .then((res) => {
+                                console.log(res);
+                            });
+                        }
+
+                        updateRead();
+                        
+                } else {
+                    document.getElementById("Chats").innerHTML += `
+                                <div>
+                                <div class='toChat' id="${chatid}">
+                                    <div class='chatName'>${received.From}</div>
+                                    <div class='chatMsg'>${received.Message}</div>
+                                    <div class='chatInfo'>
+                                        <img class='readImg IsNotRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />
+                                        <div>${displayTime}</div>
+                                    </div>
+                                </div>
+                                </div>
+                                `
+                }
             }
+            
         }
     }, [received])
 
@@ -300,27 +368,36 @@ function Chat() {
 
                 if (response) {
                     let data = await response.json();
-                    if (element.From == to.firstname.S) {
+                    let time = new Date(element.CreatedAt);
+                    let chatid = time.getFullYear().toString() + time.getDate().toString() + time.getHours().toString() + time.getMinutes().toString() + time.getSeconds().toString();
+                    let displayTime = (time.getHours()%12) + ":" + time.getMinutes() + " " + (time.getHours() > 11 ? "PM" : "AM")
+                    if (element.FromId == to.userid.S) {
                         document.getElementById("Chats").innerHTML += `
                             <div>
-                            <div className='fromChat' 
-                            style="margin-bottom: 10px; float: left;">
-                                <div className='chatName'
-                                style="font-size: 0.8em;">${element.From}</div>
-                                <div className='chatMsg' 
-                                style="background-color: #007FFF;color: white;min-height: 30px;max-width: 100px;padding: 8px;border-radius: 5px;">${data.TranslatedText}</div>
+                            <div class='fromChat' id="${chatid}">
+                                <div class='chatName'>${element.From}</div>
+                                <div class='chatMsg'>${data.TranslatedText}</div>
+                                <div class='chatInfo'>
+                                    <div></div>
+                                    <div>${displayTime}</div>
+                                </div>
                             </div>
                             </div>
                             `
                     } else {
                         document.getElementById("Chats").innerHTML += `
                             <div>
-                            <div className='toChat'
-                            style="margin-bottom: 10px; float: right;">
-                                <div className='chatName'
-                                style="font-size: 0.8em;">${element.From}</div>
-                                <div className='chatMsg'
-                                style="background-color: #32cd32;color: white;min-height: 30px;max-width: 100px;padding: 8px;border-radius: 5px;">${data.TranslatedText}</div>
+                            <div class='toChat' id="${chatid}">
+                                <div class='chatName'>${element.From}</div>
+                                <div class='chatMsg'>${data.TranslatedText}</div>
+                                <div class='chatInfo'>
+                                    ${element.IsRead == "false" 
+                                    ? `<img class='readImg IsNotRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />`
+                                    : `<img class='readImg IsRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />` 
+                                    }
+                                    <div>${displayTime}</div>
+                                </div>
+                                
                             </div>
                             </div>
                             `
@@ -374,13 +451,21 @@ function Chat() {
                                 {/* <div>
                                 <div className='fromChat'>
                                     <div className='chatName'>Name 1</div>
-                                    <div className='chatMsg'>Hi</div>
+                                    <div className='chatMsg'>Hi Test</div>
+                                    <div className='chatInfo'>
+                                        <div></div>
+                                        <div>12:30pm</div>
+                                    </div>
                                 </div>
                                 </div>
                                 <div>
                                 <div className='toChat'>
                                     <div className='chatName'>Name 2</div>
                                     <div className='chatMsg'>Hi</div>
+                                    <div className='chatInfo'>
+                                        <img className='readImg IsNotRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />
+                                        <div>12:30pm</div>
+                                    </div>
                                 </div>
                                 </div> */}
                                 

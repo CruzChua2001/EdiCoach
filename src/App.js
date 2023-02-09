@@ -7,6 +7,8 @@ import Contact from "./guest/components/Contact";
 import Login from "./guest/components/Login";
 import CoachLogin from "./guest/components/CoachLogin";
 import Signup from "./guest/components/Signup";
+import ChooseSignup from "./guest/components/ChooseSignup";
+import ContSignup from "./guest/components/ContSignup";
 import CodeConfirmation from "./guest/components/CodeConfirmation";
 import OneonOnecoaching from "./guest/components/OneonOnecoaching";
 import CoachForm from "./guest/components/CoachForm";
@@ -54,6 +56,8 @@ const App = () => {
           <Route path="/guest/contact" element={<Contact />} />
           <Route path="/guest/login" element={<Login />} />
           <Route path="/guest/coachlogin" element={<CoachLogin />} />
+          <Route path="/guest/chooseSignup" element={<ChooseSignup />} />
+          <Route path="/guest/contSignup" element={<ContSignup />} />
           <Route path="/guest/sign-up" element={<Signup />} />
           <Route path="/guest/confirmation" element={<CodeConfirmation />} />
           <Route path="/guest/personalization" element={<Personlization />} />
