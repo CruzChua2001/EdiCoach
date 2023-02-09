@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from "react-router"
+import axios from 'axios'
 import styled from "styled-components"
 import { Container } from "react-bootstrap"
 import { Dropdown } from "react-bootstrap";
@@ -13,6 +15,19 @@ const Breadcrump = styled.p`
 `
 
 const ReviewSession = () => {
+    const { id, bookingid } = useParams();
+    const [bookingDetails, setBookingDetails] = useState({"Date": ""})
+
+    useEffect(_ => {
+        axios.get("https://q4xlyhs9l1.execute-api.ap-southeast-1.amazonaws.com/prod/booking_bookingid/" + bookingid)
+        .then(res => {
+            const data = res.data.Items[0]
+            let obj = {}
+            obj["Date"] = data["StartDateTime"]["S"]
+            setBookingDetails(obj)
+        })
+    }, [])
+
     return (
         <Container>
             <Breadcrump>
@@ -42,9 +57,9 @@ const ReviewSession = () => {
             </div>
 
             <div className="mt-4">
-                <ClientInformation />
+                <ClientInformation userid={id} bookingDetails={bookingDetails} />
                 <br />
-                <TranscriptText />
+                <TranscriptText bookingid={bookingid} />
                 <br />
 
                 <a href="">Click to view the recording</a>

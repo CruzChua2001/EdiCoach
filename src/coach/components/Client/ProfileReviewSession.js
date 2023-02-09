@@ -112,7 +112,7 @@ const ProfileReviewSession = (props) => {
             <br />
             <div className="mt-2">
                 {items.map((item, index) => (
-                    <a href={"/coach/reviewsession/" + item["BookingID"]["S"]} className="text-decoration-none" key={index}>
+                    <a href={"/coach/reviewsession/" + props.userid + "/" + item["BookingID"]["S"]} className="text-decoration-none" key={index}>
                         <div className="border rounded shadow mt-2 ps-4 p-3">
                             {getDate(item["StartDateTime"]["S"])} Session
 

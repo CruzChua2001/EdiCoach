@@ -1,11 +1,25 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 
 const Header = styled.span`
     color: grey;
 `
 
-const ClientInformation = () => {
+const ClientInformation = (props) => {
+    const [userInfo, setUserInfo] = useState({"Name": "", "Phone": ""})
+
+    useEffect(_ => {
+        axios.get("https://4142e664e1.execute-api.ap-southeast-1.amazonaws.com/dev/get/" + props.userid)
+        .then(res => {
+            const data = res.data[0]
+            let obj = {}
+            obj["Name"] = data["firstname"]["S"] + " " + data["lastname"]["S"]
+            obj["Phone"] = data["phone"]["S"]
+            setUserInfo(obj)
+        })
+    }, [])
+
     return (
         <>
             <Header>Session Information</Header>
@@ -16,7 +30,7 @@ const ClientInformation = () => {
                     </div>
                     <div className="col-6">
                         <span>
-                            Wye Keong Wee
+                            {userInfo.Name}
                         </span>
                     </div>
                 </div>
@@ -26,7 +40,7 @@ const ClientInformation = () => {
                     </div>
                     <div className="col-6">
                         <span>
-                            931230293
+                        {userInfo.Phone}
                         </span>
                     </div>
                 </div>
@@ -36,7 +50,7 @@ const ClientInformation = () => {
                     </div>
                     <div className="col-6">
                         <span>
-                            18/11/2022 12:34 PM
+                            {props.bookingDetails.Date}
                         </span>
                     </div>
                 </div>

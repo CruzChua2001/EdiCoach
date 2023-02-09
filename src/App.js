@@ -100,7 +100,7 @@ const App = () => {
           <Route path="/coach/client/actionplan/:id" element={<CreateActionPlan />}/>
           <Route path="/coach/casenote/create/:id" element={<CreateCaseNote />}/> 
           <Route path="/coach/cvs/:id" element={<CoachVideoStream />} />
-          <Route path="/coach/reviewsession" element={<ReviewSession />} />
+          <Route path="/coach/reviewsession/:id/:bookingid" element={<ReviewSession />} />
         </Route>
 
         {/* Admin Path */}
