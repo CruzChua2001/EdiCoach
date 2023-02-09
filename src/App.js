@@ -30,9 +30,11 @@ import CoachFAQ from "./coach/components/FAQ/FAQ";
 import CoachContact from "./coach/components/Contact/Contact";
 import ClientDetail from "./coach/components/Client/ClientDetail";
 import CreateActionPlan from "./coach/components/ActionPlan/CreateActionPlan";
+import ActionPlan from "./coach/components/ActionPlan/ActionPlan";
 import CoachVideoStream from "./coach/components/CoachVideoStream/CoachVideoStream";
 import ReviewSession from "./coach/components/ReviewSession/ReviewSession";
 import CreateCaseNote from "./coach/components/CaseNote/CreateCaseNote";
+import CaseNote from "./coach/components/CaseNote/CaseNote";
 
 import UserActions from "./admin/components/UserActions";
 import Chat from "./admin/components/Chat";
@@ -98,7 +100,9 @@ const App = () => {
 
           <Route path="/coach/client/:id" element={<ClientDetail />} />
           <Route path="/coach/client/actionplan/:id" element={<CreateActionPlan />}/>
+          <Route path="/coach/actionplan/:id/:actionplanid" element={<ActionPlan />}/> 
           <Route path="/coach/casenote/create/:id" element={<CreateCaseNote />}/> 
+          <Route path="/coach/casenote/view/:id/:casenoteid" element={<CaseNote />}/> 
           <Route path="/coach/cvs/:id" element={<CoachVideoStream />} />
           <Route path="/coach/reviewsession/:id/:bookingid" element={<ReviewSession />} />
         </Route>
