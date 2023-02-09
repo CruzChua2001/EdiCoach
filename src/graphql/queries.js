@@ -9,6 +9,9 @@ export const getCHATS = /* GraphQL */ `
       To
       From
       Message
+      IsRead
+      ToId
+      FromId
     }
   }
 `;
@@ -25,6 +28,9 @@ export const listCHATS = /* GraphQL */ `
         To
         From
         Message
+        IsRead
+        ToId
+        FromId
       }
       nextToken
     }

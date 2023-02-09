@@ -159,7 +159,7 @@
 }
 
 .chatContainer .chatContent .fromChat .chatMsg {
-    background-color: blue;
+    background-color: #3d85c6;
     color: white;
     min-height: 30px;
     max-width: 250px;
@@ -173,7 +173,7 @@
 }
 
 .chatContainer .chatContent .toChat .chatMsg {
-    background-color: green;
+    background-color: #93c47d;
     color: white;
     min-height: 30px;
     max-width: 100px;
@@ -231,4 +231,25 @@ iframe {
 
 #lex-web-ui-iframe {
     height: 500px;
+}
+
+#lex-web-ui-iframe {
+    position: absolute;
+    right: 10px;
+    top: 500px;
+    z-index: 10;
+}
+
+.IsNotRead {
+    filter: invert(87%) sepia(0%) saturate(0%) hue-rotate(213deg) brightness(89%) contrast(85%);
+}
+
+.IsRead {
+    filter: invert(64%) sepia(80%) saturate(1722%) hue-rotate(36deg) brightness(103%) contrast(101%);
+}
+
+.chatInfo {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.6em;
 }
