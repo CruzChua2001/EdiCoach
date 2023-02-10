@@ -133,7 +133,7 @@ const UpdateProfile = () => {
             <Breadcrump>
                 <a href="/coach/" className="me-2 text-decoration-none text-secondary"> Home </a>
                 /
-                <a href="/coach/profile" className="me-2 text-decoration-none text-secondary"> Profile </a>
+                <a href="/coach/profile" className="mx-2 text-decoration-none text-secondary"> Profile </a>
                 /
                 <b className="mx-2"> Update </b>
             </Breadcrump>

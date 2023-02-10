@@ -132,8 +132,8 @@ const UpdateProfile = () => {
         <Container>
             <Breadcrump>
                 <a href="/client/" className="me-2 text-decoration-none text-secondary"> Home </a>
-                /
-                <a href="/client/profile" className="me-2 text-decoration-none text-secondary"> Profile </a>
+                / 
+                <a href="/client/profile" className="mx-2 text-decoration-none text-secondary"> Profile </a>
                 /
                 <b className="mx-2"> Update </b>
             </Breadcrump>

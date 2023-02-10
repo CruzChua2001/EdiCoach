@@ -23,8 +23,8 @@ import CoachBooking from "./client/components/CoachBooking/CoachBooking";
 import ClientActionPlan from "./client/components/ActionPlan/ActionPlan";
 import { ManageAppointments } from "./client/components/ManageAppointments/ManageAppointments";
 import ClientVideoStream from "./client/components/ClientVideoStream/ClientVideoStream";
-import ClientProfileDetails from "./coach/components/Profile/ProfileDetails";
-import ClientUpdateProfile from "./coach/components/Profile/UpdateProfile";
+import ClientProfileDetails from "./client/components/Profile/ProfileDetails";
+import ClientUpdateProfile from "./client/components/Profile/UpdateProfile";
 import ClientContact from "./client/components/Contact/Contact";
 
 
