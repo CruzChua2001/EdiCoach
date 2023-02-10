@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Spinner, Button, ToggleButton } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 
+import { Grid } from "@mui/material";
+
 import { Calendar } from "react-calendar";
 import axios from "axios";
 
@@ -111,21 +113,24 @@ function CoachBooking() {
         <div className="saTitle">
           <h4>Coach Details</h4>
         </div>
-        <div>
-          <div className="coachBookingDiv">
-            <img
-              alt=""
-              className="coachBookingImg"
-              src="https://st.depositphotos.com/1144472/1532/i/450/depositphotos_15320783-stock-photo-portrait-of-young-woman-at.jpg"
-            ></img>
-          </div>
-          <div>
+        <Grid container spacing={2}>
+          <Grid item>
+            <div className="coachBookingDiv">
+              <img
+                alt=""
+                className="coachBookingImg"
+                src="https://st.depositphotos.com/1144472/1532/i/450/depositphotos_15320783-stock-photo-portrait-of-young-woman-at.jpg"
+              ></img>
+            </div>
+          </Grid>
+
+          <Grid item>
             <h3 className="coachBookingTitle">
               {data && data[0].firstname.S + " " + data[0].lastname.S}
             </h3>
             <h5 className="coachBookingSubtitle">IT Career Coach</h5>
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       </div>
       <br />
       <div className="shadow rounded">
@@ -146,11 +151,6 @@ function CoachBooking() {
           </div>
         </div>
       </div>
-      {startTime && (
-        <p>
-          Chosen: {startTime.toLocaleString()} - {endTime.toLocaleString()}
-        </p>
-      )}
       <Button onClick={submitBooking}>Submit</Button>
     </Container>
   );

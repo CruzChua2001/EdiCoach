@@ -352,3 +352,8 @@ body {
 .notificationBell {
     cursor: pointer;
 }
+
+.loadingTable {
+    text-align: center;
+    padding: 30px;
+}

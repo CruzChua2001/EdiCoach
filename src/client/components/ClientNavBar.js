@@ -38,14 +38,14 @@ const ClientNavBar = () => {
               id="collasible-nav-dropdown"
               className="navLink"
             >
-              <NavDropdown.Item href="#">Find a Coach</NavDropdown.Item>
-              <NavDropdown.Item href="#">My Bookings</NavDropdown.Item>
+              <NavDropdown.Item href="/client/coachSelect">Find a Coach</NavDropdown.Item>
+              <NavDropdown.Item href="/client/manageAppointments">My Bookings</NavDropdown.Item>
               <NavDropdown.Item href="/client/actionplan">Action Plan</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#" className="navLink">
+            <Nav.Link href="/client/contact" className="navLink">
               Contact Us
             </Nav.Link>
-            <Nav.Link href="#" className="navLink">
+            <Nav.Link href="/client/faq" className="navLink">
               FAQ
             </Nav.Link>
             <Nav.Link href="/client/profile" className="navLink">

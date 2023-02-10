@@ -37,7 +37,7 @@ const CoachNavBar = () => {
             <Nav.Link href="/coach/contact" className="navLink">
               Contact Us
             </Nav.Link>
-            <Nav.Link href="#" className="navLink">
+            <Nav.Link href="/coach/FAQ" className="navLink">
               FAQ
             </Nav.Link>
             <Nav.Link href="/coach/profile" className="navLink">

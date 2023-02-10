@@ -84,7 +84,7 @@ const SessionInformation = (props) => {
             >
                 Submit
             </Button>
-            <Button className="float-end mt-3 me-2" variant={"danger"}>Cancel</Button>
+            <Button className="float-end mt-3 me-2" variant={"danger"} onClick={() => window.location.href = "/coach/client/" + props.userid}>Cancel</Button>
         </>
     )
 }

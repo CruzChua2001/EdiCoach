@@ -6,7 +6,7 @@ const Header = styled.span`
     color: grey;
 `
 
-const ClientInformation = (props) => {
+const GeneralInformation = (props) => {
     const [userInfo, setUserInfo] = useState({"Name": "", "Phone": ""})
 
     useEffect(_ => {
@@ -50,7 +50,7 @@ const ClientInformation = (props) => {
                     </div>
                     <div className="col-6">
                         <span>
-                            {props.bookingDetails.Date}
+                            {props.actionPlan.date}
                         </span>
                     </div>
                 </div>
@@ -59,4 +59,4 @@ const ClientInformation = (props) => {
     )
 }
 
-export default ClientInformation
+export default GeneralInformation
