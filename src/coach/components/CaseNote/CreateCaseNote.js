@@ -55,7 +55,7 @@ const CreateCaseNote = () => {
 
                 <CaseNoteProvider>
                     <SessionDetails userid={id} />
-                    <SessionInformation sessionData={sessionData} />
+                    <SessionInformation sessionData={sessionData} userid={id} />
                 </CaseNoteProvider>
             </DefaultContainer>
         </Container>

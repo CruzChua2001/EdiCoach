@@ -280,7 +280,7 @@ const ActionPlanForm = (props) => {
                 </div>
                 <Button variant="" className="mt-2 border rounded" onClick={addDivider}><PlusCircle className="pb-1" size={18} /> Add Section </Button>
                 <Button className="mt-2 float-end" onClick={submitActionPlan}>Submit</Button>
-                <Button className="mt-2 float-end" variant={'danger'}>Cancel</Button>
+                <Button className="mt-2 me-2 float-end" variant={'danger'} onClick={() => window.location.href = "/coach/client/" + props.userid}>Cancel</Button>
             </div>
         </div>
     )
