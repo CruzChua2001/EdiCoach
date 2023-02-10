@@ -23,6 +23,7 @@ import CoachBooking from "./client/components/CoachBooking/CoachBooking";
 import ClientActionPlan from "./client/components/ActionPlan/ActionPlan";
 import { ManageAppointments } from "./client/components/ManageAppointments/ManageAppointments";
 import ClientVideoStream from "./client/components/ClientVideoStream/ClientVideoStream";
+import ClientContact from "./client/components/Contact/Contact";
 
 import Appointment from "./coach/components/Appointment/Appointment";
 import Client from "./coach/components/Client/Client";
@@ -89,6 +90,7 @@ const App = () => {
           />
           <Route path="/client/actionplan" element={<ClientActionPlan />} />
           <Route path="/client/cvs/:id" element={<ClientVideoStream />} />
+          <Route path="/client/contact" element={<ClientContact />} />
         </Route>
 
         {/* Coach Path */}
