@@ -12,7 +12,7 @@ import Form from 'react-bootstrap/Form';
 import { AccountContext } from "../../Account";
 
 import $ from 'jquery';
-
+import axios from "axios";
 
 import config from '../../../config';
 
@@ -21,7 +21,8 @@ Amplify.configure(gen.config)
 function Chat() {
     const [status, setStatus] = useState(false);
     const { getSession, getData } = useContext(AccountContext);
-
+    const [subscribed, setSubscribed] = useState(false)
+    const [sessionData, setSessionData] = useState({})
     
     const fromChat = {
         marginBottom: "10px",
@@ -42,6 +43,8 @@ function Chat() {
     const [message, setMessage] = useState({})
     const [to, setTo] = useState({})
     const [from, setFrom] = useState({})
+    const [allchats, setAllChats] = useState([])
+    const [selectedChat, setSelectedChat] = useState("")
 
     const [cookies, setCookie] = useCookies();
 
@@ -56,16 +59,57 @@ function Chat() {
         .then((session) => {
             console.log(session);
             // setStatus(true);
+            let sessionUserid = session.filter((item) => item.Name == "sub")[0].Value;
+            let sessionName = session.filter((item) => item.Name == "custom:firstname")[0].Value + " " + session.filter((item) => item.Name == "custom:lastname")[0].Value;
+            let sessionEmail = session.filter((item) => item.Name == "email")[0].Value;
             let fromChat = {
-                "userid": {"S":session.filter((item) => item.Name == "sub")[0].Value},
-                "firstname": {"S":session.filter((item) => item.Name == "custom:firstname")[0].Value + " " + session.filter((item) => item.Name == "custom:lastname")[0].Value}
+                "userid": {"S":sessionUserid},
+                "firstname": {"S":sessionName}
             };
             setFrom(fromChat)
-            console.log(fromChat)
+            console.log(sessionEmail)
+
+            const result = {
+                "userid": sessionUserid,
+                "Email": sessionEmail
+            }
+            setSessionData(result);
+            checkSubscribed(result);
         })
         .catch((err) => console.log(err))
     }, [])
 
+    const checkSubscribed = (sessionUser) => {
+        checkNotification(sessionUser["Email"])
+    }
+
+    const notifyClient = () => {
+        const action = subscribed;
+        const url = "https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/notification"
+        const data = {"Email": sessionData["Email"], "Unsubscribe": action }
+
+        axios.post(url, JSON.stringify(data))
+        .then(res => {
+            console.log(res)
+            if(!action) {
+                alert("Please check email to confirm receiving updates")
+            }
+            
+            if(action) {
+                setSubscribed(false)
+            }
+        })
+    }
+
+    const checkNotification = (clientEmail) => {
+        const url = "https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/notification"        
+        axios.get(url+"?Email="+clientEmail)
+        .then(res => {
+            if(res.data["verified"] == true) {
+                setSubscribed(true)
+            }
+        })
+    }
 
     //Publish data to subscribed clients
     async function handleSubmit(evt) {
@@ -92,27 +136,6 @@ function Chat() {
         setSend("Type Here")
     }
 
-    // useEffect(() => {
-        
-    //     if (cookies['sessionId'] != undefined) {
-    //         let sessionId = cookies['sessionId'];
-    //         fetch("https://1b46sbaptd.execute-api.us-east-1.amazonaws.com/dev/get/"+sessionId, {
-    //             method: 'GET',
-    //             headers: { 'Content-Type': 'application/json' }})
-    //             .then((msg) => {
-    //                 msg.json()
-    //                 .then(data => {
-    //                     console.log(data)
-    //                     if (data.status != "success") {
-    //                         window.location.href = "/admin/login";
-    //                     }
-    //                 })
-    //             }).catch(err => console.log(err))
-    //     } else {
-    //         window.location.href = "/admin/login";
-    //     }
-    // }, [])
-
     useEffect(() => {
         let type = window.localStorage.getItem("chattype");
         let channelid;
@@ -137,20 +160,7 @@ function Chat() {
         
 
         if (window.localStorage.getItem("chatuserid")) {
-            // let sessionId = cookies['sessionId'];
             let toData;
-
-            // if (sessionId == "d83e5bec-3412-45f3-b0c9-d4ecbdbf7922") {
-            //     toData = {
-            //         "UserId":{"S":"5aa2dbd9-3155-4ad9-b3a9-a9d2077d11b8"},
-            //         "FirstName":{"S":"Edison"}
-            //     };
-            // } else {
-            //     toData = {
-            //         "UserId":{"S":"d83e5bec-3412-45f3-b0c9-d4ecbdbf7922"},
-            //         "FirstName":{"S":"Cruz"}
-            //     };
-            // }
 
             toData = {
                 "userid":{"S":window.localStorage.getItem("chatuserid")},
@@ -161,29 +171,13 @@ function Chat() {
 
             setTo(toData);
 
-            // fetch(config.SESSION_API+"/get/"+sessionId, {
-            //     method: 'GET',
-            //     headers: { 'Content-Type': 'application/json' }})
-            //     .then((msg) => {
-            //         msg.json()
-            //         .then(data => {
-            //             console.log(data)
-
-
-            //             if (data.status != "success") {
-            //                 console.log("error");
-            //             } else {
-            //                 setFrom(data.message)
-            //             }
-            //         })
-            //     }).catch(err => console.log(err))
-
                 if (channel) {
                     console.log(channel)
                     gen.listall(channel)
                     .then(async (res) => {
                         console.log(res)
                         let msg = res.data.listChats.items;
+                        setAllChats(msg)
         
                         if (msg.length != 0) {
                             for (let index = 0; index < msg.length; index++) {
@@ -196,7 +190,7 @@ function Chat() {
                                     document.getElementById("Chats").innerHTML += `
                                         <div>
                                         <div class='fromChat' id="${chatid}">
-                                            <div class='chatName'>${element.From}</div>
+                                            <div class='chatName'>${to.firstname.S}</div>
                                             <div class='chatMsg'>${element.Message}</div>
                                             <div class='chatInfo'>
                                                 <div></div>
@@ -226,7 +220,7 @@ function Chat() {
                                     document.getElementById("Chats").innerHTML += `
                                         <div>
                                         <div class='toChat' id="${chatid}">
-                                            <div class='chatName'>${element.From}</div>
+                                            <div class='chatName'>${from.firstname.S}</div>
                                             <div class='chatMsg'>${element.Message}</div>
                                             <div class='chatInfo'>
                                                 ${element.IsRead == "false" 
@@ -238,34 +232,15 @@ function Chat() {
                                         </div>
                                         </div>
                                         `
-                                        console.log($(`#${chatid} img`));
                                 }
                                 
                             }
+                            updateScroll(); 
                         }    
                     }); 
         
                 }
         } 
-
-        
-
-            // fetch(config.USER_API+"/get/"+userid, {
-    //     method: 'GET',
-    //     headers: { 'Content-Type': 'application/json' }})
-    //     .then((msg) => {
-    //         msg.json()
-    //         .then(data => {
-    //             console.log(data)
-
-
-    //             if (data.status != "success") {
-    //                 console.log("error");
-    //             } else {
-    //                 setFrom(data.message)
-    //             }
-    //         })
-    //     }).catch(err => console.log(err))
         
     }, [channel])
 
@@ -287,7 +262,7 @@ function Chat() {
                     document.getElementById("Chats").innerHTML += `
                                 <div>
                                 <div class='fromChat' id="${chatid}">
-                                    <div class='chatName'>${received.From}</div>
+                                    <div class='chatName'>${to.firstname.S}</div>
                                     <div class='chatMsg'>${received.Message}</div>
                                     <div class='chatInfo'>
                                         <div></div>
@@ -320,7 +295,7 @@ function Chat() {
                     document.getElementById("Chats").innerHTML += `
                                 <div>
                                 <div class='toChat' id="${chatid}">
-                                    <div class='chatName'>${received.From}</div>
+                                    <div class='chatName'>${from.firstname.S}</div>
                                     <div class='chatMsg'>${received.Message}</div>
                                     <div class='chatInfo'>
                                         <img class='readImg IsNotRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />
@@ -330,41 +305,41 @@ function Chat() {
                                 </div>
                                 `
                 }
+                updateScroll();
             }
             
         }
     }, [received])
 
     const translate = () => {
-        document.getElementById("Chats").innerHTML = "";
+        // document.getElementById("Chats").innerHTML = "";
         gen.listall(channel)
         .then((res) => {
             
             let msg = res.data.listChats.items.sort((a,b)=>a.CreatedAt-b.CreatedAt);;
-
-            translateAPI(msg);
+            let target = document.getElementById("lang").value;
+            translateAPI(msg, target);
         });
 
 
     }
 
-    const translateAPI = async (msg) => {
+    const translateMsg = (evt) => {
+        let filterChat = allchats.filter(chat => ((new Date(chat.CreatedAt)).getFullYear().toString() + (new Date(chat.CreatedAt)).getDate().toString() + (new Date(chat.CreatedAt)).getHours().toString() + (new Date(chat.CreatedAt)).getMinutes().toString() + (new Date(chat.CreatedAt)).getSeconds().toString()) == selectedChat);
+        translateAPI(filterChat, evt.currentTarget.id)
+    }
+
+    const translateAPI = async (msg, target) => {
         if (msg.length != 0) {
             for (let index = 0; index < msg.length; index++) {
                 const element = msg[index];
 
                 let text = element.Message;
-                let target = document.getElementById("lang").value;
+                // let target = document.getElementById("lang").value;
                 let response = await fetch(config.TRANSLATE_API+"/translate", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({text, target})});
-                // .then((msg) => {
-                //     msg.json()
-                //     .then(data => {
-                        
-                //     })
-                // }).catch(err => console.log(err))
 
                 if (response) {
                     let data = await response.json();
@@ -372,40 +347,77 @@ function Chat() {
                     let chatid = time.getFullYear().toString() + time.getDate().toString() + time.getHours().toString() + time.getMinutes().toString() + time.getSeconds().toString();
                     let displayTime = (time.getHours()%12) + ":" + time.getMinutes() + " " + (time.getHours() > 11 ? "PM" : "AM")
                     if (element.FromId == to.userid.S) {
-                        document.getElementById("Chats").innerHTML += `
-                            <div>
-                            <div class='fromChat' id="${chatid}">
-                                <div class='chatName'>${element.From}</div>
-                                <div class='chatMsg'>${data.TranslatedText}</div>
-                                <div class='chatInfo'>
-                                    <div></div>
-                                    <div>${displayTime}</div>
-                                </div>
-                            </div>
-                            </div>
-                            `
+                        $(`#${chatid} .chatMsg`).html(data.TranslatedText);
+                        // document.getElementById("Chats").innerHTML += `
+                        //     <div>
+                        //     <div class='fromChat' id="${chatid}">
+                        //         <div class='chatName'>${to.firstname.S}</div>
+                        //         <div class='chatMsg'>${data.TranslatedText}</div>
+                        //         <div class='chatInfo'>
+                        //             <div></div>
+                        //             <div>${displayTime}</div>
+                        //         </div>
+                        //     </div>
+                        //     </div>
+                        //     `
                     } else {
-                        document.getElementById("Chats").innerHTML += `
-                            <div>
-                            <div class='toChat' id="${chatid}">
-                                <div class='chatName'>${element.From}</div>
-                                <div class='chatMsg'>${data.TranslatedText}</div>
-                                <div class='chatInfo'>
-                                    ${element.IsRead == "false" 
-                                    ? `<img class='readImg IsNotRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />`
-                                    : `<img class='readImg IsRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />` 
-                                    }
-                                    <div>${displayTime}</div>
-                                </div>
+                        $(`#${chatid} .chatMsg`).html(data.TranslatedText);
+                        // document.getElementById("Chats").innerHTML += `
+                        //     <div>
+                        //     <div class='toChat' id="${chatid}">
+                        //         <div class='chatName'>${from.firstname.S}</div>
+                        //         <div class='chatMsg'>${data.TranslatedText}</div>
+                        //         <div class='chatInfo'>
+                        //             ${element.IsRead == "false" 
+                        //             ? `<img class='readImg IsNotRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />`
+                        //             : `<img class='readImg IsRead' src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/read.png" width="16" height="16" />` 
+                        //             }
+                        //             <div>${displayTime}</div>
+                        //         </div>
                                 
-                            </div>
-                            </div>
-                            `
+                        //     </div>
+                        //     </div>
+                        //     `
                     }
                 }
             }
         }  
         
+    }
+
+    function updateScroll(){
+        var element = document.getElementById("Chats");
+        element.scrollTop = element.scrollHeight;
+    }
+
+    useEffect(() => {
+        document.onclick = hideMenu;
+        // document.onscroll = hideMenu;
+        $( document ).on('contextmenu', '.fromChat', function(evt) {
+            console.log(evt.currentTarget.id)
+            setSelectedChat(evt.currentTarget.id)
+            rightClick(evt);
+          });
+        $( document ).on('contextmenu', '.toChat', function(evt) {
+            rightClick(evt);
+          });
+    }, [])
+
+    function hideMenu() { 
+        document.getElementById("contextMenu").style.display = "none"
+    } 
+
+    function rightClick(e) { 
+        e.preventDefault(); 
+
+        if (document.getElementById("contextMenu").style.display == "block"){ 
+            hideMenu(); 
+        }else{ 
+            var menu = document.getElementById("contextMenu")      
+            menu.style.display = 'block'; 
+            menu.style.left = e.pageX + "px"; 
+            menu.style.top = e.pageY + "px"; 
+        } 
     }
 
     //Display pushed data on browser
@@ -438,6 +450,19 @@ function Chat() {
                                     <option value="ms">Malay</option>
                                     <option value="ta">Tamil</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div className='profileData'>
+                                <div>Enable Notifications:</div>
+                                <div>
+                                <label class="switch">
+                                    { subscribed ? 
+                                    <input type="checkbox" checked onChange={notifyClient} />
+                                    :
+                                    <input type="checkbox" onChange={notifyClient} />
+                                    }
+                                    <span class="slider round"></span>
+                                </label>
                                 </div>
                             </div>
                         </div>
@@ -481,6 +506,14 @@ function Chat() {
                         </div>
                     </Col>
                 </Row>
+                <div id="contextMenu" className="context-menu" style={{"display": "none"}}> 
+                    <ul className="menu"> 
+                        <li id='en' className="translate" onClick={translateMsg}><a href="#"><i className="fa fa-share" aria-hidden="true"></i>Translate English</a></li>
+                        <li id='zh' className="translate" onClick={translateMsg}><a href="#"><i className="fa fa-share" aria-hidden="true"></i>Translate Chinese</a></li>
+                        <li id='ms' className="translate" onClick={translateMsg}><a href="#"><i className="fa fa-share" aria-hidden="true"></i>Translate Malay</a></li>
+                        <li id='ta' className="translate" onClick={translateMsg}><a href="#"><i className="fa fa-share" aria-hidden="true"></i>Translate Tamil</a></li>
+                    </ul> 
+                </div> 
             </Container>
             {/* <header className="App-header">
                 <p>Send/Push JSON to channel "{channel}"...</p>

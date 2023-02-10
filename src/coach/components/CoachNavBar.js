@@ -40,6 +40,9 @@ const CoachNavBar = () => {
             <Nav.Link href="/coach/FAQ" className="navLink">
               FAQ
             </Nav.Link>
+            <Nav.Link href="/coach/profile" className="navLink">
+              Profile
+            </Nav.Link>
             <Nav.Link href="#" className="navIcon">
               <Bell size={"1.25em"} />
             </Nav.Link>
