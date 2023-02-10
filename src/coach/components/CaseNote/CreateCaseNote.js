@@ -7,6 +7,7 @@ import { CaseNoteProvider } from '../Context'
 import SessionDetails from './SessionDetails'
 import SessionInformation from './SessionInformation'
 import { AccountContext } from "../../../Account";
+import axios from 'axios'
 
 const Breadcrump = styled.p`
     display: flex;
@@ -22,6 +23,7 @@ const CreateCaseNote = () => {
     const { id } = useParams()
     const { getSession, getData } = useContext(AccountContext)
     const [sessionData, setSessionData] = useState({})
+    const [name, setName] = useState("")
 
     useEffect(() => {
         getData()
@@ -36,16 +38,23 @@ const CreateCaseNote = () => {
             obj["userid"] = session[1]["Value"]
             return obj
         }
+
+        axios.get("https://4142e664e1.execute-api.ap-southeast-1.amazonaws.com/dev/get/" + id)
+        .then(res => {
+            console.log(res)
+            const data = res.data[0]
+            setName(data["firstname"]["S"] + " " + data["lastname"]["S"])
+        })
     }, []);
 
     return (
         <Container>
             <Breadcrump>
-                <a href="/coach/appointment" className="mx-2 text-decoration-none text-secondary"> Home </a>
+                <a href="/coach" className="mx-2 text-decoration-none text-secondary"> Home </a>
                 /
-                <a href="coach/client" className="mx-2 text-decoration-none text-secondary"> Client </a>
+                <a href="/coach/client" className="mx-2 text-decoration-none text-secondary"> Client </a>
                 /
-                <a href="coach/client" className="mx-2 text-decoration-none text-secondary"> Name </a>
+                <a href={"/coach/client/" + id} className="mx-2 text-decoration-none text-secondary"> {name} </a>
                 /
                 <b className="mx-2"> Create Case Note </b>
             </Breadcrump>
