@@ -37,6 +37,13 @@ const ProfileDetails = (props) => {
             return arr
         }
     }, [])
+
+    function goChat(userid, name) {
+        window.localStorage.setItem("chatuserid", userid);
+        window.localStorage.setItem("chatname", name);
+        window.localStorage.setItem("chattype", "Client");
+        location.href = "/coach/chat";
+    }
     
     return (
         <div className="px-5">
@@ -50,6 +57,7 @@ const ProfileDetails = (props) => {
                     <Dropdown.Menu>
                         <Dropdown.Item href={"/coach/casenote/create/" + props.userid}>Create Case Note</Dropdown.Item>
                         <Dropdown.Item href={"/coach/client/actionplan/" + props.userid}>Create Action Plan</Dropdown.Item>
+                        <Dropdown.Item onClick={() => {goChat(result.userid, result.firstname + " " + result.lastname)}}>Chat with user</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>

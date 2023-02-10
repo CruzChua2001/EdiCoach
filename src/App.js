@@ -23,6 +23,8 @@ import CoachBooking from "./client/components/CoachBooking/CoachBooking";
 import ClientActionPlan from "./client/components/ActionPlan/ActionPlan";
 import { ManageAppointments } from "./client/components/ManageAppointments/ManageAppointments";
 import ClientVideoStream from "./client/components/ClientVideoStream/ClientVideoStream";
+import ClientProfileDetails from "./coach/components/Profile/ProfileDetails";
+import ClientUpdateProfile from "./coach/components/Profile/UpdateProfile";
 
 import Appointment from "./coach/components/Appointment/Appointment";
 import Client from "./coach/components/Client/Client";
@@ -33,6 +35,8 @@ import CreateActionPlan from "./coach/components/ActionPlan/CreateActionPlan";
 import CoachVideoStream from "./coach/components/CoachVideoStream/CoachVideoStream";
 import ReviewSession from "./coach/components/ReviewSession/ReviewSession";
 import CreateCaseNote from "./coach/components/CaseNote/CreateCaseNote";
+import CoachProfileDetails from "./coach/components/Profile/ProfileDetails";
+import CoachUpdateProfile from "./coach/components/Profile/UpdateProfile";
 
 import UserActions from "./admin/components/UserActions";
 import Chat from "./admin/components/Chat";
@@ -87,6 +91,10 @@ const App = () => {
           />
           <Route path="/client/actionplan" element={<ClientActionPlan />} />
           <Route path="/client/cvs/:id" element={<ClientVideoStream />} />
+
+          <Route path="/client/profile" element={<ClientProfileDetails />} />
+          <Route path="/client/updateprofile" element={<ClientUpdateProfile />} />
+          <Route path="/client/chat" element={<Chat />} />
         </Route>
 
         {/* Coach Path */}
@@ -101,6 +109,10 @@ const App = () => {
           <Route path="/coach/casenote/create/:id" element={<CreateCaseNote />}/> 
           <Route path="/coach/cvs/:id" element={<CoachVideoStream />} />
           <Route path="/coach/reviewsession" element={<ReviewSession />} />
+
+          <Route path="/coach/profile" element={<CoachProfileDetails />} />
+          <Route path="/coach/updateprofile" element={<CoachUpdateProfile />} />
+          <Route path="/coach/chat" element={<Chat />} />
         </Route>
 
         {/* Admin Path */}
