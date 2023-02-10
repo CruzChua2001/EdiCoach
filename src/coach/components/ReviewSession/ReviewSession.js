@@ -18,6 +18,7 @@ const ReviewSession = () => {
     const { id, bookingid } = useParams();
     const [bookingDetails, setBookingDetails] = useState({"Date": ""})
     const [video, setVideo] = useState(false)
+    const [name, setName] = useState("")
 
     useEffect(_ => {
         axios.get("https://q4xlyhs9l1.execute-api.ap-southeast-1.amazonaws.com/prod/booking_bookingid/" + bookingid)
@@ -27,16 +28,23 @@ const ReviewSession = () => {
             obj["Date"] = data["StartDateTime"]["S"]
             setBookingDetails(obj)
         })
+
+        axios.get("https://4142e664e1.execute-api.ap-southeast-1.amazonaws.com/dev/get/" + id)
+        .then(res => {
+            console.log(res)
+            const data = res.data[0]
+            setName(data["firstname"]["S"] + " " + data["lastname"]["S"])
+        })
     }, [])
 
     return (
         <Container>
             <Breadcrump>
-                <a href="/coach/appointment" className="me-2 text-decoration-none text-secondary"> Home </a>
+                <a href="/coach" className="me-2 text-decoration-none text-secondary"> Home </a>
                 /
                 <a href="/coach/client" className="mx-2 text-decoration-none text-secondary"> Client </a>
                 /
-                <a href="/coach/client" className="mx-2 text-decoration-none text-secondary"> Profile </a>
+                <a href={"/coach/client/" + id} className="mx-2 text-decoration-none text-secondary"> {name} </a>
                 /
                 <b className="mx-2"> Review Session </b>
             </Breadcrump>
