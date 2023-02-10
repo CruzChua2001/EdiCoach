@@ -43,6 +43,7 @@ const GuestFooter = () => {
                     <p><LinkTag href="/guest/career-coaching">Career Coaching</LinkTag></p>
                     <p><LinkTag href="/guest/1-on-1-coaching">1-on-1 Coaching</LinkTag></p>
                     <p><LinkTag href="/guest/contact">Contact Us</LinkTag></p>
+                    <p><LinkTag href="/guest/coachLogin">Coach Login</LinkTag></p>
                 </Links>
             </div>
             <div className="col-12 col-sm-6 col-md-3">

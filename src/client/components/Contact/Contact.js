@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Form, Button } from "react-bootstrap";
 
-const Contact = () => {
+const ClientContact = () => {
     return (
         <Container>
             <div className="mt-5 row">
@@ -49,4 +49,4 @@ const Contact = () => {
     )
 }
 
-export default Contact
+export default ClientContact
