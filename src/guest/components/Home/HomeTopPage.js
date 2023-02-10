@@ -24,7 +24,7 @@ const HomeTopPage = () => {
                 <a href="/guest/login"><Button variant="" size="lg" className="rounded" style={{ border: "2px solid #3E468A", zIndex: 99 }}> Login </Button></a>
             </div>
             <div className="col-5">
-                <img src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/%E2%80%94Pngtree%E2%80%94patient+counseling_5401409.png" width="500" />
+                <img src="https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/%E2%80%94Pngtree%E2%80%94patient+counseling_5401409.png" width="400" />
             </div>
         </Div>
     ) 
