@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FileEarmark, Person, PencilSquare } from "react-bootstrap-icons";
 import { ScheduleAppointments } from "./ScheduleAppointments";
@@ -22,14 +20,6 @@ export default function ClientHome() {
   return (
     <div>
       <Container>
-        <h2>
-          Welcome back,
-          {sessionData.length > 0
-            ? " " +
-              sessionData.filter((param) => param.Name == "custom:firstname")[0]
-                .Value
-            : " Loading..."}
-        </h2>
         {sessionData.length > 0 ? (
           <ScheduleAppointments
             accountID={
@@ -74,7 +64,7 @@ export default function ClientHome() {
               style={{ cursor: "pointer" }}
             >
               <PencilSquare size={"50px"} />
-              <h4>Manage Appointment</h4>
+              <h4>Appointment</h4>
             </Button>
           </Col>
         </Row>
