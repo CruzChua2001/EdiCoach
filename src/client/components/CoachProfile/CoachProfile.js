@@ -88,6 +88,13 @@ export default function CoachProfile() {
     console.log(curr_val);
   };
 
+  function goChat(userid, name) {
+    window.localStorage.setItem("chatuserid", userid);
+    window.localStorage.setItem("chatname", name);
+    window.localStorage.setItem("chattype", "Coach");
+    location.href = "/client/chat";
+}
+
   return (
     <Container>
       <Button
@@ -115,7 +122,7 @@ export default function CoachProfile() {
               in IT. Have any questions regarding the in’s and out’s of the IT
               industry? I’m your guy
             </p>
-            <Button variant="primary" className="coachProfileButton">
+            <Button variant="primary" className="coachProfileButton" onClick={() => {goChat(data[0].userid.S, data[0].firstname.S + " " + data[0].lastname.S)}}>
               Message
             </Button>
           </div>

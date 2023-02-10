@@ -23,7 +23,10 @@ import CoachBooking from "./client/components/CoachBooking/CoachBooking";
 import ClientActionPlan from "./client/components/ActionPlan/ActionPlan";
 import { ManageAppointments } from "./client/components/ManageAppointments/ManageAppointments";
 import ClientVideoStream from "./client/components/ClientVideoStream/ClientVideoStream";
+import ClientProfileDetails from "./coach/components/Profile/ProfileDetails";
+import ClientUpdateProfile from "./coach/components/Profile/UpdateProfile";
 import ClientContact from "./client/components/Contact/Contact";
+
 
 import Appointment from "./coach/components/Appointment/Appointment";
 import Client from "./coach/components/Client/Client";
@@ -35,6 +38,8 @@ import ActionPlan from "./coach/components/ActionPlan/ActionPlan";
 import CoachVideoStream from "./coach/components/CoachVideoStream/CoachVideoStream";
 import ReviewSession from "./coach/components/ReviewSession/ReviewSession";
 import CreateCaseNote from "./coach/components/CaseNote/CreateCaseNote";
+import CoachProfileDetails from "./coach/components/Profile/ProfileDetails";
+import CoachUpdateProfile from "./coach/components/Profile/UpdateProfile";
 import CaseNote from "./coach/components/CaseNote/CaseNote";
 
 import UserActions from "./admin/components/UserActions";
@@ -90,6 +95,10 @@ const App = () => {
           />
           <Route path="/client/actionplan" element={<ClientActionPlan />} />
           <Route path="/client/cvs/:id" element={<ClientVideoStream />} />
+
+          <Route path="/client/profile" element={<ClientProfileDetails />} />
+          <Route path="/client/updateprofile" element={<ClientUpdateProfile />} />
+          <Route path="/client/chat" element={<Chat />} />
           <Route path="/client/contact" element={<ClientContact />} />
         </Route>
 
@@ -106,6 +115,11 @@ const App = () => {
           <Route path="/coach/casenote/create/:id" element={<CreateCaseNote />}/> 
           <Route path="/coach/casenote/view/:id/:casenoteid" element={<CaseNote />}/> 
           <Route path="/coach/cvs/:id" element={<CoachVideoStream />} />
+          <Route path="/coach/reviewsession" element={<ReviewSession />} />
+
+          <Route path="/coach/profile" element={<CoachProfileDetails />} />
+          <Route path="/coach/updateprofile" element={<CoachUpdateProfile />} />
+          <Route path="/coach/chat" element={<Chat />} />
           <Route path="/coach/reviewsession/:id/:bookingid" element={<ReviewSession />} />
         </Route>
 

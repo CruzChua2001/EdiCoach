@@ -48,6 +48,9 @@ const ClientNavBar = () => {
             <Nav.Link href="/client/faq" className="navLink">
               FAQ
             </Nav.Link>
+            <Nav.Link href="/client/profile" className="navLink">
+              Profile
+            </Nav.Link>
             <Nav.Link href="#" className="navIcon">
               <Bell size={"1.25em"} />
             </Nav.Link>
