@@ -111,7 +111,7 @@ const ProfileActionPlan = (props) => {
             <br />
             <div className="mt-2">
                 {items.map((item, index) => (
-                    <a href={"/coach/actionplan/" + item["id"]["S"]} className="text-decoration-none" key={index}>
+                    <a href={"/coach/actionplan/" + props.userid + "/" + item["id"]["S"]} className="text-decoration-none" key={index}>
                         <div className="border rounded shadow mt-2 ps-4 p-3">
                             {getDate(item["date"]["S"])} Action Plan
 

@@ -45,7 +45,7 @@ const ClientDetail = () => {
 
                     <ProfileCaseNote userid={id} />    
 
-                    <ProfileReviewSession />
+                    <ProfileReviewSession userid={id} />
 
                     <ProfileActionPlan userid={id} />
                 </LeftProfile>

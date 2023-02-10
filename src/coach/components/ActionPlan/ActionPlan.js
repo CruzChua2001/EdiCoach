@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react"
-import { Container } from 'react-bootstrap'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import {Container} from 'react-bootstrap'
 import { useParams } from "react-router"
 import styled from 'styled-components'
-import axios from 'axios'
 
-import { ActionPlanProvider } from "../Context"
-import ActionPlanDropDown from "./ActionPlanDropDown"
-import ActionPlanForm from "./ActionPlanForm"
+import GeneralInformation from './GeneralInformation'
+import ActionPlanView from './ActionPlanView'
 
 const Breadcrump = styled.p`
 display: flex;
@@ -18,11 +17,20 @@ const DefaultContainer = styled.div`
     margin-top: 5%;
 `
 
-const CreateActionPlan = () => {
-    const { id } = useParams()
+const ActionPlan = () => {
+    const { id, actionplanid } = useParams()
+    const [actionPlan, setActionPlan] = useState({"date": "", "form": []})
     const [name, setName] = useState("")
 
     useEffect(_ => {
+        let url = "https://en3gq3zwt3.execute-api.ap-southeast-1.amazonaws.com/prod/actionplan" + "?id=" + actionplanid
+        axios.get(url)
+        .then(res => {
+            const data = res.data[0]
+            console.log(data)
+            setActionPlan(data)
+        })
+
         axios.get("https://4142e664e1.execute-api.ap-southeast-1.amazonaws.com/dev/get/" + id)
         .then(res => {
             console.log(res)
@@ -46,13 +54,11 @@ const CreateActionPlan = () => {
             <DefaultContainer className="primary-font-color">
                 <h2 className="font-weight-bold mb-4">Action Plan</h2>
 
-                <ActionPlanProvider>
-                    <ActionPlanDropDown userid={id} />
-                    <ActionPlanForm userid={id} />
-                </ActionPlanProvider>
+                <GeneralInformation userid={id} actionPlan={actionPlan} />
+                <ActionPlanView actionPlan={actionPlan} />
             </DefaultContainer>
         </Container>
     )
 }
 
-export default CreateActionPlan
+export default ActionPlan

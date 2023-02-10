@@ -9,6 +9,9 @@ export const createCHATS = /* GraphQL */ `
       To
       From
       Message
+      IsRead
+      ToId
+      FromId
     }
   }
 `;
@@ -20,6 +23,9 @@ export const updateCHATS = /* GraphQL */ `
       To
       From
       Message
+      IsRead
+      ToId
+      FromId
     }
   }
 `;
@@ -31,6 +37,9 @@ export const deleteCHATS = /* GraphQL */ `
       To
       From
       Message
+      IsRead
+      ToId
+      FromId
     }
   }
 `;

@@ -6,7 +6,6 @@ import { useAllClient } from "../Context";
 const axios = require('axios');
 
 const Hr = styled.hr`
-    margin-inline: 6%;
     margin-top: 1.5%;
 `
 
@@ -79,7 +78,7 @@ const SearchClient = () => {
 
             <Hr />
 
-            <div className="container">
+            <div className="">
                 <Searchbar className="row">
                     <div className="col-10 col-sm-11 col-lg-11">
                         <Form.Control
@@ -91,7 +90,7 @@ const SearchClient = () => {
                         /> 
                     </div>
                     <div className="col-2 col-sm-1 col-lg-1">
-                        <Button variant='primary' onClick={getSearchClient}>
+                        <Button variant='primary' onClick={getSearchClient} className="float-end">
                             <Search />
                         </Button>
                     </div>
