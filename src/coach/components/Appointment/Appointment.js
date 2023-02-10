@@ -64,7 +64,7 @@ const Appointment = () => {
   };
 
   return (
-    <div>
+    <div className="mb-4">
       <Container fluid className="m-2 mt-5">
         <Row>
           <Col lg={3}>
