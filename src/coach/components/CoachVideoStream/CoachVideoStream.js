@@ -166,9 +166,13 @@ export default function CoachVideoStream() {
         BookingID: id,
         Base64Vid: base64String,
       };
-      axios.post(`${config.BOOKING_API}save_vid`, JSON.stringify(body));
+      await axios.post(`${config.BOOKING_API}save_vid`, JSON.stringify(body), {
+        headers: {
+          "content-type": "application/json",
+        },
+      });
     } catch (err) {
-      console.log(err);
+      console.log("Error", err);
     } finally {
     }
   };
