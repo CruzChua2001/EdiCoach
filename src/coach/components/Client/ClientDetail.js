@@ -6,6 +6,7 @@ import { Container } from "react-bootstrap"
 import ProfileCaseNote from "./ProfileCaseNote"
 import ProfileReviewSession from "./ProfileReviewSession"
 import ProfileDetails from "./ProfileDetails"
+import ProfileActionPlan from "./ProfileActionPlan"
 
 const Breadcrump = styled.p`
     display: flex;
@@ -42,12 +43,14 @@ const ClientDetail = () => {
             <ProfileContainer>
                 <LeftProfile>
 
-                    <ProfileCaseNote />    
+                    <ProfileCaseNote userid={id} />    
 
-                    <ProfileReviewSession />
+                    <ProfileReviewSession userid={id} />
+
+                    <ProfileActionPlan userid={id} />
                 </LeftProfile>
                 <RightProfile>
-                    <ProfileDetails />
+                    <ProfileDetails userid={id} />
                 </RightProfile>
             </ProfileContainer>
         </Container>

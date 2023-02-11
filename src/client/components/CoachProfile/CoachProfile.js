@@ -1,16 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Container, Row, Col, Table, Badge, Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Select, MenuItem, FormControl } from "@mui/material";
 import { Backspace } from "react-bootstrap-icons";
 import axios from "axios";
 
+import { AccountContext } from "../../../Account";
+
+import config from "../../../../config";
+
 export default function CoachProfile() {
+  const { coachID } = useParams();
+
+  const { getSession, getData } = useContext(AccountContext);
+
   const [sessions, setSessions] = useState(12);
   const [cost, setCost] = useState(660);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [sessionData, setSessionData] = useState([]);
+
+  useEffect(() => {
+    getData()
+      .then((session) => {
+        console.log(session);
+        setSessionData(session);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    const getBookingData = async () => {
+      try {
+        let url = config.USER_MANAGEMENT_API + `/get/${coachID}`;
+        console.log(url);
+        const response = await axios.get(url);
+        console.log(response.data);
+        setData(response.data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        setData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getBookingData();
+  }, []);
+
+  console.log(coachID);
 
   const navigate = useNavigate();
 
@@ -24,24 +64,18 @@ export default function CoachProfile() {
     const postData = async () => {
       try {
         var body = {
-          ClientID: "1123",
-          CoachID: "1124",
+          ClientID: sessionData.filter((param) => param.Name == "sub")[0].Value,
+          CoachID: coachID,
+          CoachName: data[0].firstname.S + " " + data[0].lastname.S,
           Session: sessions,
           Price: priceObject[sessions],
         };
         axios
-          .put(
-            "https://hqyui19u1f.execute-api.us-east-1.amazonaws.com/UAT/payment",
-            body
-          )
+          .put(config.BOOKING_API + "payment", JSON.stringify(body))
           .then((response) => navigate("/client/"));
-
-        setData(response);
-        setError(null);
       } catch (err) {
-        setError(err.message);
+        console.log(err);
       } finally {
-        setLoading(false);
       }
     };
     postData();
@@ -53,6 +87,13 @@ export default function CoachProfile() {
     setCost(priceObject[curr_val]);
     console.log(curr_val);
   };
+
+  function goChat(userid, name) {
+    window.localStorage.setItem("chatuserid", userid);
+    window.localStorage.setItem("chatname", name);
+    window.localStorage.setItem("chattype", "Coach");
+    location.href = "/client/chat";
+}
 
   return (
     <Container>
@@ -72,14 +113,16 @@ export default function CoachProfile() {
               src="https://st.depositphotos.com/1144472/1532/i/450/depositphotos_15320783-stock-photo-portrait-of-young-woman-at.jpg"
             ></img>
             <br />
-            <h3 className="coachProfileTitle">Nicholas Chan</h3>
+            <h3 className="coachProfileTitle">
+              {data && data[0].firstname.S + " " + data[0].lastname.S}
+            </h3>
             <h5 className="coachProfileSubtitle">IT Career Coach</h5>
             <p className="coachProfileText">
               Hello, my name is Nicholas! I am a career coach that specializes
               in IT. Have any questions regarding the in’s and out’s of the IT
               industry? I’m your guy
             </p>
-            <Button variant="primary" className="coachProfileButton">
+            <Button variant="primary" className="coachProfileButton" onClick={() => {goChat(data[0].userid.S, data[0].firstname.S + " " + data[0].lastname.S)}}>
               Message
             </Button>
           </div>
@@ -91,15 +134,17 @@ export default function CoachProfile() {
                 <Table className="coachProfileTable">
                   <tr>
                     <th>Full Name</th>
-                    <td>John Doe</td>
+                    <td>
+                      {data && data[0].firstname.S + " " + data[0].lastname.S}
+                    </td>
                   </tr>
                   <tr>
                     <th>Email</th>
-                    <td>johndoe@gmail.com</td>
+                    <td>{data && data[0].email.S}</td>
                   </tr>
                   <tr>
                     <th>Phone</th>
-                    <td>+65 9999 9999</td>
+                    <td>+65 {data && data[0].phone.S}</td>
                   </tr>
                   <tr>
                     <th>Address</th>

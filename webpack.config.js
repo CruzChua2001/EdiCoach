@@ -7,6 +7,15 @@ module.exports = {
     fallback: {
       crypto: require.resolve("crypto-browserify"),
       stream: require.resolve("stream-browserify"),
+      child_process: false,
+      fs: false,
+      https: require.resolve("https-browserify"),
+      os: require.resolve("os-browserify/browser"),
+      path: require.resolve("path-browserify"),
+      net: false,
+      tls: false,
+      http: require.resolve("stream-http"),
+      buffer: require.resolve("buffer")
     },
   },
   output: {
@@ -21,6 +30,13 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       PACKAGE_VERSION: "test.test.test",
     }),
+
+    new webpack.ProvidePlugin({
+      process: "process/browser",
+      Buffer: ["buffer", "Buffer"],
+    }),
+    
+    new webpack.optimize.ModuleConcatenationPlugin()
   ],
   devServer: {
     port: 3000, // you can change the port

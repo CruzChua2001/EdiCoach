@@ -1,85 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
-import {
-  Box,
-  Collapse,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  Paper,
-} from "@mui/material";
-
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import { Button, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Box, CircularProgress } from "@mui/material";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 
 import axios from "axios";
 
-function createData(session, coachName, start, end, bookingId) {
+import config from "../../../../config";
+
+function createRow(id, session, coachName, start, end) {
   return {
+    id,
     session,
     coachName,
     start,
     end,
-    bookingId,
   };
 }
 
-function Row(props) {
-  const { row } = props;
-  const [open, setOpen] = React.useState(false);
-
-  return (
-    <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row" className="appointmentsText">
-          {row.session}
-        </TableCell>
-        <TableCell align="right" className="appointmentsText">
-          {row.coachName}
-        </TableCell>
-        <TableCell align="right" className="appointmentsText">
-          {row.start}
-        </TableCell>
-        <TableCell align="right" className="appointmentsText">
-          {row.end}
-        </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <div className="appointmentButtons p-2">
-                <Button variant="danger">Cancel Booking</Button>
-                <Button variant="success">Change Booking Date</Button>
-                <Button variant="success">Join Call</Button>
-              </div>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
-}
-
-export const ScheduleAppointments = () => {
-  const [data, setData] = useState(null);
+export const ScheduleAppointments = ({ accountID }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  var rows = [];
+  const [rows, setRows] = useState(null);
+  const [bookingID, setBookingID] = useState(null);
 
   var options = {
     weekday: "short",
@@ -90,70 +33,91 @@ export const ScheduleAppointments = () => {
     minute: "numeric",
   };
 
+  const columns = [
+    { field: "session", headerName: "Session", width: 100 },
+    { field: "coachName", headerName: "Coach Name", width: 220 },
+    { field: "start", headerName: "Start Date & Time", width: 220 },
+    { field: "end", headerName: "End Date & Time", width: 220 },
+  ];
+
+  const handleClick = (event) => {
+    console.log(event.row.id);
+    setBookingID(event.row.id);
+  };
+
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(
-          `https://tvf7ofmy9i.execute-api.us-east-1.amazonaws.com/UAT/booking?ClientID=1123`
-        );
-        setData(response.data);
+        let url = config.BOOKING_API + `booking_clientid/${accountID}`;
+        const response = await axios.get(url);
+        let r = [];
+        response.data.Items.map((booking) => {
+          r.push(
+            createRow(
+              booking.BookingID.S,
+              booking.SessionCount.N,
+              booking.CoachName.S,
+              new Date(booking.StartDateTime.S).toLocaleDateString(
+                "en-US",
+                options
+              ),
+              new Date(booking.EndDateTime.S).toLocaleDateString(
+                "en-US",
+                options
+              )
+            )
+          );
+        });
+        setRows(r);
+        console.log(response.data);
         setError(null);
       } catch (err) {
         setError(err.message);
-        setData(null);
+        console.log(err.message);
       } finally {
         setLoading(false);
       }
     };
     getData();
   }, []);
-  console.log(data);
-  if (data !== null) {
-    for (let i = 0; i < data.Count; i++) {
-      let item = data.Items[i];
-      rows.push(
-        createData(
-          `${item.SessionCount.N}`,
-          "Nicholas Chan",
-          new Date(item.StartDateTime.S).toLocaleString("en-US", options),
-          new Date(item.EndDateTime.S).toLocaleString("en-US", options)
-        )
-      );
-    }
-  }
   return (
-    <div className="shadow rounded">
-      <div className="saTitle">
-        <h3>Upcoming Appointments</h3>
+    <div>
+      <Row>
+        <Col className="col-8">
+          <h2>Upcoming Appointments</h2>
+        </Col>
+        <Col className="col-4">
+          {bookingID && (
+            <Link to={`/client/cvs/${bookingID}`}>
+              <Button className="coachProfileButton">Join Call</Button>
+            </Link>
+          )}
+          {!bookingID && (
+            <Button className="coachProfileButton" disabled>
+              Join Call
+            </Button>
+          )}
+        </Col>
+      </Row>
+      <div className="shadow rounded">
+        {loading && (
+          <h3 className="loadingTable">
+            Loading <CircularProgress />
+          </h3>
+        )}
+        {error && <div>There is a problem fetching the data</div>}
+        {rows && (
+          <div style={{ height: 400, width: "100%" }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              onRowClick={handleClick}
+            />
+          </div>
+        )}
       </div>
-      {loading && <div>A moment please...</div>}
-      {error && <div>There is a problem fetching the data</div>}
-      {data && (
-        <TableContainer component={Paper}>
-          <Table aria-label="collapsible table">
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell className="appointmentsHead">Session</TableCell>
-                <TableCell align="right" className="appointmentsHead">
-                  Coach Name
-                </TableCell>
-                <TableCell align="right" className="appointmentsHead">
-                  Start Date & Time
-                </TableCell>
-                <TableCell align="right" className="appointmentsHead">
-                  End Date & Time
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                (row.start != "Invalid Date") && <Row key={row.session} row={row} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
     </div>
   );
 };

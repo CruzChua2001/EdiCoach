@@ -6,10 +6,10 @@
     "build": "webpack --mode production"
   },
   "engines": {
-    "node": ">=14.0.0 <16.0.0"
+    "node": ">=14.0.0 <17.0.0"
   },
   "dependencies": {
-    "@aldabil/react-scheduler": "^2.5.14",
+    "@aldabil/react-scheduler": "^2.6.10",
     "@aws-amplify/api": "^5.0.4",
     "@aws-sdk/client-ssm": "^3.224.0",
     "@babel/core": "^7.20.5",
@@ -21,6 +21,7 @@
     "@mui/material": "^5.10.16",
     "@mui/x-data-grid": "^5.17.14",
     "@mui/x-date-pickers": "^5.0.9",
+    "@react-oauth/google": "^0.7.0",
     "amazon-cognito-identity-js": "^6.1.2",
     "aws-sdk": "^2.1298.0",
     "axios": "^1.2.0",
@@ -32,11 +33,15 @@
     "crypto-browserify": "^3.12.0",
     "css-loader": "^6.7.2",
     "date-fns": "^2.29.3",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "filepond": "^4.30.4",
     "filepond-plugin-image-exif-orientation": "^1.0.11",
     "filepond-plugin-image-preview": "^4.6.11",
+    "google-auth-library": "^8.7.0",
     "jquery": "^3.6.1",
+    "jsonwebtoken": "^9.0.0",
+    "jwk-to-pem": "^2.0.5",
     "moment": "^2.29.4",
     "popper.js": "^1.16.1",
     "react-bootstrap": "^2.6.0",

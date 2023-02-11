@@ -2,35 +2,44 @@
 // this is an auto generated file. This will be overwritten
 
 export const createCHATS = /* GraphQL */ `
-  mutation CreateCHATS($input: CreateCHATSInput!) {
-    createCHATS(input: $input) {
+  mutation CreateChast($input: CreateChatsInput!) {
+    createChats(input: $input) {
       Channel
       CreatedAt
       To
       From
       Message
+      IsRead
+      ToId
+      FromId
     }
   }
 `;
 export const updateCHATS = /* GraphQL */ `
-  mutation UpdateCHATS($input: UpdateCHATSInput!) {
-    updateCHATS(input: $input) {
+  mutation UpdateChats($input: UpdateChatsInput!) {
+    updateChats(input: $input) {
       Channel
       CreatedAt
       To
       From
       Message
+      IsRead
+      ToId
+      FromId
     }
   }
 `;
 export const deleteCHATS = /* GraphQL */ `
-  mutation DeleteCHATS($input: DeleteCHATSInput!) {
-    deleteCHATS(input: $input) {
+  mutation DeleteChats($input: DeleteChatsInput!) {
+    deleteChats(input: $input) {
       Channel
       CreatedAt
       To
       From
       Message
+      IsRead
+      ToId
+      FromId
     }
   }
 `;

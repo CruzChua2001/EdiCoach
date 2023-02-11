@@ -348,3 +348,12 @@ body {
     display: table;
     margin: 0 auto;
 }
+
+.notificationBell {
+    cursor: pointer;
+}
+
+.loadingTable {
+    text-align: center;
+    padding: 30px;
+}

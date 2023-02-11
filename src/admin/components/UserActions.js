@@ -1,10 +1,10 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
 import config from '../../../config';
 
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -22,11 +22,31 @@ import { CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js';
 
 const poolData = config.poolData;
 
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
+import { AccountContext } from "../../Account";
+
 const UserActions = () => {
 
     const [users, setUsers] = useState([]);
     const [rows, setRows] = useState([]);
     const [selectedUser, setSelectedUser] = useState("");
+    const [sessionToken, setSessionToken] = useState("");
+
+    const { getSession } = useContext(AccountContext);
+
+    useEffect(() => {
+        getSession()
+        .then((session) => {
+            console.log(session);
+            if (session)  {
+                setSessionToken(session.idToken.jwtToken);
+            }
+        })
+        .catch((err) => console.log(err))
+    }, [])
 
     let columns = [
         {
@@ -36,14 +56,18 @@ const UserActions = () => {
           valueGetter: (params) =>
             `${params.row.firstname || ''} ${params.row.lastname || ''}`,
         },
-        { field: 'email', headerName: 'Email', width: 186 },
+        { field: 'email', headerName: 'Email', width: 210 },
         { field: 'usertype', headerName: 'UserType', width: 188 },
+        { field: 'phone', headerName: 'Phone', width: 188 },
       ];
 
     const retrieveUsers = () => {
-        fetch(config.TEST_API+"/getall", {
+        fetch(config.USER_MANAGEMENT_API+"/getall", {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' }})
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': sessionToken
+        }})
         .then((msg) => {
             msg.json()
             .then(users => {
@@ -69,9 +93,9 @@ const UserActions = () => {
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(password, salt);
 
-        fetch(config.TEST_API+"/add", {
+        fetch(config.USER_MANAGEMENT_API+"/add", {
         method: 'POST',
-        body: JSON.stringify({email, password: password, salt, firstname, lastname, dob, phone, gender, userid, usertype}),
+        body: JSON.stringify({email, password: password, salt, firstname, lastname, dob, phone, gender, userid, usertype, skills:""}),
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
             msg.json()
@@ -87,6 +111,7 @@ const UserActions = () => {
 
     const deleteUser = () => {
         $(".dropdown-menu").hide();
+        handleClose();
         let email = selectedUser;
         console.log(email);
 
@@ -107,7 +132,7 @@ const UserActions = () => {
         //     // retrieveUsers();
         // })
 
-        fetch(config.TEST_API+`/delete/`+email, {
+        fetch(config.USER_MANAGEMENT_API+`/delete/`+email, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
@@ -126,46 +151,50 @@ const UserActions = () => {
         let row = [];
         for (let index = 0; index < users.length; index++) {
             const element = users[index];
-            row.push({ id: element.userid.S, email: element.email.S, lastname: element.lastname.S, firstname: element.firstname.S, usertype: element.usertype.S })
+            row.push({ id: element.userid.S, email: element.email.S, lastname: element.lastname.S, firstname: element.firstname.S, usertype: element.usertype.S, phone: element.phone.S })
         }
         console.log(row);
         setRows(row);
     }, [users])
 
     useEffect(() => {
-        retrieveUsers();
+        if (sessionToken) {
+            retrieveUsers();
 
-        $(".dropdown-toggle").on("click", function() {
+        $("#basic-button").on("click", function() {
             setTimeout(() => {
                 if ($(".Mui-selected").length == 1) {
                     let selectedEmail = $(".Mui-selected").find(".MuiDataGrid-cellContent").get(1).innerHTML
                     setSelectedUser(selectedEmail);
-                    $(".dropdown-menu a").removeClass("disabled");
-                    $(".dropdown-menu a").attr("aria-disabled", "false");
+                    $(".MuiList-root li").removeClass("li-disabled");
+                    // $(".MuiList-root li").attr("aria-disabled", "false");
                 } else {
-                    $(".dropdown-menu a").addClass("disabled");
-                    $(".dropdown-menu a").first().removeClass("disabled");
-                    $(".dropdown-menu a").attr("aria-disabled", "true");
-                    $(".dropdown-menu a").first().attr("aria-disabled", "false");
+                    $(".MuiList-root li").addClass("li-disabled");
+                    $(".MuiList-root li").first().removeClass("li-disabled");
+                    // $(".MuiList-root li").attr("aria-disabled", "true");
+                    // $(".MuiList-root li").first().attr("aria-disabled", "false");
                 }
 
-                if ($(".dropdown-menu").css("display") == "none") {
-                    $(".dropdown-menu").show();
-                } else {
-                    $(".dropdown-menu").hide();
-                }
+                // if ($(".dropdown-menu").css("display") == "none") {
+                //     $(".dropdown-menu").show();
+                // } else {
+                //     $(".dropdown-menu").hide();
+                // }
 
                 $(".show").show();
                 
             }, 100)
             
         })
-    }, [])
+        }
+        
+    }, [sessionToken])
 
 
     const openAdd = () => {
         console.log("Opening...")
         $(".dropdown-menu").hide();
+        handleClose();
         document.getElementsByClassName("popup-background").item(0).style.display = "block";
         document.getElementsByClassName("popup-content").item(0).style.display = "block";
     }
@@ -181,6 +210,7 @@ const UserActions = () => {
     const openProfile = () => {
         console.log("Opening...")
         $(".dropdown-menu").hide();
+        handleClose()
 
         let selectedProfile = users.filter(user => user.email.S == selectedUser)[0];
 
@@ -218,9 +248,18 @@ const UserActions = () => {
         
         
     }
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     
 
-    return (
+    return  (
     <>
     <div className="popup-background"></div>
     <Container className="popup-container">
@@ -374,12 +413,37 @@ const UserActions = () => {
     <Container className="admin-table">
         <Row>
             <Col></Col>
-            <Col xs="8" style={{height:"370px"}}>
+            <Col xs="12" style={{height:"370px"}}>
                 <div className="admin-table-title">
                     <div>
                         TABLE OF ALL USERS
                     </div>
                     <div>
+                    <Button
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                        style={{marginRight:"35px"}}
+                    >
+                        Actions
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        <MenuItem onClick={openAdd}>Add User</MenuItem>
+                        <MenuItem onClick={deleteUser}>Delele User</MenuItem>
+                        <MenuItem onClick={openProfile}>View Details</MenuItem>
+                    </Menu>
+                    </div>
+                    {/* <div>
                     <ArrowClockwise />
                     <Dropdown>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic">
@@ -392,7 +456,7 @@ const UserActions = () => {
                             <Dropdown.Item onClick={openProfile}>View Details</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                    </div>
+                    </div> */}
                 </div>
             <DataGrid
                 rows={rows}

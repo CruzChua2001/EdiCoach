@@ -2,29 +2,35 @@
 // this is an auto generated file. This will be overwritten
 
 export const getCHATS = /* GraphQL */ `
-  query GetCHATS($Channel: String!, $CreatedAt: Int!) {
-    getCHATS(Channel: $Channel, CreatedAt: $CreatedAt) {
+  query GetChats($Channel: String!, $CreatedAt: Int!) {
+    getChats(Channel: $Channel, CreatedAt: $CreatedAt) {
       Channel
       CreatedAt
       To
       From
       Message
+      IsRead
+      ToId
+      FromId
     }
   }
 `;
 export const listCHATS = /* GraphQL */ `
-  query ListCHATS(
-    $filter: TableCHATSFilterInput
+  query ListChats(
+    $filter: TableChatsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listCHATS(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listChats(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         Channel
         CreatedAt
         To
         From
         Message
+        IsRead
+        ToId
+        FromId
       }
       nextToken
     }
