@@ -1,12 +1,12 @@
-﻿import { API, graphqlOperation } from '@aws-amplify/api'
+﻿import {API, graphqlOperation } from '@aws-amplify/api'
 import { listCHATS } from './queries'
-import { createCHATS, updateCHATS } from './mutations'
+import { createCHATS } from './mutations'
 
 export const config = {
-    "aws_appsync_graphqlEndpoint": "https://j2jwxaq3bzewbbvp3emufqgbke.appsync-api.ap-southeast-1.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://3hgbo4b67vcvjeibhr4fl2qcq4.appsync-api.ap-southeast-1.amazonaws.com/graphql",
     "aws_appsync_region": "ap-southeast-1",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-o6enri7kgjd4ddlepcj37sghxi",
+    "aws_appsync_apiKey": "da2-4pse6aqf5fgntgdixn4hwlplxu",
 }
 
 export const subscribeDoc = /* GraphQL */ `
@@ -68,13 +68,6 @@ export async function listall(channel) {
 export async function create(data) {
     return await API.graphql({
         query: createCHATS,
-        variables: {input: data}
-    })
-}
-
-export async function update(data) {
-    return await API.graphql({
-        query: updateCHATS,
         variables: {input: data}
     })
 }

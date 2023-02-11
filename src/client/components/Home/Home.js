@@ -1,35 +1,48 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FileEarmark, Person, PencilSquare } from "react-bootstrap-icons";
 import { ScheduleAppointments } from "./ScheduleAppointments";
-
-import { AccountContext } from "../../../Account";
+import axios from "axios";
 
 export default function ClientHome() {
-  const { getSession, getData } = useContext(AccountContext);
-  var [sessionData, setSessionData] = useState([]);
-  useEffect(() => {
-    getData()
-      .then((session) => {
-        console.log(session);
-        setSessionData(session);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const email = "notweewyekeong@gmail.com";
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(
+          `https://tvf7ofmy9i.execute-api.us-east-1.amazonaws.com/UAT/booking?ClientID=1123`
+        );
+        setData(response.data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        setData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    //getData();
+  }, []);
+  console.log(data);
   return (
     <div>
       <Container>
-        {sessionData.length > 0 ? (
-          <ScheduleAppointments
-            accountID={
-              sessionData.filter((param) => param.Name == "sub")[0].Value
-            }
-          />
-        ) : (
-          ""
+        {loading && <h2>A moment please...</h2>}
+        {error && <h2>There is a problem fetching the data</h2>}
+        {data && (
+          <h2>
+            Welcome back, {data.Items[0].firstName.S} {data.Items[0].lastName.S}
+            !
+          </h2>
         )}
-
+        <br />
+        <ScheduleAppointments />
         <br />
         <h2>Shortcuts</h2>
         <br />
@@ -64,7 +77,7 @@ export default function ClientHome() {
               style={{ cursor: "pointer" }}
             >
               <PencilSquare size={"50px"} />
-              <h4>Appointment</h4>
+              <h4>Manage Appointment</h4>
             </Button>
           </Col>
         </Row>

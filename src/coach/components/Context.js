@@ -11,7 +11,7 @@ export const AllClient = ({ children }) => {
 
     useEffect(() => {
         //fetch api here
-        fetch("https://4142e664e1.execute-api.ap-southeast-1.amazonaws.com/dev/gettype/Client")
+        fetch("https://i0lyxkgqc4.execute-api.us-east-1.amazonaws.com/uat/getallclients")
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.status}`)
@@ -23,27 +23,11 @@ export const AllClient = ({ children }) => {
             return response.json()
         })
         .then((result) => {
-            const formattedResult = formatResult(result)
-            setClientResult(formattedResult)
+            setClientResult(result)
         })
         .catch((error) => {
             console.log("Error: " + error);
         })
-
-        const formatResult = (result) => {
-            let arr = []
-            result.forEach(item => {
-                let obj = {}
-                obj['dob'] = item['dob']['S']
-                obj['firstname'] = item['firstname']['S']
-                obj['gender'] = item['gender']['S']
-                obj['lastname'] = item['lastname']['S']
-                obj['phone'] = item['phone']['S']
-                obj['userid'] = item['userid']['S']
-                arr.push(obj)
-            })
-            return arr
-        }
 
     }, [])
 
@@ -61,31 +45,17 @@ export const useActionPlan = () => {
 }
 
 export const ActionPlanProvider = ({ children }) => {
-    const [selected, setSelected] = useState({})
+    const [selected, setSelected] = useState({UUID: "testing", Name: "Cruz Chua"})
     const [allClient, setAllClient] = useState([])
     const [actionPlan, setActionPlan] = useState({})
-    const [coachingType, setCoachingType] = useState({selected: "1-on-1 Coaching", allCoachingType: ["1-on-1 Coaching", "Career Coaching"]})
+
+    // useEffect(() => {
+    //     setSelected({UUID: "testing", Name: "Cruz Chua"})
+    // }, [selected])
 
     return (
-        <ActionPlanContext.Provider value={{ selected: selected, setSelected: setSelected, allClient: allClient, setAllClient: setAllClient, actionPlan: actionPlan, setActionPlan: setActionPlan, coachingType: coachingType, setCoachingType: setCoachingType }}>
+        <ActionPlanContext.Provider value={{ selected: selected, setSelected: setSelected, allClient: allClient, setAllClient: setAllClient, actionPlan: actionPlan, setActionPlan: setActionPlan }}>
             { children }
         </ActionPlanContext.Provider>
-    )
-}
-
-const CaseNoteContext = createContext();
-
-export const useCasenote = () => {
-    return useContext(CaseNoteContext)
-}
-
-export const CaseNoteProvider = ({ children }) => {
-    const [details, setDetails] = useState({"Date": "", "Name": "", "Phone": "", "UserId": ""})
-    const [information, setInformation] = useState({"Reason": "", "Discussion": "", "ActionPlan": ""})
-
-    return (
-        <CaseNoteContext.Provider value={{ details: details, setDetails: setDetails, information: information, setInformation: setInformation }}>
-            { children }
-        </CaseNoteContext.Provider>
     )
 }
