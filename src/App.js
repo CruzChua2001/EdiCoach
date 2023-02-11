@@ -14,6 +14,7 @@ import OneonOnecoaching from "./guest/components/OneonOnecoaching";
 import CoachForm from "./guest/components/CoachForm";
 import CoachApplication from "./guest/components/CoachApplication";
 import Personlization from "./guest/components/Personalization";
+import Pending from "./guest/components/Pending";
 
 import ClientHome from "./client/components/Home/Home";
 import CoachView from "./client/components/CoachView/CoachView";
@@ -75,6 +76,7 @@ const App = () => {
             element={<CoachApplication />}
           />
         </Route>
+        <Route path="/guest/pending" element={<Pending />} />
 
         {/* Client Path */}
         <Route path="/client/" element={<ClientLayout />}>

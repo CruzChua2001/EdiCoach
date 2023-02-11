@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import '../css/gueststyle.css';
 import { SortNumericDown } from "react-bootstrap-icons";
 import { Message } from "@mui/icons-material";
+import axios from "axios";
 
 const CoachForm = () => {
     const FormStyle = {
@@ -77,11 +78,8 @@ const CoachForm = () => {
      const coachRegister = () => {
         console.log('test')
         let Salt = bcrypt.genSaltSync(10);
-        fetch("https://vonlxpnb0j.execute-api.us-east-1.amazonaws.com/UAT/postcoachapplication", {
-            method: 'POST',
-            body: JSON.stringify({...Forms, Salt : Salt, HashPassword: bcrypt.hashSync(Forms.HashPassword, Salt)}),
-            headers: { 'Content-Type': 'application/json' }})
-            .then(msg => {window.location.href = "/guest/sign-up";}     
+        axios.post("https://wv704kalt9.execute-api.ap-southeast-1.amazonaws.com/UAT/postcoachapplication", JSON.stringify({...Forms, Salt : Salt, HashPassword: bcrypt.hashSync(Forms.HashPassword, Salt)}))
+            .then(msg => {window.location.href = "/guest/pending";}     
             //     (msg) => {
             //         if (msg.HTTPStatusCode === 200) {
         
@@ -94,6 +92,8 @@ const CoachForm = () => {
             ).catch(err => console.log(err))
             // console.log('hi') 
     }
+
+
     
     return (<>
         <div style={FormStyle} >
