@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home from "./guest/components/Home/Home";
-import Careercoaching from "./guest/components/Careercoaching";
+import Home from "./guest/components/Home";
+import Careercoaching from "./guest/components/Home";
 import Contact from "./guest/components/Contact";
 import Login from "./guest/components/Login";
 import CoachLogin from "./guest/components/CoachLogin";
 import Signup from "./guest/components/Signup";
-import ChooseSignup from "./guest/components/ChooseSignup";
-import ContSignup from "./guest/components/ContSignup";
 import CodeConfirmation from "./guest/components/CodeConfirmation";
 import OneonOnecoaching from "./guest/components/OneonOnecoaching";
 import CoachForm from "./guest/components/CoachForm";
@@ -22,11 +20,6 @@ import CoachProfile from "./client/components/CoachProfile/CoachProfile";
 import CoachBooking from "./client/components/CoachBooking/CoachBooking";
 import ClientActionPlan from "./client/components/ActionPlan/ActionPlan";
 import { ManageAppointments } from "./client/components/ManageAppointments/ManageAppointments";
-import ClientVideoStream from "./client/components/ClientVideoStream/ClientVideoStream";
-import ClientProfileDetails from "./client/components/Profile/ProfileDetails";
-import ClientUpdateProfile from "./client/components/Profile/UpdateProfile";
-import ClientContact from "./client/components/Contact/Contact";
-
 
 import Appointment from "./coach/components/Appointment/Appointment";
 import Client from "./coach/components/Client/Client";
@@ -34,13 +27,7 @@ import CoachFAQ from "./coach/components/FAQ/FAQ";
 import CoachContact from "./coach/components/Contact/Contact";
 import ClientDetail from "./coach/components/Client/ClientDetail";
 import CreateActionPlan from "./coach/components/ActionPlan/CreateActionPlan";
-import ActionPlan from "./coach/components/ActionPlan/ActionPlan";
 import CoachVideoStream from "./coach/components/CoachVideoStream/CoachVideoStream";
-import ReviewSession from "./coach/components/ReviewSession/ReviewSession";
-import CreateCaseNote from "./coach/components/CaseNote/CreateCaseNote";
-import CoachProfileDetails from "./coach/components/Profile/ProfileDetails";
-import CoachUpdateProfile from "./coach/components/Profile/UpdateProfile";
-import CaseNote from "./coach/components/CaseNote/CaseNote";
 
 import UserActions from "./admin/components/UserActions";
 import Chat from "./admin/components/Chat";
@@ -51,6 +38,7 @@ import GuestLayout from "./Layout/GuestLayout";
 import ClientLayout from "./Layout/ClientLayout";
 import CoachLayout from "./Layout/CoachLayout";
 import AdminLayout from "./Layout/AdminLayout";
+import ClientVideoStream from "./client/components/ClientVideoStream/ClientVideoStream";
 
 const App = () => {
   return (
@@ -64,8 +52,6 @@ const App = () => {
           <Route path="/guest/contact" element={<Contact />} />
           <Route path="/guest/login" element={<Login />} />
           <Route path="/guest/coachlogin" element={<CoachLogin />} />
-          <Route path="/guest/chooseSignup" element={<ChooseSignup />} />
-          <Route path="/guest/contSignup" element={<ContSignup />} />
           <Route path="/guest/sign-up" element={<Signup />} />
           <Route path="/guest/confirmation" element={<CodeConfirmation />} />
           <Route path="/guest/personalization" element={<Personlization />} />
@@ -81,25 +67,14 @@ const App = () => {
           <Route path="/client/" element={<ClientHome />} />
           <Route path="/client/coachSelect" element={<CoachView />} />
           <Route path="/client/coachPricing" element={<CoachPricing />} />
-          <Route
-            path="/client/coachProfile/:coachID"
-            element={<CoachProfile />}
-          />
-          <Route
-            path="/client/coachBooking/:id/:coachID"
-            element={<CoachBooking />}
-          />
+          <Route path="/client/coachProfile" element={<CoachProfile />} />
+          <Route path="/client/coachBooking/:id" element={<CoachBooking />} />
           <Route
             path="/client/manageAppointments"
             element={<ManageAppointments />}
           />
           <Route path="/client/actionplan" element={<ClientActionPlan />} />
-          <Route path="/client/cvs/:id" element={<ClientVideoStream />} />
-
-          <Route path="/client/profile" element={<ClientProfileDetails />} />
-          <Route path="/client/updateprofile" element={<ClientUpdateProfile />} />
-          <Route path="/client/chat" element={<Chat />} />
-          <Route path="/client/contact" element={<ClientContact />} />
+          <Route path="/client/cvs" element={<ClientVideoStream />} />
         </Route>
 
         {/* Coach Path */}
@@ -110,17 +85,11 @@ const App = () => {
           <Route path="/coach/FAQ" element={<CoachFAQ />} />
 
           <Route path="/coach/client/:id" element={<ClientDetail />} />
-          <Route path="/coach/client/actionplan/:id" element={<CreateActionPlan />}/>
-          <Route path="/coach/actionplan/:id/:actionplanid" element={<ActionPlan />}/> 
-          <Route path="/coach/casenote/create/:id" element={<CreateCaseNote />}/> 
-          <Route path="/coach/casenote/view/:id/:casenoteid" element={<CaseNote />}/> 
-          <Route path="/coach/cvs/:id" element={<CoachVideoStream />} />
-          <Route path="/coach/reviewsession" element={<ReviewSession />} />
-
-          <Route path="/coach/profile" element={<CoachProfileDetails />} />
-          <Route path="/coach/updateprofile" element={<CoachUpdateProfile />} />
-          <Route path="/coach/chat" element={<Chat />} />
-          <Route path="/coach/reviewsession/:id/:bookingid" element={<ReviewSession />} />
+          <Route
+            path="/coach/client/actionplan/:id"
+            element={<CreateActionPlan />}
+          />
+          <Route path="/coach/cvs/" element={<CoachVideoStream />} />
         </Route>
 
         {/* Admin Path */}

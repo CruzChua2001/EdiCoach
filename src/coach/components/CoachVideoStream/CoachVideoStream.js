@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Container, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useMaster } from "react-kinesis-webrtc";
 
 import "../../../videostream/Video.css";
@@ -11,23 +11,33 @@ import {
   Videocam,
   VideocamOff,
   CallEnd,
-  RadioButtonChecked,
-  Stop,
-  Download,
 } from "@mui/icons-material";
-
-import axios from "axios";
-import config from "../../../../config";
 
 const viewer = {};
 
 var audioStatus = true;
 var videoStatus = true;
 
+function Peer({ media }) {
+  const ref = useRef();
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.srcObject = media;
+    }
+  }, [ref, media]);
+  return (
+    <video
+      autoPlay
+      ref={ref}
+      className="mainVideo"
+      poster="https://hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif"
+    />
+  );
+}
+
 export default function CoachVideoStream() {
-  const { id } = useParams();
   const localMediaRef = useRef();
-  const vidConfig = {
+  const config = {
     credentials: {
       accessKeyId: "AKIATGEGFJCERG3HVFVD",
       secretAccessKey: "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",
@@ -41,14 +51,9 @@ export default function CoachVideoStream() {
     },
     debug: true,
   };
-  const { error, localMedia, peers } = useMaster(vidConfig);
+  const { error, localMedia, peers } = useMaster(config);
   const [isVideo, setIsVideo] = useState(true);
   const [isMic, setIsMic] = useState(true);
-  const recordRef = useRef(true);
-
-  const [remoteMedia, setRemoteMedia] = useState();
-
-  const remoteRef = useRef();
 
   // Assign the local media stream to a video source
   useEffect(() => {
@@ -76,63 +81,6 @@ export default function CoachVideoStream() {
     }
   }
 
-  var mediaRecorder = null;
-  let chunks = [];
-  if (remoteMedia) {
-    mediaRecorder = new MediaRecorder(remoteMedia);
-    mediaRecorder.ondataavailable = (e) => {
-      chunks.push(e.data);
-      console.log(e.data);
-    };
-    mediaRecorder.onstop = (e) => {
-      //var downloadBtn = document.getElementById("downloadBtn");
-      console.log(chunks.length);
-      let recordBlob = new Blob(chunks, { type: "video/webm" });
-      var reader = new FileReader();
-      reader.readAsDataURL(recordBlob);
-      reader.onloadend = () => {
-        var base64String = reader.result;
-        console.log(base64String);
-        postData(base64String);
-      };
-      //var downloadBtnContainer = document.getElementById(
-      //  "downloadBtnContainer"
-      //);
-      //downloadBtnContainer.hidden = false;
-      //downloadBtn.href = window.URL.createObjectURL(recordBlob);
-      //downloadBtn.download = "RecordedVideo.webm";
-    };
-  }
-
-  function handleRecord() {
-    if (recordRef.current == true) {
-      recordRef.current = false;
-      mediaRecorder.start(1000);
-      console.log(mediaRecorder.state);
-      console.log("recorder started");
-      console.log(mediaRecorder.state);
-    } else {
-      recordRef.current = true;
-      console.log(mediaRecorder.state);
-      mediaRecorder.stop();
-      console.log(mediaRecorder.state);
-      console.log("recorder stopped");
-    }
-  }
-
-  const postData = async (base64String) => {
-    try {
-      var body = {
-        BookingID: id,
-        Base64Vid: base64String,
-      };
-      axios.post(config.BOOKING_API + "save_vid", JSON.stringify(body));
-    } catch (err) {
-      console.log(err);
-    } finally {
-    }
-  };
-
   return (
     <Container>
       {/* Display the local media stream. */}
@@ -146,12 +94,9 @@ export default function CoachVideoStream() {
             <Peer key={id} media={media} />
           </div>
         ))}
-        <video
-          autoPlay
-          className="secondaryVideo"
-          ref={localMediaRef}
-          muted={true}
-        />
+        <div className="secondaryVideoContainer">
+          <video autoPlay className="secondaryVideo" ref={localMediaRef} />
+        </div>
         <div className="callBtnGroup">
           <button className="circleButton" id="MicBtn" onClick={handleMicInput}>
             {isMic ? <Mic /> : <MicOff />}
@@ -164,16 +109,6 @@ export default function CoachVideoStream() {
           >
             {isVideo ? <Videocam /> : <VideocamOff />}
           </button>
-          {remoteMedia && (
-            <button
-              className="circleButton"
-              size="lg"
-              id="VidBtn"
-              onClick={handleRecord}
-            >
-              {recordRef.current ? <RadioButtonChecked /> : <Stop />}
-            </button>
-          )}
           <button
             className="circleButton"
             size="lg"
@@ -182,35 +117,8 @@ export default function CoachVideoStream() {
           >
             <CallEnd />
           </button>
-          <button
-            className="circleButton"
-            hidden={true}
-            id="downloadBtnContainer"
-          >
-            <a id="downloadBtn">
-              <Download />
-            </a>
-          </button>
         </div>
-        <div></div>
       </div>
     </Container>
   );
-
-  function Peer({ media }) {
-    useEffect(() => {
-      if (remoteRef.current) {
-        remoteRef.current.srcObject = media;
-        setRemoteMedia(media);
-      }
-    }, [remoteRef, media]);
-    return (
-      <video
-        autoPlay
-        ref={remoteRef}
-        className="mainVideo"
-        poster="https://hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif"
-      />
-    );
-  }
 }

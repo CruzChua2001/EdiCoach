@@ -6,7 +6,6 @@ function NavBar() {
       <>
           <Navbar className="m-3">
             <Container fluid>
-                  <h1>EDICOACH</h1>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
                     <NavDropdown title="Coaching">
                       <NavDropdown.Item href="/guest/career-coaching">Career Coaching</NavDropdown.Item>

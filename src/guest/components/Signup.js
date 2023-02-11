@@ -79,15 +79,6 @@ const Register = () => {
     attributeList.push(attributeUserType);
     attributeList.push(attributeGender);
 
-    var dataRegistratiion = {
-        Name: 'custom:registration',
-        Value: "website",
-    }
-
-    var attributeRegistration = new CognitoUserAttribute(dataRegistratiion);
-    
-    attributeList.push(attributeRegistration);
-
     UserPool.signUp(email, password, attributeList, null, (err, data) => {
         if (err) {
             console.error(err);
@@ -122,10 +113,9 @@ const Register = () => {
         
     // }).catch(err => console.log(err))
 
-    
-
 
 }
+
 
     return ( <>
         <div style={FormStyle} >

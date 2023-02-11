@@ -1,7 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import CoachNavBar from "../coach/components/CoachNavBar";
-import CoachFooter from "../coach/components/CoachFooter";
 
 import "../coach/components/css/App.css";
 import "../coach/components/css/MeetingScheduler.css";
@@ -16,8 +15,6 @@ const CoachLayout = () => {
         <CoachNavBar />
 
         <Outlet />
-
-        <CoachFooter />
       </Account>
     </>
   );

@@ -1,50 +1,13 @@
 import styled from 'styled-components'
-import React, {useState, useEffect} from "react";
+import React from "react";
 import { Dropdown } from "react-bootstrap";
-import axios from 'axios';
 
 const Header = styled.p`
     font-size: 14px;
     color: grey;
 `
 
-const ProfileDetails = (props) => {
-    const [result, setResult] = useState({})
-
-    useEffect(_ => {
-        let url = "https://4142e664e1.execute-api.ap-southeast-1.amazonaws.com/dev/get/" + props.userid
-
-        axios.get(url)
-        .then(res => {
-            const details = formatClientData(res['data'])
-            console.log(details[0])
-            setResult(details[0])
-        })
-
-        const formatClientData = (result) => {
-            let arr = []
-            result.forEach(item => {
-                let obj = {}
-                obj['dob'] = item['dob']['S']
-                obj['firstname'] = item['firstname']['S']
-                obj['gender'] = item['gender']['S']
-                obj['lastname'] = item['lastname']['S']
-                obj['phone'] = item['phone']['S']
-                obj['userid'] = item['userid']['S']
-                obj['email'] = item['email']['S']
-                arr.push(obj)
-            })
-            return arr
-        }
-    }, [])
-
-    function goChat(userid, name) {
-        window.localStorage.setItem("chatuserid", userid);
-        window.localStorage.setItem("chatname", name);
-        window.localStorage.setItem("chattype", "Client");
-        location.href = "/coach/chat";
-    }
-    
+const ProfileDetails = () => {
     return (
         <div className="px-5">
             <div className="justify-content-between d-flex">
@@ -55,9 +18,8 @@ const ProfileDetails = (props) => {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item href={"/coach/casenote/create/" + props.userid}>Create Case Note</Dropdown.Item>
-                        <Dropdown.Item href={"/coach/client/actionplan/" + props.userid}>Create Action Plan</Dropdown.Item>
-                        <Dropdown.Item onClick={() => {goChat(result.userid, result.firstname + " " + result.lastname)}}>Chat with user</Dropdown.Item>
+                        <Dropdown.Item href="#/action-1">Create Case Note</Dropdown.Item>
+                        <Dropdown.Item href="/coach/client/actionplan/asd">Create Action Plan</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
@@ -68,22 +30,22 @@ const ProfileDetails = (props) => {
                 <div className="row">
                     <div className="col-6">
                         <h5>First Name</h5>
-                        <p>{result.firstname}</p>
+                        <p>Cruz</p>
                     </div>
                     <div className="col-6">
                         <h5>Last Name</h5>
-                        <p>{result.lastname}</p>
+                        <p>Chua</p>
                     </div>
                 </div>
 
                 <div className="row mt-3">
                     <div className="col-6">
                         <h5>Gender</h5>
-                        <p>{result.gender}</p>
+                        <p>Male</p>
                     </div>
                     <div className="col-6">
                         <h5>Date of Birth</h5>
-                        <p>{result.dob}</p>
+                        <p>20 February 2001</p>
                     </div>
                 </div>
             </div>
@@ -94,11 +56,11 @@ const ProfileDetails = (props) => {
                 <div className="row">
                     <div className="col-6">
                         <h5>Email</h5>
-                        <p>{result.email}</p>
+                        <p>cruzchua@gmail.com</p>
                     </div>
                     <div className="col-6">
                         <h5>Phone</h5>
-                        <p>+65 {result.phone}</p>
+                        <p>+65 92839182</p>
                     </div>
                 </div>
             </div>

@@ -2,14 +2,12 @@ import React, { useContext } from "react";
 import {Form, Button} from 'react-bootstrap';
 
 import bcrypt from 'bcryptjs';
+import { useCookies } from 'react-cookie';
 
 import config from '../../../config';
 import { AccountContext } from "../../Account";
 
 import { CognitoUserPool, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
-
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
 const poolData = config.poolData;
 
@@ -23,6 +21,8 @@ const CoachLogin = () => {
         height: '80vh',
       };
 
+      const [cookies, setCookie, removeCookie] = useCookies(['name']);
+
       const Login = () => {
           let email = document.getElementById("email").value;
           let password = document.getElementById("password").value;
@@ -32,22 +32,20 @@ const CoachLogin = () => {
           headers: { 'Content-Type': 'application/json' }})
           .then((msg) => {
               msg.json()
-              .then(body => {
-                  if (body.usertype == "Error") {
+              .then(type => {
+                  if (type == "Error") {
                     document.getElementById("errorMessage").innerText = "Email or password is incorrect";
                       
   
-                  } else if (body.usertype == "Client") {
+                  } else if (type == "Client") {
                     document.getElementById("errorMessage").innerText = "Login in client login page instead";
                 }else {
   
                     authenticate(email, password)
                     .then((data) => {
-                        cookies.set('accessToken', data.accessToken.jwtToken, { path: '/' });
-                        cookies.set('userType', body.usertype, { path: '/' });
-                        if (body.usertype == "Admin") {
+                        if (type == "Admin") {
                             window.location.href = "/admin/";
-                        } else if (body.usertype == "Coach") {
+                        } else if (type == "Coach") {
                             window.location.href = "/coach/";
                         }
                     })
