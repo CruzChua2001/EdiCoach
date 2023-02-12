@@ -145,19 +145,16 @@ export default function CoachVideoStream() {
   }
 
   function handleRecord() {
-    if (recordRef.current == true) {
-      recordRef.current = false;
-      mediaRecorder.start(1000);
-      console.log(mediaRecorder.state);
-      console.log("recorder started");
-      console.log(mediaRecorder.state);
-    } else {
-      recordRef.current = true;
-      console.log(mediaRecorder.state);
-      mediaRecorder.stop();
-      console.log(mediaRecorder.state);
-      console.log("recorder stopped");
-    }
+    recordRef.current = false;
+    mediaRecorder.start(1000);
+    document.getElementById("RecordBtn").style.display = "none";
+    document.getElementById("RecordBtnStop").style.display = "inline";
+  }
+
+  function handleStopRecord() {
+    recordRef.current = true;
+    mediaRecorder.stop();
+    document.getElementById("RecordBtnStop").style.display = "none";
   }
 
   const postData = async (base64String) => {
@@ -209,15 +206,27 @@ export default function CoachVideoStream() {
             {isVideo ? <Videocam /> : <VideocamOff />}
           </button>
           {remoteMedia && (
-            <button
-              className="circleButton"
-              size="lg"
-              id="VidBtn"
-              onClick={handleRecord}
-            >
-              {recordRef.current ? <RadioButtonChecked /> : <Stop />}
-            </button>
+            <>
+              <button
+                className="circleButton"
+                size="lg"
+                id="RecordBtn"
+                onClick={handleRecord}
+              >
+                <RadioButtonChecked />
+              </button>
+              <button
+                className="circleButton"
+                size="lg"
+                id="RecordBtnStop"
+                style={{ display: "none" }}
+                onClick={handleStopRecord}
+              >
+                <Stop />
+              </button>
+            </>
           )}
+
           <button
             className="circleButton"
             size="lg"

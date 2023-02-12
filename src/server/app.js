@@ -6,7 +6,7 @@ var cors = require("cors");
 const https = require("https");
 const fs = require("fs");
 
-const authCheck = require('./authCheck')
+const authCheck = require("./authCheck");
 
 const PORT = 8080;
 const STATIC_ASSETS_PATH = path.resolve(`${__dirname}/../../static`);
