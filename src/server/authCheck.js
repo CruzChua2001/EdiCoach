@@ -5,7 +5,7 @@ const jwkToPem = require('jwk-to-pem');
 // you can get your jwt_set at https://cognito-idp.<AWS_REGION>.amazonaws.com/<IDENTITY_POOL_ID>
 const jwt_set = require('../server/jwk_set.json')
 
-const userPool_Id = "https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_5azh7qHPV"
+const userPool_Id = "https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_2yatQRCQS"
 
 const pems = {}
 
