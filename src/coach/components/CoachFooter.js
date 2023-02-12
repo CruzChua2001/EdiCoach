@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Button } from 'react-bootstrap'
 import styled from 'styled-components'
+import { subscribeTopic } from '../../script/subscribeupdate'
 
 const FooterDiv = styled.div `
     margin-top: 5%;
@@ -58,8 +59,8 @@ const CoachFooter = () => {
                 <Header>Follow</Header>
                 <Links>
                     <p>Sign up to keep updated with our latest news</p>
-                    <Form.Control type="text" variant="" className="border-1" placeholder="Enter email here" style={{background: 'transparent'}} id="footerSubscribe" />
-                    <Button className="border-0 mt-2" style={{backgroundColor: "#692655"}} id="footerSubBtn">Subscribe</Button>
+                    <Form.Control type="text" variant="" className="border-1" placeholder="Enter email here" style={{background: 'transparent', color: 'white'}} id="footerSubscribe" />
+                    <Button className="border-0 mt-2" style={{backgroundColor: "#692655"}} id="footerSubBtn" onClick={subscribeTopic}>Subscribe</Button>
                 </Links>
             </div>
         </FooterDiv>

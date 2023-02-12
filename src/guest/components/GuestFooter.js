@@ -2,6 +2,8 @@ import React from 'react'
 import { Form, Button } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import { subscribeTopic } from '../../script/subscribeupdate'
+
 const FooterDiv = styled.div `
     margin-top: 5%;
     bottom: 0;
@@ -27,6 +29,17 @@ const LinkTag = styled.a`
 `
 
 const GuestFooter = () => {
+
+    // const subscribeTopic = () => {
+    //     console.log("test")
+    //     let url = "https://wv704kalt9.execute-api.ap-southeast-1.amazonaws.com/UAT/subscribesns"
+    //     let obj = {"Email": document.getElementById("footerSubscribe").value}
+    //     axios.post(url, JSON.stringify(obj))
+    //     .then(res => {
+    //         console.log(res)
+    //     })
+    // }
+
     return (
         <FooterDiv className="row">
             <div className="col-12 col-sm-6 col-md-3">
@@ -59,8 +72,8 @@ const GuestFooter = () => {
                 <Header>Follow</Header>
                 <Links>
                     <p>Sign up to keep updated with our latest news</p>
-                    <Form.Control type="text" variant="" className="border-1" placeholder="Enter email here" style={{background: 'transparent'}} id="footerSubscribe" />
-                    <Button className="border-0 mt-2" style={{backgroundColor: "#692655"}} id="footerSubBtn">Subscribe</Button>
+                    <Form.Control type="text" variant="" className="border-1" placeholder="Enter email here" style={{background: 'transparent', color: 'white'}} id="footerSubscribe" />
+                    <Button className="border-0 mt-2" style={{backgroundColor: "#692655"}} id="footerSubBtn" onClick={subscribeTopic}>Subscribe</Button>
                 </Links>
             </div>
         </FooterDiv>
