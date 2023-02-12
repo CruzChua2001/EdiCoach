@@ -64,7 +64,7 @@ const onSuccess = async (res) => {
         if (data) {
             window.localStorage.setItem("email", data["user"]["username"]);
             window.localStorage.setItem("username", data["userSub"]);
-            // window.location.href = "/guest/contsignup";
+            window.location.href = "/guest/contsignup";
         }
         
     })

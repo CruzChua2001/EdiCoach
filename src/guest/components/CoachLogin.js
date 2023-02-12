@@ -27,7 +27,7 @@ const CoachLogin = () => {
           let email = document.getElementById("email").value;
           let password = document.getElementById("password").value;
 
-        fetch(config.TEST_API+"/getusertype/"+email, {
+        fetch(config.USER_MANAGEMENT_API+"/getusertype/"+email, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }})
           .then((msg) => {
