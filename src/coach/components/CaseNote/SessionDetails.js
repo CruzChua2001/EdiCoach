@@ -28,7 +28,7 @@ const SessionDetails = (props) => {
         const getDate = () => {
             const date = new Date()
             const month = parseInt(date.getMonth()) + 1
-            return date.getDate() + "/" + month + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes()
+            return date.getDate() + "/" + month + "/" + date.getFullYear()
         }
     }, [])
 
