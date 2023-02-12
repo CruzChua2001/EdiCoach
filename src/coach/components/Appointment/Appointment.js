@@ -10,6 +10,8 @@ import config from "../../../../config";
 
 import axios from "axios";
 
+import ChatBot from "../../../admin/components/ChatBot";
+
 const Appointment = () => {
   const navigate = useNavigate();
   const { getSession, getData } = useContext(AccountContext);
@@ -128,6 +130,7 @@ const Appointment = () => {
           </Col>
         </Row>
       </Container>
+      <ChatBot />
     </div>
   );
 };

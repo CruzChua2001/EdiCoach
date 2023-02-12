@@ -5,6 +5,8 @@ import { ScheduleAppointments } from "./ScheduleAppointments";
 
 import { AccountContext } from "../../../Account";
 
+import ChatBot from "../../../admin/components/ChatBot";
+
 export default function ClientHome() {
   const { getSession, getData } = useContext(AccountContext);
   var [sessionData, setSessionData] = useState([]);
@@ -69,6 +71,7 @@ export default function ClientHome() {
           </Col>
         </Row>
       </Container>
+      <ChatBot />
     </div>
   );
 }

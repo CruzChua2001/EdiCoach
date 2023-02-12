@@ -134,7 +134,10 @@ const UserActions = () => {
 
         fetch(config.USER_MANAGEMENT_API+`/delete/`+email, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }})
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': sessionToken
+        }})
         .then((msg) => {
             msg.json()
             .then(users => {

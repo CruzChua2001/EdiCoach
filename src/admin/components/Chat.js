@@ -169,6 +169,9 @@ function Chat() {
 
             document.querySelector(".profileData div:nth-child(2)").innerHTML = toData.firstname.S;
 
+            $(".profilePic div").css("background-image",`url(https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/images/${toData.userid.S}.png)`)
+            $(".profilePic div").css("background-size",`cover`)
+
             setTo(toData);
 
                 if (channel) {

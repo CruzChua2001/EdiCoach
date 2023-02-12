@@ -8,7 +8,7 @@ import "../css/admin.css";
 import Navitem from "./Navitem";
 
 import UserActions from "./UserActions";
-import Chat from "./Chat";
+// import Chat from "./Chat";
 import AdminNavBar from "./AdminNavBar";
 
 import ChatBot from "./ChatBot";
@@ -37,7 +37,6 @@ const App = () => {
 				<Route path="/admin/chat" element={<Chat />}/>
 			</Routes>
 
-			<ChatBot />
 		</Router>
 	)
 }
