@@ -59,6 +59,7 @@
     "stream-browserify": "^3.0.0",
     "style-loader": "^3.3.1",
     "uuid": "^9.0.0",
+    "webm-to-mp4": "^1.0.0",
     "webpack-dev-server": "^4.11.1"
   },
   "devDependencies": {

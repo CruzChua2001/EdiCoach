@@ -20,6 +20,14 @@ const ClientInformation = (props) => {
         })
     }, [])
 
+    const formatDate = (date) => {
+        if(date == "") {
+            return ""
+        }
+        const formattedDate = new Date(date)
+        return formattedDate.getDate() + "/" + (parseInt(formattedDate.getMonth())+1) + "/" + formattedDate.getFullYear();
+    } 
+
     return (
         <>
             <Header>Session Information</Header>
@@ -50,7 +58,7 @@ const ClientInformation = (props) => {
                     </div>
                     <div className="col-6">
                         <span>
-                            {props.bookingDetails.Date}
+                            {formatDate(props.bookingDetails.Date)}
                         </span>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useViewer } from "react-kinesis-webrtc";
+import { Link, useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 import "../../../videostream/Video.css";
@@ -12,9 +13,13 @@ import {
   CallEnd,
 } from "@mui/icons-material";
 
+import axios from "axios";
+import config from "../../../../config";
+
 export default function ClientVideoStream() {
+  const { id } = useParams();
   const localMediaRef = useRef();
-  const config = {
+  const [vidConfig, setVidConfig] = useState({
     credentials: {
       accessKeyId: "AKIATGEGFJCERG3HVFVD",
       secretAccessKey: "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",
@@ -27,9 +32,36 @@ export default function ClientVideoStream() {
       video: true,
     },
     debug: true,
-  };
+  });
 
-  const { error, peer: { media } = {}, localMedia } = useViewer(config);
+  useEffect(() => {
+    const getBookingData = async () => {
+      try {
+        let url = `${config.BOOKING_API}booking_bookingid/${id}`;
+        const response = await axios.get(url);
+        console.log(response.data);
+        let vConfig = {
+          credentials: {
+            accessKeyId: "AKIATGEGFJCERG3HVFVD",
+            secretAccessKey: "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",
+          },
+          channelARN: response.data.Items[0].ChannelARN.S,
+          region: "ap-southeast-1",
+          media: {
+            audio: true,
+            video: true,
+          },
+          debug: true,
+        };
+        setVidConfig(vConfig);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    getBookingData();
+  }, [id]);
+
+  const { error, peer: { media } = {}, localMedia } = useViewer(vidConfig);
   const [isVideo, setIsVideo] = useState(true);
   const [isMic, setIsMic] = useState(true);
 
@@ -92,14 +124,16 @@ export default function ClientVideoStream() {
           >
             {isVideo ? <Videocam /> : <VideocamOff />}
           </button>
-          <button
-            className="circleButton"
-            size="lg"
-            id="EndCallBtn"
-            style={{ backgroundColor: "red" }}
-          >
-            <CallEnd />
-          </button>
+          <Link to={"/client/"}>
+            <button
+              className="circleButton"
+              size="lg"
+              id="EndCallBtn"
+              style={{ backgroundColor: "red" }}
+            >
+              <CallEnd />
+            </button>
+          </Link>
         </div>
       </div>
     </Container>

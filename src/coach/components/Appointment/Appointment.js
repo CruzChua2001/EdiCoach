@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Container, Table, Row, Col, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Scheduler } from "@aldabil/react-scheduler";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-calendar/dist/Calendar.css";
@@ -13,6 +13,7 @@ import axios from "axios";
 import ChatBot from "../../../admin/components/ChatBot";
 
 const Appointment = () => {
+  const navigate = useNavigate();
   const { getSession, getData } = useContext(AccountContext);
   var [sessionData, setSessionData] = useState([]);
 
@@ -25,10 +26,6 @@ const Appointment = () => {
       })
       .catch((err) => console.log(err));
   }, []);
-
-  function updateDateBooking() {
-    alert("Hello");
-  }
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -65,6 +62,22 @@ const Appointment = () => {
     }
   };
 
+  const handleMeeting = (event) => {
+    let url = `${config.BOOKING_API}video_stream`;
+    try {
+      var body = {
+        BookingID: event.event_id,
+      };
+      axios.post(url, JSON.stringify(body)).then((response) => {
+        navigate(`/coach/cvs/${event.event_id}`);
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="mb-4">
       <Container fluid className="m-2 mt-5">
@@ -89,11 +102,16 @@ const Appointment = () => {
             </Table>
             <div className="d-grid gap-2">
               {currEvent && (
-                <Link to={`/coach/cvs/${currEvent.event_id}`}>
-                  <Button variant="primary" size="lg" className="mdButton">
-                    LAUNCH MEETING
-                  </Button>
-                </Link>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="mdButton"
+                  onClick={() => {
+                    handleMeeting(currEvent);
+                  }}
+                >
+                  LAUNCH MEETING
+                </Button>
               )}
             </div>
           </Col>
@@ -109,7 +127,6 @@ const Appointment = () => {
                 }}
               />
             )}
-            {console.log(scheduleList)}
           </Col>
         </Row>
       </Container>

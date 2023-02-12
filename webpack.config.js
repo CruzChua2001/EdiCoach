@@ -34,7 +34,9 @@ module.exports = {
     new webpack.ProvidePlugin({
       process: "process/browser",
       Buffer: ["buffer", "Buffer"],
-  }),
+    }),
+    
+    new webpack.optimize.ModuleConcatenationPlugin()
   ],
   devServer: {
     port: 3000, // you can change the port

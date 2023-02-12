@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { Container, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useMaster } from "react-kinesis-webrtc";
+import { useNavigate } from "react-router-dom";
 
 import "../../../videostream/Video.css";
 
@@ -25,9 +26,10 @@ var audioStatus = true;
 var videoStatus = true;
 
 export default function CoachVideoStream() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const localMediaRef = useRef();
-  const vidConfig = {
+  const [vidConfig, setVidConfig] = useState({
     credentials: {
       accessKeyId: "AKIATGEGFJCERG3HVFVD",
       secretAccessKey: "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",
@@ -40,7 +42,36 @@ export default function CoachVideoStream() {
       video: videoStatus,
     },
     debug: true,
-  };
+  });
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    const getBookingData = async () => {
+      try {
+        let url = `${config.BOOKING_API}booking_bookingid/${id}`;
+        const response = await axios.get(url);
+        console.log(response.data);
+        setData(response.data);
+        let vConfig = {
+          credentials: {
+            accessKeyId: "AKIATGEGFJCERG3HVFVD",
+            secretAccessKey: "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",
+          },
+          channelARN: response.data.Items[0].ChannelARN.S,
+          region: "ap-southeast-1",
+          media: {
+            audio: audioStatus,
+            video: videoStatus,
+          },
+          debug: true,
+        };
+        setVidConfig(vConfig);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    getBookingData();
+  }, [id]);
+
   const { error, localMedia, peers } = useMaster(vidConfig);
   const [isVideo, setIsVideo] = useState(true);
   const [isMic, setIsMic] = useState(true);
@@ -76,6 +107,22 @@ export default function CoachVideoStream() {
     }
   }
 
+  function handleEndCall() {
+    console.log(data.Items[0].ChannelARN.S);
+    let url = `${config.BOOKING_API}video_stream`;
+    try {
+      var body = {
+        BookingID: id,
+        ChannelARN: data.Items[0].ChannelARN.S,
+      };
+      axios.delete(url, { data: JSON.stringify(body) }).then((response) => {
+        navigate(`/coach/`);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   var mediaRecorder = null;
   let chunks = [];
   if (remoteMedia) {
@@ -85,7 +132,6 @@ export default function CoachVideoStream() {
       console.log(e.data);
     };
     mediaRecorder.onstop = (e) => {
-      //var downloadBtn = document.getElementById("downloadBtn");
       console.log(chunks.length);
       let recordBlob = new Blob(chunks, { type: "video/webm" });
       var reader = new FileReader();
@@ -95,12 +141,6 @@ export default function CoachVideoStream() {
         console.log(base64String);
         postData(base64String);
       };
-      //var downloadBtnContainer = document.getElementById(
-      //  "downloadBtnContainer"
-      //);
-      //downloadBtnContainer.hidden = false;
-      //downloadBtn.href = window.URL.createObjectURL(recordBlob);
-      //downloadBtn.download = "RecordedVideo.webm";
     };
   }
 
@@ -126,9 +166,13 @@ export default function CoachVideoStream() {
         BookingID: id,
         Base64Vid: base64String,
       };
-      axios.post(config.BOOKING_API + "save_vid", JSON.stringify(body));
+      await axios.post(`${config.BOOKING_API}save_vid`, JSON.stringify(body), {
+        headers: {
+          "content-type": "application/json",
+        },
+      });
     } catch (err) {
-      console.log(err);
+      console.log("Error", err);
     } finally {
     }
   };
@@ -178,18 +222,10 @@ export default function CoachVideoStream() {
             className="circleButton"
             size="lg"
             id="EndCallBtn"
+            onClick={handleEndCall}
             style={{ backgroundColor: "red" }}
           >
             <CallEnd />
-          </button>
-          <button
-            className="circleButton"
-            hidden={true}
-            id="downloadBtnContainer"
-          >
-            <a id="downloadBtn">
-              <Download />
-            </a>
           </button>
         </div>
         <div></div>
