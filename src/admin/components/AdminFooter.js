@@ -28,7 +28,7 @@ const LinkTag = styled.a`
 
 const AdminFooter = () => {
     return (
-        <FooterDiv className="row">
+        <FooterDiv className="row" id="footer">
             <div className="col-12 col-sm-6 col-md-3">
                 <Header>Quick Links</Header>
                 <Links>

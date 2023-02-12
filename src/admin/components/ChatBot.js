@@ -19,6 +19,8 @@ import "../css/NavBar.css";
 //     })
 //   });
 
+import $ from 'jquery';
+
 const ChatBot = () => {
 
   useEffect(() => {
@@ -29,12 +31,13 @@ const ChatBot = () => {
     document.getElementById("test").appendChild(script)
     document.getElementById("testid").innerHTML = `
     var loaderOpts = {
-      baseUrl: 'https://d3w4bz9wsgiar0.cloudfront.net/',
+      baseUrl: 'https://d1nn2wvaot07vz.cloudfront.net/',
       shouldLoadMinDeps: true
     };
+    const delay = ms => new Promise(res => setTimeout(res, ms));
     loaderOpts = {
-      configUrl: 'https://d3w4bz9wsgiar0.cloudfront.net/lex-web-ui-loader-config.json',
-      iframeSrcPath: 'https://d3w4bz9wsgiar0.cloudfront.net/index.html/?lexWebUiEmbed=true'
+      configUrl: 'https://d1nn2wvaot07vz.cloudfront.net/lex-web-ui-loader-config.json',
+      iframeSrcPath: 'https://d1nn2wvaot07vz.cloudfront.net/index.html/?lexWebUiEmbed=true'
     }
     var loader = new ChatBotUiLoader.IframeLoader(loaderOpts);
     var chatbotUiConfig = {
@@ -50,6 +53,9 @@ const ChatBot = () => {
     loader.load(chatbotUiConfig)
       .catch(function (error) { console.error(error); });
     `;
+
+    // document.getElementById("lex-web-ui-iframe").classList.add("ex-web-ui-iframe--minimize")
+    
   }, [])
 
   return (

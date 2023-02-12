@@ -19,7 +19,7 @@ const AdminLayout = () => {
         <AdminFooter />
       </Account>
 
-      <ChatBot />
+      {/* <ChatBot /> */}
     </>
   );
 };

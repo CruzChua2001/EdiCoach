@@ -228,21 +228,18 @@
 }
 
 iframe {
-    float: right;
+    /* float: right; */
     height: 400px;
-    margin-right: 50px;
-    margin-top: 30px;
+    /* margin-right: 50px;
+    margin-top: 30px; */
 }
 
 #lex-web-ui-iframe {
-    height: 500px;
-}
-
-#lex-web-ui-iframe {
-    position: absolute;
-    right: 10px;
-    top: 500px;
-    z-index: 10;
+    height: 400px;
+    width: 300px;
+    position: sticky;
+    left: 80%;
+    bottom: 80px;
 }
 
 .IsNotRead {
@@ -367,3 +364,4 @@ iframe {
   .menu > li.trash > a:hover {
     color: red;
   }
+
