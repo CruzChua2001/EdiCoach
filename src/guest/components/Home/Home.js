@@ -6,14 +6,11 @@ import HomeTopPage from "./HomeTopPage";
 const Home = () => {
     return (
         <>
-            <div class="home-top">
-                <div className="home-background">
-                    <div className="home-background-overlay">
-                    </div>
-                    
-                </div>
-                <HomeTopPage />
+            <div className="home-home">
+                <div className="home-background-overlay"></div>
             </div>
+
+            <HomeTopPage />
             
 
             <div className="home-details">
