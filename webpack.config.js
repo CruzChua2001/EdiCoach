@@ -36,7 +36,7 @@ module.exports = {
       Buffer: ["buffer", "Buffer"],
     }),
     
-    new webpack.optimize.ModuleConcatenationPlugin()
+    // new webpack.optimize.ModuleConcatenationPlugin()
   ],
   devServer: {
     port: 3000, // you can change the port
