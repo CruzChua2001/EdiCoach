@@ -95,7 +95,7 @@ const UserActions = () => {
 
         fetch(config.USER_MANAGEMENT_API+"/add", {
         method: 'POST',
-        body: JSON.stringify({email, password: password, salt, firstname, lastname, dob, phone, gender, userid, usertype, skills:""}),
+        body: JSON.stringify({email, password: password, salt, firstname, lastname, dob, phone, gender, userid, usertype, registration:"website", skills:""}),
         headers: { 'Content-Type': 'application/json' }})
         .then((msg) => {
             msg.json()
