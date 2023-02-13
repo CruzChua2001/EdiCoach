@@ -53,7 +53,7 @@ export const AllCoachSessions = ({ paymentID }) => {
         d.push(
           createRow(
             booking.BookingID.S,
-            booking.SessionCount.N,
+            (parseInt(booking.SessionCount.N) + 1).toString(),
             booking.CoachName.S,
             booking.StartDateTime.S != ""
               ? new Date(booking.StartDateTime.S).toLocaleDateString(
