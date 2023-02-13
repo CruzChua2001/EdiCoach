@@ -59,15 +59,15 @@ const CoachApplication = () => {
         },
         { 
             field: 'userType', 
-            headerName: 'UserType'
-        }
+            headerName: 'User Type'
+        }     
       ];
 
     
     
     useEffect(()=>{
         const retrieveUsers = () => {
-            fetch("https://vonlxpnb0j.execute-api.us-east-1.amazonaws.com/UAT/postcoachapplication", {
+            fetch("https://wv704kalt9.execute-api.ap-southeast-1.amazonaws.com/UAT/postcoachapplication", {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }})
             .then((msg) => {
@@ -85,8 +85,8 @@ const CoachApplication = () => {
                                 phone : coach.Phone,
                                 gender : coach.Gender,
                                 skills : coach.Skills,
-                                userType : coach.userType,
-                                password : coach.HashPassword
+                                password : coach.HashPassword,
+                                userType : coach.userType
                             }
                         })
                     );
@@ -98,9 +98,39 @@ const CoachApplication = () => {
             
     }, [])
 
+    const retrieveUsers = () => {
+        fetch("https://wv704kalt9.execute-api.ap-southeast-1.amazonaws.com/UAT/postcoachapplication", {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }})
+        .then((msg) => {
+            msg.json()
+            .then(resjson => {
+                console.log(users);
+                setUsers(
+                    resjson.body.map((coach, index) => {
+                        return {
+                            id : index,
+                            firstName : coach.FirstName,
+                            lastName :  coach.LastName,
+                            email : coach.Email,
+                            dob : coach.DateofBirth,
+                            phone : coach.Phone,
+                            gender : coach.Gender,
+                            skills : coach.Skills,
+                            password : coach.HashPassword,
+                            userType : coach.userType
+                        }
+                    })
+                );
+                console.log(resjson.body)
+            });   
+            }).catch(err => console.log(err))
+        }
+
     const addUser = async() => {
         Promise.all(selectedUsers.map(async(selectedUser) => {
             console.log(selectedUser)
+            const email = selectedUser.email
             return await fetch(config.TEST_API+"/add", {
                 method: 'POST',
                 body: JSON.stringify({
@@ -113,47 +143,51 @@ const CoachApplication = () => {
                                         gender: selectedUser.gender, 
                                         userid: selectedUser.id, 
                                         skills: selectedUser.skills,
-                                        usertype: selectedUser.userType
+                                        usertype : "Coach",
+                                        registration : "website"
                                     }),
                 headers: { 'Content-Type': 'application/json' }})
                 .then((msg) => {
                     msg.json()
                     .then(users => {
                         console.log(users)
+
+                        deleteUser(email)
                     });
                     
                     
                 }).catch(err => console.log(err))
-        })).then(() => retrieveUsers())
+        }))
     }
-    const addSkill = () => {
-        axios.post("https://wv704kalt9.execute-api.ap-southeast-1.amazonaws.com/UAT/skills", JSON.stringify({
-                                        email: selectedUser.email, 
-                                        userid: selectedUser.id, 
-                                        skills: selectedUser.skills,
-                                        usertype: selectedUser.userType
-                                    }))
-                .then(msg => {
-                    console.log(msg)
-                    });
-    }
-
-    // const deleteUser = () => {
-    //     let email = selectedUser;
-    //     console.log(email);
-    //     fetch(`https://4142e664e1.execute-api.ap-southeast-1.amazonaws.com/dev/delete/`+email, {
-    //     method: 'DELETE',
-    //     headers: { 'Content-Type': 'application/json' }})
-    //     .then((msg) => {
-    //         msg.json()
-    //         .then(users => {
-    //             console.log(users)
-    //             retrieveUsers();
-    //         });
-            
-            
-    //     }).catch(err => console.log(err))
+    // const addSkill = () => {
+    //     axios.post("https://wv704kalt9.execute-api.ap-southeast-1.amazonaws.com/UAT/skills", JSON.stringify({
+    //                                     Email: selectedUser.email, 
+    //                                     userid: selectedUser.id, 
+    //                                     skills: selectedUser.skills,
+    //                                     usertype: "Coach"
+    //                                 }))
+    //             .then(msg => {
+    //                 console.log(msg)
+    //                 alert("User verified")
+    //                 });
     // }
+
+    const deleteUser = (email) => {
+        console.log(email);
+        fetch(`https://wv704kalt9.execute-api.ap-southeast-1.amazonaws.com/UAT/postcoachapplication`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body : JSON.stringify({"Email" : email})
+    }).then((msg) => {
+            msg.json()
+            .then(users => {
+                console.log(users)
+                window.location.href = "/guest/coachapplication"
+            });
+            
+            
+        }).catch(err => console.log(err))
+    }
 
     const onSelect = (coachIndex) => {
         const coachIndexSet = new Set(coachIndex)
@@ -163,10 +197,7 @@ const CoachApplication = () => {
         setSelectedUsers(selected)
         console.log(selected)
     }
-    const call2functions = () => {
-        addUser()
-        addSkill()
-    }
+
     return (<>
     <Container className="admin-table" style={{paddingBottom: "10%"}}>
         <Row>
@@ -178,7 +209,7 @@ const CoachApplication = () => {
                     </div>
                     <div style = { { display: "flex", flexDirection : "row", alignItems: "center"} }>
                     <ArrowClockwise />
-                        <Button onClick={call2functions}>
+                        <Button onClick={addUser}>
                             Verify User
                         </Button>
                     </div>

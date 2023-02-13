@@ -47,6 +47,7 @@ import UserActions from "./admin/components/UserActions";
 import Chat from "./admin/components/Chat";
 import Test from "./admin/components/test";
 import Notifications from "./admin/components/Notifications";
+import SendNotification from "./admin/components/SendNotification";
 
 import GuestLayout from "./Layout/GuestLayout";
 import ClientLayout from "./Layout/ClientLayout";
@@ -131,6 +132,7 @@ const App = () => {
           <Route path="/admin/chat" element={<Chat />} />
           <Route path="/admin/test" element={<Test />} />
           <Route path="/admin/notifications" element={<Notifications />} />
+          <Route path="/admin/sendnotification" element={<SendNotification />} />
         </Route>
       </Routes>
     </Router>

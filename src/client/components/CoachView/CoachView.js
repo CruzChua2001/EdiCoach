@@ -98,7 +98,7 @@ export default function CoachView() {
             <div className="saTitle">
               <h3>All Coaches</h3>
             </div>
-            <div className="p-3">
+            <div className="d-flex">
               {data &&
                 data.map((coach) => (
                   <Link to={`/client/coachProfile/${coach.userid.S}`}>
@@ -112,8 +112,10 @@ export default function CoachView() {
                         <Card.Title className="coachCardTitle">
                           {coach.firstname.S + " " + coach.lastname.S}
                         </Card.Title>
-                        <Card.Subtitle className="coachCardSubtitle">
-                          Addiction Life Coach
+                        <Card.Subtitle className="coachCardSubtitle me-2">
+                          {coach.skills["L"].map((skills, i) => (
+                            <span key={i} className="me-2">{skills["S"]}</span>
+                          ))} 
                         </Card.Subtitle>
                       </Card.Body>
                     </Card>

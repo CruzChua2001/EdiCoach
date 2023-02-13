@@ -38,6 +38,9 @@ const AdminNavBar = () => {
             <Nav.Link href="#" className="navLink">
               Request
             </Nav.Link>
+            <Nav.Link href="/admin/sendnotification" className="navLink">
+              Email Notifications
+            </Nav.Link>
             <Nav.Link onClick={Logout} className="navLink">
               Logout
             </Nav.Link>

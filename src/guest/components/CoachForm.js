@@ -72,7 +72,8 @@ const CoachForm = () => {
         HashPassword: "",
         userType: "Coach",
         Salt: "",
-        Skills: []
+        Skills: [],
+        registration: ""
      })
 
      const coachRegister = () => {
