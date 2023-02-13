@@ -131,7 +131,7 @@ const CoachApplication = () => {
         Promise.all(selectedUsers.map(async(selectedUser) => {
             console.log(selectedUser)
             const email = selectedUser.email
-            return await fetch(config.TEST_API+"/add", {
+            return await fetch(config.USER_MANAGEMENT_API+"/add", {
                 method: 'POST',
                 body: JSON.stringify({
                                         email: selectedUser.email, 
