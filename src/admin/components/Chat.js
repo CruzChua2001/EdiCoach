@@ -309,8 +309,8 @@ function Chat() {
                                 `
                 }
                 updateScroll();
+                setAllChats(allchats.concat([received]))
             }
-            
         }
     }, [received])
 
@@ -328,12 +328,14 @@ function Chat() {
     }
 
     const translateMsg = (evt) => {
+        console.log("translate"+selectedChat)
         let filterChat = allchats.filter(chat => ((new Date(chat.CreatedAt)).getFullYear().toString() + (new Date(chat.CreatedAt)).getDate().toString() + (new Date(chat.CreatedAt)).getHours().toString() + (new Date(chat.CreatedAt)).getMinutes().toString() + (new Date(chat.CreatedAt)).getSeconds().toString()) == selectedChat);
         translateAPI(filterChat, evt.currentTarget.id)
     }
 
     const translateAPI = async (msg, target) => {
         if (msg.length != 0) {
+            console.log(msg)
             for (let index = 0; index < msg.length; index++) {
                 const element = msg[index];
 
@@ -396,15 +398,19 @@ function Chat() {
     useEffect(() => {
         document.onclick = hideMenu;
         // document.onscroll = hideMenu;
+        $( document ).off('contextmenu', ".fromChat");
+        $( document ).off('contextmenu', ".toChat");
         $( document ).on('contextmenu', '.fromChat', function(evt) {
             console.log(evt.currentTarget.id)
             setSelectedChat(evt.currentTarget.id)
             rightClick(evt);
           });
         $( document ).on('contextmenu', '.toChat', function(evt) {
+            console.log(evt.currentTarget.id)
+            setSelectedChat(evt.currentTarget.id)
             rightClick(evt);
           });
-    }, [])
+    }, [received])
 
     function hideMenu() { 
         document.getElementById("contextMenu").style.display = "none"
