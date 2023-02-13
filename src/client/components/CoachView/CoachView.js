@@ -66,12 +66,12 @@ export default function CoachView() {
               { coaches.map((item, index) => (
                 <Link key={index} className="text-dark ">
                   <div className="p-3">
-                    <Link to={"/client/coachProfile"}>
+                    <Link to={`/client/coachProfile/${item.userid.S}`}>
                       <Card style={{ width: "12rem" }} className="rounded">
                         <Card.Img
                           className="coachCardImg"
                           variant="top"
-                          src="https://st.depositphotos.com/1144472/1532/i/450/depositphotos_15320783-stock-photo-portrait-of-young-woman-at.jpg"/>
+                          src={`https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/images/${item.userid.S}.png`}/>
                         <Card.Body>
                           <Card.Title className="coachCardTitle">
                             {item["firstname"]["S"]} {item["lastname"]["S"]}
