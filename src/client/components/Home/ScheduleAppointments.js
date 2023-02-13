@@ -55,7 +55,7 @@ export const ScheduleAppointments = ({ accountID }) => {
           r.push(
             createRow(
               booking.BookingID.S,
-              booking.SessionCount.N,
+              (parseInt(booking.SessionCount.N) + 1).toString(),
               booking.CoachName.S,
               new Date(booking.StartDateTime.S).toLocaleDateString(
                 "en-US",

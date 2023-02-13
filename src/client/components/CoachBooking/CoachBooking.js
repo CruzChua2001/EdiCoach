@@ -52,8 +52,6 @@ function CoachBooking() {
           .toISOString()
           .slice(0, 10)}`;
         const response = await axios.get(url);
-        console.log(url);
-        console.log(response.data);
         var timeList = [];
         for (let i = 0; i < response.data.Count; i++) {
           let timeString = `${new Date(
@@ -103,9 +101,10 @@ function CoachBooking() {
     postData();
   }
 
-  function handleChosenTime(timeVal) {
+  function handleChosenTime(timeVal, idx) {
     setStartTime(timeVal.start);
     setEndTime(timeVal.end);
+    document.getElementById(idx).style.background = "green";
   }
   return (
     <Container>
@@ -114,15 +113,17 @@ function CoachBooking() {
           <h4>Coach Details</h4>
         </div>
         <Grid container spacing={2}>
-          <Grid item>
-            <div className="coachBookingDiv">
-              <img
-                alt=""
-                className="coachBookingImg"
-                src={`https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/images/${data[0].userid.S}.png`}
-              ></img>
-            </div>
-          </Grid>
+          {data && (
+            <Grid item>
+              <div className="coachBookingDiv">
+                <img
+                  alt=""
+                  className="coachBookingImg"
+                  src={`https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/images/${data[0].userid.S}.png`}
+                ></img>
+              </div>
+            </Grid>
+          )}
 
           <Grid item>
             <h3 className="coachBookingTitle">
@@ -144,14 +145,21 @@ function CoachBooking() {
             {loading && <Spinner className="spinnerLoad" />}
             {times &&
               times.map((time, idx) => (
-                <Button key={idx} onClick={(e) => handleChosenTime(time)}>
+                <Button
+                  key={idx}
+                  id={idx}
+                  onClick={(e) => handleChosenTime(time, idx)}
+                >
                   {time.timeString}
                 </Button>
               ))}
           </div>
         </div>
       </div>
-      <Button onClick={submitBooking}>Submit</Button>
+      <br />
+      <Button className="float-end" onClick={submitBooking}>
+        Submit
+      </Button>
     </Container>
   );
 }
