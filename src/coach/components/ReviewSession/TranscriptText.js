@@ -28,6 +28,7 @@ const TranscriptText = (props) => {
         setLoading(true)
         //Split the text
         const textSplit = text.split(".")
+        console.log(textSplit)
         //Loop the array text
         let check = 0
         let sentenceForAnalayse = ""
@@ -42,11 +43,22 @@ const TranscriptText = (props) => {
                     body: JSON.stringify(data)
                 })
                 let response = await apiCall.json()
-                let tmp = {...analysedText, ...response}
+                console.log(response)
                 setAnalysedText(temp => {return {...temp, ...response}})
                 sentenceForAnalayse = ""
             }
         }
+        if(sentenceForAnalayse != "") {
+            let data = {"text": sentenceForAnalayse}
+                let apiCall = await fetch("https://umt9ds51i4.execute-api.ap-southeast-1.amazonaws.com/prod/analyse", {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                })
+                let response = await apiCall.json()
+                console.log(response)
+                setAnalysedText(temp => {return {...temp, ...response}})
+        }
+
         getItemFormat()
     }
 

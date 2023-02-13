@@ -14,6 +14,7 @@ import OneonOnecoaching from "./guest/components/OneonOnecoaching";
 import CoachForm from "./guest/components/CoachForm";
 import CoachApplication from "./guest/components/CoachApplication";
 import Personlization from "./guest/components/Personalization";
+import Pending from "./guest/components/Pending";
 
 import ClientHome from "./client/components/Home/Home";
 import CoachView from "./client/components/CoachView/CoachView";
@@ -46,6 +47,7 @@ import UserActions from "./admin/components/UserActions";
 import Chat from "./admin/components/Chat";
 import Test from "./admin/components/test";
 import Notifications from "./admin/components/Notifications";
+import SendNotification from "./admin/components/SendNotification";
 
 import GuestLayout from "./Layout/GuestLayout";
 import ClientLayout from "./Layout/ClientLayout";
@@ -75,6 +77,7 @@ const App = () => {
             element={<CoachApplication />}
           />
         </Route>
+        <Route path="/guest/pending" element={<Pending />} />
 
         {/* Client Path */}
         <Route path="/client/" element={<ClientLayout />}>
@@ -129,6 +132,7 @@ const App = () => {
           <Route path="/admin/chat" element={<Chat />} />
           <Route path="/admin/test" element={<Test />} />
           <Route path="/admin/notifications" element={<Notifications />} />
+          <Route path="/admin/sendnotification" element={<SendNotification />} />
         </Route>
       </Routes>
     </Router>
