@@ -74,7 +74,7 @@ export default function CoachView() {
                       <Card.Img
                         className="coachCardImg"
                         variant="top"
-                        src="https://st.depositphotos.com/1144472/1532/i/450/depositphotos_15320783-stock-photo-portrait-of-young-woman-at.jpg"
+                        src={`https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/images/${coach.userid.S}.png`}
                       />
                       <Card.Body>
                         <Card.Title className="coachCardTitle">

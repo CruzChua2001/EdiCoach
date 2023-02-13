@@ -16,13 +16,14 @@ import { AccountContext } from "../../../Account";
 import config from "../../../../config";
 import { height } from "@mui/system";
 
-function createRow(id, coachName, price, session, date) {
+function createRow(id, coachName, price, session, date, coachID) {
   return {
     id,
     coachName,
     price,
     session,
     date,
+    coachID,
   };
 }
 
@@ -69,7 +70,8 @@ export const ManageAppointments = () => {
             new Date(payment.PaymentDateTime.S).toLocaleDateString(
               "en-US",
               options
-            )
+            ),
+            payment.CoachID.S
           )
         );
       });
@@ -108,7 +110,7 @@ export const ManageAppointments = () => {
                       >
                         <ListItemAvatar>
                           <Avatar
-                            src={`https://st.depositphotos.com/1144472/1532/i/450/depositphotos_15320783-stock-photo-portrait-of-young-woman-at.jpg`}
+                            src={`https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/images/${payment.coachID}.png`}
                           />
                         </ListItemAvatar>
                         <ListItemText primary={payment.coachName} />

@@ -93,7 +93,7 @@ export default function CoachProfile() {
     window.localStorage.setItem("chatname", name);
     window.localStorage.setItem("chattype", "Coach");
     location.href = "/client/chat";
-}
+  }
 
   return (
     <Container>
@@ -105,28 +105,40 @@ export default function CoachProfile() {
         <Backspace /> Back
       </Button>
       <Row>
-        <Col lg={4}>
-          <div className="shadow rounded coachProfileDiv">
-            <img
-              alt=""
-              className="coachProfileImg"
-              src="https://st.depositphotos.com/1144472/1532/i/450/depositphotos_15320783-stock-photo-portrait-of-young-woman-at.jpg"
-            ></img>
-            <br />
-            <h3 className="coachProfileTitle">
-              {data && data[0].firstname.S + " " + data[0].lastname.S}
-            </h3>
-            <h5 className="coachProfileSubtitle">IT Career Coach</h5>
-            <p className="coachProfileText">
-              Hello, my name is Nicholas! I am a career coach that specializes
-              in IT. Have any questions regarding the in’s and out’s of the IT
-              industry? I’m your guy
-            </p>
-            <Button variant="primary" className="coachProfileButton" onClick={() => {goChat(data[0].userid.S, data[0].firstname.S + " " + data[0].lastname.S)}}>
-              Message
-            </Button>
-          </div>
-        </Col>
+        {data && (
+          <Col lg={4}>
+            <div className="shadow rounded coachProfileDiv">
+              <img
+                alt=""
+                className="coachProfileImg"
+                src={`https://edicoach-image-bucket.s3.ap-southeast-1.amazonaws.com/images/${data[0].userid.S}.png`}
+              ></img>
+              <br />
+              <h3 className="coachProfileTitle">
+                {data[0].firstname.S + " " + data[0].lastname.S}
+              </h3>
+              <h5 className="coachProfileSubtitle">IT Career Coach</h5>
+              <p className="coachProfileText">
+                Hello, my name is Nicholas! I am a career coach that specializes
+                in IT. Have any questions regarding the in’s and out’s of the IT
+                industry? I’m your guy
+              </p>
+              <Button
+                variant="primary"
+                className="coachProfileButton"
+                onClick={() => {
+                  goChat(
+                    data[0].userid.S,
+                    data[0].firstname.S + " " + data[0].lastname.S
+                  );
+                }}
+              >
+                Message
+              </Button>
+            </div>
+          </Col>
+        )}
+
         <Col lg={8}>
           <Row>
             <Col>
