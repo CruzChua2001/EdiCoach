@@ -10,6 +10,7 @@ import Navitem from "./Navitem";
 import UserActions from "./UserActions";
 // import Chat from "./Chat";
 import AdminNavBar from "./AdminNavBar";
+import SendNotification from "./SendNotification"
 
 import ChatBot from "./ChatBot";
 
@@ -35,6 +36,7 @@ const App = () => {
 			<Routes>
 				<Route path="/admin/" element={<UserActions />}/>
 				<Route path="/admin/chat" element={<Chat />}/>
+				<Route path="/admin/sendnotification" element={<SendNotification />}/>
 			</Routes>
 
 		</Router>
