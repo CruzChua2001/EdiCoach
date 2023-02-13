@@ -22,9 +22,10 @@ const ClientActionPlan = () => {
         .catch((err) => console.log(err));
 
         const formatSessionData = (session) => {
+            console.log(session)
             let obj = {}
             obj["userid"] = session[1]["Value"]
-            obj["Email"] = session[8]["Value"]
+            obj["Email"] = session[7]["Value"]
             return obj
         }
     }, []);
